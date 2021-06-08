@@ -63,11 +63,21 @@
     <Folder Include="StoredProcedures" />
     <Folder Include="Types" />
     <Folder Include="Functions" />
+    <Folder Include="Scripts" />
+    <Folder Include="Scripts\Post" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Tables\dbo.Test.sql" />
+    <Build Include="Tables\EstadoCliente.sql" />
+    <Build Include="Tables\Cliente.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AlDente.Database.publish.xml" />
+    <None Include="Scripts\Post\CargarEstadosClientes.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="AlDente.Database.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Scripts\PostDeployment.sql" />
   </ItemGroup>
 </Project>
