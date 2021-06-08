@@ -69,6 +69,7 @@
   <ItemGroup>
     <Build Include="Tables\EstadoCliente.sql" />
     <Build Include="Tables\Cliente.sql" />
+    <Build Include="Tables\Reservas.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AlDente.Database.publish.xml" />

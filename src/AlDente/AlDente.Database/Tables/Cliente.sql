@@ -1,4 +1,6 @@
-﻿CREATE TABLE [dbo].[Cliente]
+﻿-- Primary Key clave primaria
+-- IDENTITY Autoincremental suma de a 1.
+CREATE TABLE [dbo].[Cliente]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [Email] NVARCHAR(320) NOT NULL, 
@@ -11,5 +13,8 @@
     CONSTRAINT [FK_Cliente_EstadoCliente] FOREIGN KEY ([EstadoClienteId]) REFERENCES [EstadoCliente]([Id]), 
     CONSTRAINT [AK_Cliente_Email] UNIQUE ([Email]),
     CONSTRAINT [AK_Cliente_DNI] UNIQUE ([DNI])   
-
 )
+
+
+
+
