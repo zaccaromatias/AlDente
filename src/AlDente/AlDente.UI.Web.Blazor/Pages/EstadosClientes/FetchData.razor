@@ -1,0 +1,62 @@
+﻿@page "/EstadosClientes"
+@using AlDente.Contracts.EstadosClientes;
+
+@inject IEstadoClienteService EstadoClienteService
+<h3>Estados del Cliente</h3>
+
+<small>Agregar Estado.</small>
+<div class="form-group">
+    <a class="btn btn-success" href="EstadosClientes/create"><i class="oi oi-plus"></i> Create</a>
+</div>
+<br>
+
+@if (estados == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (estados.Count() == 0)
+{
+    <p><em>No hay estados del cliente</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Codigo</th>
+                <th>Descripcion</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var estado in estados)
+            {
+                <tr>
+                    <td>@estado.Id</td>
+                    <td>@estado.Codigo</td>
+                    <td>@estado.Descripcion</td>
+                    <td>
+                        <a class="btn btn-success" href="EstadosClientes/edit/@estado.Id">Edit</a>
+                        <button class="btn btn-danger" @onclick="@(() => Delete(estado.Id))">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<EstadoClienteDTO> estados;
+
+    protected override async Task OnInitializedAsync()
+    {
+        estados = await EstadoClienteService.GetAll();
+    }
+
+    async Task Delete(int id)
+    {
+        await EstadoClienteService.Delete(id);
+        await OnInitializedAsync();
+    }
+}

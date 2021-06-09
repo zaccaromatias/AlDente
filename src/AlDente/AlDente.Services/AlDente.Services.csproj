@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -7,7 +7,6 @@
   <ItemGroup>
     <ProjectReference Include="..\AlDente.Contracts\AlDente.Contracts.csproj" />
     <ProjectReference Include="..\AlDente.DataAccess\AlDente.DataAccess.csproj" />
-    <ProjectReference Include="..\AlDente.Services\AlDente.Services.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,35 @@
+﻿<EditForm Model="@Estado" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <label>Id :</label>
+        <div>
+            <InputNumber @bind-Value="@Estado.Id" />
+            <ValidationMessage For="@(() => Estado.Id)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Codigo :</label>
+        <div>
+            <InputText @bind-Value="@Estado.Codigo" />
+            <ValidationMessage For="@(() => Estado.Codigo)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Descripcion :</label>
+        <div>
+            <InputText @bind-Value="@Estado.Descripcion" />
+            <ValidationMessage For="@(() => Estado.Descripcion)" />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success">
+        @ButtonText
+    </button>
+</EditForm>
+@code{
+    [Parameter]
+    public AlDente.Contracts.EstadosClientes.EstadoClienteDTO Estado { get; set; }
+    [Parameter]
+    public string ButtonText { get; set; } = "Save";
+    [Parameter]
+    public EventCallback OnValidSubmit { get; set; }
+}

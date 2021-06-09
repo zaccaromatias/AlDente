@@ -1,15 +1,13 @@
+using AlDente.Contracts.EstadosClientes;
+using AlDente.DataAccess.Core;
+using AlDente.DataAccess.EstadosClientes;
+using AlDente.Services.EstadosClientes;
 using AlDente.UI.Web.Blazor.Data;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AlDente.UI.Web.Blazor
 {
@@ -26,14 +24,29 @@ namespace AlDente.UI.Web.Blazor
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            RepoDb.SqlServerBootstrap.Initialize();
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddSingleton<IEstadoClienteRepository, EstadoClienteRepository>();
+            services.AddScoped<IEstadoClienteService, EstadoClienteService>();
+
+            services.Configure<AppSettings>(options =>
+            {
+                options.CacheItemExpiration = 0;
+                options.CommandTimeout = 0;
+                options.ConnectionString = Configuration.GetConnectionString("DefaultDataBase");
+
+            });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
