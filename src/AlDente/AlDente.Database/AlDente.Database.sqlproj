@@ -9,8 +9,7 @@
     <ProjectGuid>{8bb0a0ad-7c9c-4199-bcb6-4ab00ee3aefb}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
-    <RootPath>
-    </RootPath>
+    <RootPath />
     <RootNamespace>AlDente.Database</RootNamespace>
     <AssemblyName>AlDente.Database</AssemblyName>
     <ModelCollation>1033,CI</ModelCollation>
@@ -50,7 +49,6 @@
   </PropertyGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
-    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
     <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
     <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
   </PropertyGroup>
@@ -70,6 +68,15 @@
     <Build Include="Tables\EstadoCliente.sql" />
     <Build Include="Tables\Cliente.sql" />
     <Build Include="Tables\Reservas.sql" />
+    <Build Include="Tables\Empleado_1.sql" />
+    <Build Include="Tables\Restaurante.sql" />
+    <Build Include="Tables\Mesa.sql" />
+    <Build Include="Tables\Sancion.sql" />
+    <Build Include="Tables\TipoSansion.sql" />
+    <Build Include="Tables\Politica.sql" />
+    <Build Include="Tables\EstadoReserva.sql" />
+    <Build Include="Tables\Turno.sql" />
+    <Build Include="Tables\Opinion.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AlDente.Database.publish.xml" />
