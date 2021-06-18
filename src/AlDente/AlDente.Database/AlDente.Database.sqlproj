@@ -67,8 +67,7 @@
   <ItemGroup>
     <Build Include="Tables\EstadoCliente.sql" />
     <Build Include="Tables\Cliente.sql" />
-    <Build Include="Tables\Reservas.sql" />
-    <Build Include="Tables\Empleado_1.sql" />
+    <Build Include="Tables\Reserva.sql" />
     <Build Include="Tables\Restaurante.sql" />
     <Build Include="Tables\Mesa.sql" />
     <Build Include="Tables\Sancion.sql" />
@@ -77,6 +76,9 @@
     <Build Include="Tables\EstadoReserva.sql" />
     <Build Include="Tables\Turno.sql" />
     <Build Include="Tables\Opinion.sql" />
+    <Build Include="Tables\Empleado.sql" />
+    <Build Include="Tables\EstadoEmpleado.sql" />
+    <Build Include="Tables\ReservaMesa.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AlDente.Database.publish.xml" />

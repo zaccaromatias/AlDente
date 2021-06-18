@@ -3,15 +3,19 @@
 CREATE TABLE [dbo].[Cliente]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [Email] NVARCHAR(320) NOT NULL, 
+    [Email] NVARCHAR(320) NOT NULL,    
     [Nombre] NVARCHAR(500) NOT NULL, 
     [Apellido] NVARCHAR(500) NOT NULL, 
     [DNI] INT NOT NULL, 
     [Password] NVARCHAR(200) NULL, 
     [EstadoClienteId] INT NOT NULL, 
     [Telefono] NVARCHAR(200) NOT NULL, 
-    CONSTRAINT [FK_Cliente_EstadoCliente] FOREIGN KEY ([EstadoClienteId]) REFERENCES [EstadoCliente]([Id]), 
+    [UserName] NVARCHAR(320) NOT NULL, -- Requerido por Microsoft Identity tecnologia que usamos para logear - Va a ser el email
+    [EmpleadoId] INT NULL, --Empleado que crea al cliente
+    CONSTRAINT [FK_Cliente_EstadoCliente] FOREIGN KEY ([EstadoClienteId]) REFERENCES [dbo].[EstadoCliente]([Id]), 
+    CONSTRAINT [FK_Cliente_Empleado] FOREIGN KEY ([EmpleadoId]) REFERENCES [dbo].[Empleado]([Id]), 
     CONSTRAINT [AK_Cliente_Email] UNIQUE ([Email]),
+    CONSTRAINT [AK_Cliente_UserName] UNIQUE ([UserName]),
     CONSTRAINT [AK_Cliente_DNI] UNIQUE ([DNI])   
 )
 

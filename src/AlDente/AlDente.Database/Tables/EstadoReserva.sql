@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[EstadoReserva]
 (
-	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [Descripcion] NVARCHAR(50) NULL, 
-    [ReservaId] INT NULL
-    CONSTRAINT [FK_EstadoReserva_Reserva] FOREIGN KEY ([ReservaId]) REFERENCES [Reservas]([Id]), 
+	[Id] INT NOT NULL PRIMARY KEY, 
+    [Codigo] NVARCHAR(50) NOT NULL,
+    [Descripcion] NVARCHAR(50) NULL,     
+    CONSTRAINT [AK_EstadoReserva_Codigo] UNIQUE ([Codigo])
 )

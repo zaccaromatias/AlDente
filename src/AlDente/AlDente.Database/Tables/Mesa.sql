@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[Mesa]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [Capacidad] NVARCHAR(50) NOT NULL
+    [Capacidad] INT NOT NULL
 )
