@@ -25,5 +25,11 @@ DELETE e
 FROM dbo.EstadoCliente e
 WHERE NOT EXISTS (SELECT 1 FROM #EstadosClientes x where x.Id = e.Id);
 
+GO
+DROP TABLE IF EXISTS [dbo].[dbo.Test]
+GO
+DROP TABLE IF EXISTS dbo.Reservas
+GO
+DROP TABLE IF EXISTS dbo.Politica
 
 

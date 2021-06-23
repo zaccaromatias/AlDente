@@ -72,13 +72,16 @@
     <Build Include="Tables\Mesa.sql" />
     <Build Include="Tables\Sancion.sql" />
     <Build Include="Tables\TipoSansion.sql" />
-    <Build Include="Tables\Politica.sql" />
+    <Build Include="Tables\PoliticaSancion.sql" />
     <Build Include="Tables\EstadoReserva.sql" />
     <Build Include="Tables\Turno.sql" />
     <Build Include="Tables\Opinion.sql" />
     <Build Include="Tables\Empleado.sql" />
     <Build Include="Tables\EstadoEmpleado.sql" />
     <Build Include="Tables\ReservaMesa.sql" />
+    <Build Include="Tables\PoliticaBeneficio.sql" />
+    <Build Include="Tables\TipoBeneficio.sql" />
+    <Build Include="Tables\Beneficio.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AlDente.Database.publish.xml" />

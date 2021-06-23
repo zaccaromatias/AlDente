@@ -1,7 +1,6 @@
 ﻿CREATE TABLE [dbo].[Sancion]
 (
-	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [Motivo] NVARCHAR(200) NOT NULL, 
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY,      
     [FechaSansion] DATETIME NOT NULL,
     [TipoSancionId] INT NOT NULL,
     [ClienteId] INT NOT NULL,
