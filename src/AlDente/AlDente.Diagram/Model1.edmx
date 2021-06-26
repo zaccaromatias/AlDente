@@ -1,0 +1,1583 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AlDente.DatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Beneficio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="TipoBeneficioId" Type="int" Nullable="false" />
+          <Property Name="ClienteId" Type="int" Nullable="false" />
+          <Property Name="RestauranteId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="320" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Apellido" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="DNI" Type="int" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="200" />
+          <Property Name="EstadoClienteId" Type="int" Nullable="false" />
+          <Property Name="Telefono" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="320" Nullable="false" />
+          <Property Name="EmpleadoId" Type="int" />
+        </EntityType>
+        <EntityType Name="Empleado">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DNI" Type="int" Nullable="false" />
+          <Property Name="DescripcionPuesto" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Apellido" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+          <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+          <Property Name="EstadoEmpleadoId" Type="int" Nullable="false" />
+          <Property Name="RestauranteId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EstadoCliente">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Codigo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EstadoEmpleado">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Codigo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EstadoReserva">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Codigo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Mesa">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Capacidad" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Opinion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Texto" Type="nvarchar" MaxLength="200" />
+          <Property Name="ClienteId" Type="int" Nullable="false" />
+          <Property Name="RestauranteId" Type="int" Nullable="false" />
+          <Property Name="Calificacion" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PoliticaBeneficio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="TipoBeneficioId" Type="int" Nullable="false" />
+          <Property Name="NumeroMinimo" Type="int" Nullable="false" />
+          <Property Name="Periodo" Type="int" Nullable="false" />
+          <Property Name="EstadoReservaId" Type="int" Nullable="false" />
+          <Property Name="RestauranteId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PoliticaSancion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="TipoSancionId" Type="int" Nullable="false" />
+          <Property Name="NumeroMaximo" Type="int" Nullable="false" />
+          <Property Name="Periodo" Type="int" Nullable="false" />
+          <Property Name="EstadoReservaId" Type="int" Nullable="false" />
+          <Property Name="RestauranteId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Reserva">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Codigo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+          <Property Name="FechaReserva" Type="datetime" Nullable="false" />
+          <Property Name="FechaAsistencia" Type="datetime" Nullable="false" />
+          <Property Name="FechaCancelacion" Type="datetime" />
+          <Property Name="MotivoCancelacion" Type="nvarchar" MaxLength="200" />
+          <Property Name="CantidadComensales" Type="int" Nullable="false" />
+          <Property Name="EstadoReservaId" Type="int" Nullable="false" />
+          <Property Name="ClienteId" Type="int" Nullable="false" />
+          <Property Name="RestauranteId" Type="int" Nullable="false" />
+          <Property Name="EmpleadoId" Type="int" />
+          <Property Name="TurnoId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReservaMesa">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReservaId" Type="int" Nullable="false" />
+          <Property Name="MesaId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Restaurante">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="50" />
+          <Property Name="Direccion" Type="nvarchar" MaxLength="50" />
+          <Property Name="Telefono" Type="nvarchar" MaxLength="50" />
+          <Property Name="UrlMenu" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Sancion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FechaSansion" Type="datetime" Nullable="false" />
+          <Property Name="TipoSancionId" Type="int" Nullable="false" />
+          <Property Name="ClienteId" Type="int" Nullable="false" />
+          <Property Name="RestauranteId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TipoBeneficio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Codigo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Descuento" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TipoSancion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Codigo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="DiasSuspension" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Turno">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HoraInicio" Type="time" Precision="7" />
+          <Property Name="HoraFin" Type="time" Precision="7" />
+          <Property Name="RestauranteId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Beneficio_Cliente">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Beneficio" Type="Self.Beneficio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Beneficio">
+              <PropertyRef Name="ClienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Beneficio_RestauranteId">
+          <End Role="Restaurante" Type="Self.Restaurante" Multiplicity="1" />
+          <End Role="Beneficio" Type="Self.Beneficio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurante">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Beneficio">
+              <PropertyRef Name="RestauranteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Beneficio_TipoSancion">
+          <End Role="TipoBeneficio" Type="Self.TipoBeneficio" Multiplicity="1" />
+          <End Role="Beneficio" Type="Self.Beneficio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoBeneficio">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Beneficio">
+              <PropertyRef Name="TipoBeneficioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cliente_Empleado">
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="0..1" />
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Cliente">
+              <PropertyRef Name="EmpleadoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cliente_EstadoCliente">
+          <End Role="EstadoCliente" Type="Self.EstadoCliente" Multiplicity="1" />
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoCliente">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Cliente">
+              <PropertyRef Name="EstadoClienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Empleado_EstadoEmpleado">
+          <End Role="EstadoEmpleado" Type="Self.EstadoEmpleado" Multiplicity="1" />
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoEmpleado">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="EstadoEmpleadoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Empleado_Restaurante">
+          <End Role="Restaurante" Type="Self.Restaurante" Multiplicity="1" />
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurante">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="RestauranteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Opinion_Cliente">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Opinion" Type="Self.Opinion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Opinion">
+              <PropertyRef Name="ClienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Opinion_Restaurante">
+          <End Role="Restaurante" Type="Self.Restaurante" Multiplicity="1" />
+          <End Role="Opinion" Type="Self.Opinion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurante">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Opinion">
+              <PropertyRef Name="RestauranteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PoliticaBeneficio_EstadoReservaId">
+          <End Role="EstadoReserva" Type="Self.EstadoReserva" Multiplicity="1" />
+          <End Role="PoliticaBeneficio" Type="Self.PoliticaBeneficio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoReserva">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PoliticaBeneficio">
+              <PropertyRef Name="EstadoReservaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PoliticaBeneficio_RestauranteId">
+          <End Role="Restaurante" Type="Self.Restaurante" Multiplicity="1" />
+          <End Role="PoliticaBeneficio" Type="Self.PoliticaBeneficio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurante">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PoliticaBeneficio">
+              <PropertyRef Name="RestauranteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PoliticaBeneficio_TipoBeneficio">
+          <End Role="TipoBeneficio" Type="Self.TipoBeneficio" Multiplicity="1" />
+          <End Role="PoliticaBeneficio" Type="Self.PoliticaBeneficio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoBeneficio">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PoliticaBeneficio">
+              <PropertyRef Name="TipoBeneficioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PoliticaSancion_EstadoReservaId">
+          <End Role="EstadoReserva" Type="Self.EstadoReserva" Multiplicity="1" />
+          <End Role="PoliticaSancion" Type="Self.PoliticaSancion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoReserva">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PoliticaSancion">
+              <PropertyRef Name="EstadoReservaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PoliticaSancion_RestauranteId">
+          <End Role="Restaurante" Type="Self.Restaurante" Multiplicity="1" />
+          <End Role="PoliticaSancion" Type="Self.PoliticaSancion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurante">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PoliticaSancion">
+              <PropertyRef Name="RestauranteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PoliticaSancion_TipoSancion">
+          <End Role="TipoSancion" Type="Self.TipoSancion" Multiplicity="1" />
+          <End Role="PoliticaSancion" Type="Self.PoliticaSancion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoSancion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PoliticaSancion">
+              <PropertyRef Name="TipoSancionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reserva_ClienteId">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="ClienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reserva_EmpleadoId">
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="0..1" />
+          <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="EmpleadoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reserva_EstadoReserva">
+          <End Role="EstadoReserva" Type="Self.EstadoReserva" Multiplicity="1" />
+          <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoReserva">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="EstadoReservaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reserva_RestauranteId">
+          <End Role="Restaurante" Type="Self.Restaurante" Multiplicity="1" />
+          <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurante">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="RestauranteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reserva_TurnoId">
+          <End Role="Turno" Type="Self.Turno" Multiplicity="1" />
+          <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Turno">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="TurnoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReservaMesa_Mesa">
+          <End Role="Mesa" Type="Self.Mesa" Multiplicity="1" />
+          <End Role="ReservaMesa" Type="Self.ReservaMesa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mesa">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReservaMesa">
+              <PropertyRef Name="MesaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReservaMesa_Reserva">
+          <End Role="Reserva" Type="Self.Reserva" Multiplicity="1" />
+          <End Role="ReservaMesa" Type="Self.ReservaMesa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reserva">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReservaMesa">
+              <PropertyRef Name="ReservaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sancion_Cliente">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Sancion" Type="Self.Sancion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sancion">
+              <PropertyRef Name="ClienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sancion_RestauranteId">
+          <End Role="Restaurante" Type="Self.Restaurante" Multiplicity="1" />
+          <End Role="Sancion" Type="Self.Sancion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurante">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sancion">
+              <PropertyRef Name="RestauranteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sancion_TipoSancion">
+          <End Role="TipoSancion" Type="Self.TipoSancion" Multiplicity="1" />
+          <End Role="Sancion" Type="Self.Sancion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoSancion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sancion">
+              <PropertyRef Name="TipoSancionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turno_Restaurante">
+          <End Role="Restaurante" Type="Self.Restaurante" Multiplicity="1" />
+          <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurante">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Turno">
+              <PropertyRef Name="RestauranteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AlDenteDatabaseModelStoreContainer">
+          <EntitySet Name="Beneficio" EntityType="Self.Beneficio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Empleado" EntityType="Self.Empleado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstadoCliente" EntityType="Self.EstadoCliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstadoEmpleado" EntityType="Self.EstadoEmpleado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstadoReserva" EntityType="Self.EstadoReserva" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mesa" EntityType="Self.Mesa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Opinion" EntityType="Self.Opinion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PoliticaBeneficio" EntityType="Self.PoliticaBeneficio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PoliticaSancion" EntityType="Self.PoliticaSancion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reserva" EntityType="Self.Reserva" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReservaMesa" EntityType="Self.ReservaMesa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Restaurante" EntityType="Self.Restaurante" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sancion" EntityType="Self.Sancion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoBeneficio" EntityType="Self.TipoBeneficio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoSancion" EntityType="Self.TipoSancion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Turno" EntityType="Self.Turno" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Beneficio_Cliente" Association="Self.FK_Beneficio_Cliente">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Beneficio" EntitySet="Beneficio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Beneficio_RestauranteId" Association="Self.FK_Beneficio_RestauranteId">
+            <End Role="Restaurante" EntitySet="Restaurante" />
+            <End Role="Beneficio" EntitySet="Beneficio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Beneficio_TipoSancion" Association="Self.FK_Beneficio_TipoSancion">
+            <End Role="TipoBeneficio" EntitySet="TipoBeneficio" />
+            <End Role="Beneficio" EntitySet="Beneficio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cliente_Empleado" Association="Self.FK_Cliente_Empleado">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="Cliente" EntitySet="Cliente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cliente_EstadoCliente" Association="Self.FK_Cliente_EstadoCliente">
+            <End Role="EstadoCliente" EntitySet="EstadoCliente" />
+            <End Role="Cliente" EntitySet="Cliente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Empleado_EstadoEmpleado" Association="Self.FK_Empleado_EstadoEmpleado">
+            <End Role="EstadoEmpleado" EntitySet="EstadoEmpleado" />
+            <End Role="Empleado" EntitySet="Empleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Empleado_Restaurante" Association="Self.FK_Empleado_Restaurante">
+            <End Role="Restaurante" EntitySet="Restaurante" />
+            <End Role="Empleado" EntitySet="Empleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Opinion_Cliente" Association="Self.FK_Opinion_Cliente">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Opinion" EntitySet="Opinion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Opinion_Restaurante" Association="Self.FK_Opinion_Restaurante">
+            <End Role="Restaurante" EntitySet="Restaurante" />
+            <End Role="Opinion" EntitySet="Opinion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PoliticaBeneficio_EstadoReservaId" Association="Self.FK_PoliticaBeneficio_EstadoReservaId">
+            <End Role="EstadoReserva" EntitySet="EstadoReserva" />
+            <End Role="PoliticaBeneficio" EntitySet="PoliticaBeneficio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PoliticaBeneficio_RestauranteId" Association="Self.FK_PoliticaBeneficio_RestauranteId">
+            <End Role="Restaurante" EntitySet="Restaurante" />
+            <End Role="PoliticaBeneficio" EntitySet="PoliticaBeneficio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PoliticaBeneficio_TipoBeneficio" Association="Self.FK_PoliticaBeneficio_TipoBeneficio">
+            <End Role="TipoBeneficio" EntitySet="TipoBeneficio" />
+            <End Role="PoliticaBeneficio" EntitySet="PoliticaBeneficio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PoliticaSancion_EstadoReservaId" Association="Self.FK_PoliticaSancion_EstadoReservaId">
+            <End Role="EstadoReserva" EntitySet="EstadoReserva" />
+            <End Role="PoliticaSancion" EntitySet="PoliticaSancion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PoliticaSancion_RestauranteId" Association="Self.FK_PoliticaSancion_RestauranteId">
+            <End Role="Restaurante" EntitySet="Restaurante" />
+            <End Role="PoliticaSancion" EntitySet="PoliticaSancion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PoliticaSancion_TipoSancion" Association="Self.FK_PoliticaSancion_TipoSancion">
+            <End Role="TipoSancion" EntitySet="TipoSancion" />
+            <End Role="PoliticaSancion" EntitySet="PoliticaSancion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reserva_ClienteId" Association="Self.FK_Reserva_ClienteId">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reserva_EmpleadoId" Association="Self.FK_Reserva_EmpleadoId">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reserva_EstadoReserva" Association="Self.FK_Reserva_EstadoReserva">
+            <End Role="EstadoReserva" EntitySet="EstadoReserva" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reserva_RestauranteId" Association="Self.FK_Reserva_RestauranteId">
+            <End Role="Restaurante" EntitySet="Restaurante" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reserva_TurnoId" Association="Self.FK_Reserva_TurnoId">
+            <End Role="Turno" EntitySet="Turno" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReservaMesa_Mesa" Association="Self.FK_ReservaMesa_Mesa">
+            <End Role="Mesa" EntitySet="Mesa" />
+            <End Role="ReservaMesa" EntitySet="ReservaMesa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReservaMesa_Reserva" Association="Self.FK_ReservaMesa_Reserva">
+            <End Role="Reserva" EntitySet="Reserva" />
+            <End Role="ReservaMesa" EntitySet="ReservaMesa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sancion_Cliente" Association="Self.FK_Sancion_Cliente">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Sancion" EntitySet="Sancion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sancion_RestauranteId" Association="Self.FK_Sancion_RestauranteId">
+            <End Role="Restaurante" EntitySet="Restaurante" />
+            <End Role="Sancion" EntitySet="Sancion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sancion_TipoSancion" Association="Self.FK_Sancion_TipoSancion">
+            <End Role="TipoSancion" EntitySet="TipoSancion" />
+            <End Role="Sancion" EntitySet="Sancion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turno_Restaurante" Association="Self.FK_Turno_Restaurante">
+            <End Role="Restaurante" EntitySet="Restaurante" />
+            <End Role="Turno" EntitySet="Turno" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AlDente.DatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cliente" EntityType="AlDente.DatabaseModel.Cliente" />
+          <EntitySet Name="Empleado" EntityType="AlDente.DatabaseModel.Empleado" />
+          <EntitySet Name="EstadoCliente" EntityType="AlDente.DatabaseModel.EstadoCliente" />
+          <EntitySet Name="EstadoEmpleado" EntityType="AlDente.DatabaseModel.EstadoEmpleado" />
+          <EntitySet Name="EstadoReserva" EntityType="AlDente.DatabaseModel.EstadoReserva" />
+          <EntitySet Name="Mesa" EntityType="AlDente.DatabaseModel.Mesa" />
+          <EntitySet Name="Opinion" EntityType="AlDente.DatabaseModel.Opinion" />
+          <EntitySet Name="Politica" EntityType="AlDente.DatabaseModel.Politica" />
+          <EntitySet Name="Reserva" EntityType="AlDente.DatabaseModel.Reserva" />
+          <EntitySet Name="ReservaMesa" EntityType="AlDente.DatabaseModel.ReservaMesa" />
+          <EntitySet Name="Restaurante" EntityType="AlDente.DatabaseModel.Restaurante" />
+          <EntitySet Name="Sancion" EntityType="AlDente.DatabaseModel.Sancion" />
+          <EntitySet Name="TipoSancion" EntityType="AlDente.DatabaseModel.TipoSancion" />
+          <EntitySet Name="Turno" EntityType="AlDente.DatabaseModel.Turno" />
+          <AssociationSet Name="FK_Cliente_Empleado" Association="AlDente.DatabaseModel.FK_Cliente_Empleado">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="Cliente" EntitySet="Cliente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cliente_EstadoCliente" Association="AlDente.DatabaseModel.FK_Cliente_EstadoCliente">
+            <End Role="EstadoCliente" EntitySet="EstadoCliente" />
+            <End Role="Cliente" EntitySet="Cliente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Opinion_Cliente" Association="AlDente.DatabaseModel.FK_Opinion_Cliente">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Opinion" EntitySet="Opinion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reserva_ClienteId" Association="AlDente.DatabaseModel.FK_Reserva_ClienteId">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sancion_Cliente" Association="AlDente.DatabaseModel.FK_Sancion_Cliente">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Sancion" EntitySet="Sancion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Empleado_EstadoEmpleado" Association="AlDente.DatabaseModel.FK_Empleado_EstadoEmpleado">
+            <End Role="EstadoEmpleado" EntitySet="EstadoEmpleado" />
+            <End Role="Empleado" EntitySet="Empleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Empleado_Restaurante" Association="AlDente.DatabaseModel.FK_Empleado_Restaurante">
+            <End Role="Restaurante" EntitySet="Restaurante" />
+            <End Role="Empleado" EntitySet="Empleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reserva_EmpleadoId" Association="AlDente.DatabaseModel.FK_Reserva_EmpleadoId">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Politica_EstadoReservaId" Association="AlDente.DatabaseModel.FK_Politica_EstadoReservaId">
+            <End Role="EstadoReserva" EntitySet="EstadoReserva" />
+            <End Role="Politica" EntitySet="Politica" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reserva_EstadoReserva" Association="AlDente.DatabaseModel.FK_Reserva_EstadoReserva">
+            <End Role="EstadoReserva" EntitySet="EstadoReserva" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReservaMesa_Mesa" Association="AlDente.DatabaseModel.FK_ReservaMesa_Mesa">
+            <End Role="Mesa" EntitySet="Mesa" />
+            <End Role="ReservaMesa" EntitySet="ReservaMesa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Opinion_Restaurante" Association="AlDente.DatabaseModel.FK_Opinion_Restaurante">
+            <End Role="Restaurante" EntitySet="Restaurante" />
+            <End Role="Opinion" EntitySet="Opinion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Politica_RestauranteId" Association="AlDente.DatabaseModel.FK_Politica_RestauranteId">
+            <End Role="Restaurante" EntitySet="Restaurante" />
+            <End Role="Politica" EntitySet="Politica" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Politica_TipoSancion" Association="AlDente.DatabaseModel.FK_Politica_TipoSancion">
+            <End Role="TipoSancion" EntitySet="TipoSancion" />
+            <End Role="Politica" EntitySet="Politica" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reserva_RestauranteId" Association="AlDente.DatabaseModel.FK_Reserva_RestauranteId">
+            <End Role="Restaurante" EntitySet="Restaurante" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reserva_TurnoId" Association="AlDente.DatabaseModel.FK_Reserva_TurnoId">
+            <End Role="Turno" EntitySet="Turno" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReservaMesa_Reserva" Association="AlDente.DatabaseModel.FK_ReservaMesa_Reserva">
+            <End Role="Reserva" EntitySet="Reserva" />
+            <End Role="ReservaMesa" EntitySet="ReservaMesa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sancion_RestauranteId" Association="AlDente.DatabaseModel.FK_Sancion_RestauranteId">
+            <End Role="Restaurante" EntitySet="Restaurante" />
+            <End Role="Sancion" EntitySet="Sancion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turno_Restaurante" Association="AlDente.DatabaseModel.FK_Turno_Restaurante">
+            <End Role="Restaurante" EntitySet="Restaurante" />
+            <End Role="Turno" EntitySet="Turno" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sancion_TipoSancion" Association="AlDente.DatabaseModel.FK_Sancion_TipoSancion">
+            <End Role="TipoSancion" EntitySet="TipoSancion" />
+            <End Role="Sancion" EntitySet="Sancion" />
+          </AssociationSet>
+          <EntitySet Name="Beneficio" EntityType="AlDente.DatabaseModel.Beneficio" />
+          <EntitySet Name="PoliticaBeneficio" EntityType="AlDente.DatabaseModel.PoliticaBeneficio" />
+          <EntitySet Name="PoliticaSancion" EntityType="AlDente.DatabaseModel.PoliticaSancion" />
+          <EntitySet Name="TipoBeneficio" EntityType="AlDente.DatabaseModel.TipoBeneficio" />
+          <AssociationSet Name="FK_Beneficio_Cliente" Association="AlDente.DatabaseModel.FK_Beneficio_Cliente">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Beneficio" EntitySet="Beneficio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Beneficio_RestauranteId" Association="AlDente.DatabaseModel.FK_Beneficio_RestauranteId">
+            <End Role="Restaurante" EntitySet="Restaurante" />
+            <End Role="Beneficio" EntitySet="Beneficio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Beneficio_TipoSancion" Association="AlDente.DatabaseModel.FK_Beneficio_TipoSancion">
+            <End Role="TipoBeneficio" EntitySet="TipoBeneficio" />
+            <End Role="Beneficio" EntitySet="Beneficio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PoliticaBeneficio_EstadoReservaId" Association="AlDente.DatabaseModel.FK_PoliticaBeneficio_EstadoReservaId">
+            <End Role="EstadoReserva" EntitySet="EstadoReserva" />
+            <End Role="PoliticaBeneficio" EntitySet="PoliticaBeneficio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PoliticaSancion_EstadoReservaId" Association="AlDente.DatabaseModel.FK_PoliticaSancion_EstadoReservaId">
+            <End Role="EstadoReserva" EntitySet="EstadoReserva" />
+            <End Role="PoliticaSancion" EntitySet="PoliticaSancion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PoliticaBeneficio_RestauranteId" Association="AlDente.DatabaseModel.FK_PoliticaBeneficio_RestauranteId">
+            <End Role="Restaurante" EntitySet="Restaurante" />
+            <End Role="PoliticaBeneficio" EntitySet="PoliticaBeneficio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PoliticaSancion_RestauranteId" Association="AlDente.DatabaseModel.FK_PoliticaSancion_RestauranteId">
+            <End Role="Restaurante" EntitySet="Restaurante" />
+            <End Role="PoliticaSancion" EntitySet="PoliticaSancion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PoliticaSancion_TipoSancion" Association="AlDente.DatabaseModel.FK_PoliticaSancion_TipoSancion">
+            <End Role="TipoSancion" EntitySet="TipoSancion" />
+            <End Role="PoliticaSancion" EntitySet="PoliticaSancion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PoliticaBeneficio_TipoBeneficio" Association="AlDente.DatabaseModel.FK_PoliticaBeneficio_TipoBeneficio">
+            <End Role="TipoBeneficio" EntitySet="TipoBeneficio" />
+            <End Role="PoliticaBeneficio" EntitySet="PoliticaBeneficio" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="320" FixedLength="false" Unicode="true" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Apellido" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DNI" Type="Int32" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="EstadoClienteId" Type="Int32" Nullable="false" />
+          <Property Name="Telefono" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="320" FixedLength="false" Unicode="true" />
+          <Property Name="EmpleadoId" Type="Int32" />
+          <NavigationProperty Name="Empleado" Relationship="AlDente.DatabaseModel.FK_Cliente_Empleado" FromRole="Cliente" ToRole="Empleado" />
+          <NavigationProperty Name="EstadoCliente" Relationship="AlDente.DatabaseModel.FK_Cliente_EstadoCliente" FromRole="Cliente" ToRole="EstadoCliente" />
+          <NavigationProperty Name="Opinion" Relationship="AlDente.DatabaseModel.FK_Opinion_Cliente" FromRole="Cliente" ToRole="Opinion" />
+          <NavigationProperty Name="Reserva" Relationship="AlDente.DatabaseModel.FK_Reserva_ClienteId" FromRole="Cliente" ToRole="Reserva" />
+          <NavigationProperty Name="Sancion" Relationship="AlDente.DatabaseModel.FK_Sancion_Cliente" FromRole="Cliente" ToRole="Sancion" />
+          <NavigationProperty Name="Beneficio" Relationship="AlDente.DatabaseModel.FK_Beneficio_Cliente" FromRole="Cliente" ToRole="Beneficio" />
+        </EntityType>
+        <EntityType Name="Empleado">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DNI" Type="Int32" Nullable="false" />
+          <Property Name="DescripcionPuesto" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Apellido" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EstadoEmpleadoId" Type="Int32" Nullable="false" />
+          <Property Name="RestauranteId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cliente" Relationship="AlDente.DatabaseModel.FK_Cliente_Empleado" FromRole="Empleado" ToRole="Cliente" />
+          <NavigationProperty Name="EstadoEmpleado" Relationship="AlDente.DatabaseModel.FK_Empleado_EstadoEmpleado" FromRole="Empleado" ToRole="EstadoEmpleado" />
+          <NavigationProperty Name="Restaurante" Relationship="AlDente.DatabaseModel.FK_Empleado_Restaurante" FromRole="Empleado" ToRole="Restaurante" />
+          <NavigationProperty Name="Reserva" Relationship="AlDente.DatabaseModel.FK_Reserva_EmpleadoId" FromRole="Empleado" ToRole="Reserva" />
+        </EntityType>
+        <EntityType Name="EstadoCliente">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Codigo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Cliente" Relationship="AlDente.DatabaseModel.FK_Cliente_EstadoCliente" FromRole="EstadoCliente" ToRole="Cliente" />
+        </EntityType>
+        <EntityType Name="EstadoEmpleado">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Codigo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Empleado" Relationship="AlDente.DatabaseModel.FK_Empleado_EstadoEmpleado" FromRole="EstadoEmpleado" ToRole="Empleado" />
+        </EntityType>
+        <EntityType Name="EstadoReserva">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Codigo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Politica" Relationship="AlDente.DatabaseModel.FK_Politica_EstadoReservaId" FromRole="EstadoReserva" ToRole="Politica" />
+          <NavigationProperty Name="Reserva" Relationship="AlDente.DatabaseModel.FK_Reserva_EstadoReserva" FromRole="EstadoReserva" ToRole="Reserva" />
+          <NavigationProperty Name="PoliticaBeneficio" Relationship="AlDente.DatabaseModel.FK_PoliticaBeneficio_EstadoReservaId" FromRole="EstadoReserva" ToRole="PoliticaBeneficio" />
+          <NavigationProperty Name="PoliticaSancion" Relationship="AlDente.DatabaseModel.FK_PoliticaSancion_EstadoReservaId" FromRole="EstadoReserva" ToRole="PoliticaSancion" />
+        </EntityType>
+        <EntityType Name="Mesa">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Capacidad" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ReservaMesa" Relationship="AlDente.DatabaseModel.FK_ReservaMesa_Mesa" FromRole="Mesa" ToRole="ReservaMesa" />
+        </EntityType>
+        <EntityType Name="Opinion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Texto" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ClienteId" Type="Int32" Nullable="false" />
+          <Property Name="RestauranteId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cliente" Relationship="AlDente.DatabaseModel.FK_Opinion_Cliente" FromRole="Opinion" ToRole="Cliente" />
+          <NavigationProperty Name="Restaurante" Relationship="AlDente.DatabaseModel.FK_Opinion_Restaurante" FromRole="Opinion" ToRole="Restaurante" />
+          <Property Name="Calificacion" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Politica">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="TipoSancionId" Type="Int32" Nullable="false" />
+          <Property Name="NumeroMaximo" Type="Int32" Nullable="false" />
+          <Property Name="Periodo" Type="Int32" Nullable="false" />
+          <Property Name="EstadoReservaId" Type="Int32" Nullable="false" />
+          <Property Name="RestauranteId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="EstadoReserva" Relationship="AlDente.DatabaseModel.FK_Politica_EstadoReservaId" FromRole="Politica" ToRole="EstadoReserva" />
+          <NavigationProperty Name="Restaurante" Relationship="AlDente.DatabaseModel.FK_Politica_RestauranteId" FromRole="Politica" ToRole="Restaurante" />
+          <NavigationProperty Name="TipoSancion" Relationship="AlDente.DatabaseModel.FK_Politica_TipoSancion" FromRole="Politica" ToRole="TipoSancion" />
+        </EntityType>
+        <EntityType Name="Reserva">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaReserva" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaAsistencia" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaCancelacion" Type="DateTime" Precision="3" />
+          <Property Name="MotivoCancelacion" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Notas" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CantidadComensales" Type="Int32" Nullable="false" />
+          <Property Name="EstadoReservaId" Type="Int32" Nullable="false" />
+          <Property Name="ClienteId" Type="Int32" Nullable="false" />
+          <Property Name="RestauranteId" Type="Int32" Nullable="false" />
+          <Property Name="EmpleadoId" Type="Int32" />
+          <Property Name="TurnoId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cliente" Relationship="AlDente.DatabaseModel.FK_Reserva_ClienteId" FromRole="Reserva" ToRole="Cliente" />
+          <NavigationProperty Name="Empleado" Relationship="AlDente.DatabaseModel.FK_Reserva_EmpleadoId" FromRole="Reserva" ToRole="Empleado" />
+          <NavigationProperty Name="EstadoReserva" Relationship="AlDente.DatabaseModel.FK_Reserva_EstadoReserva" FromRole="Reserva" ToRole="EstadoReserva" />
+          <NavigationProperty Name="Restaurante" Relationship="AlDente.DatabaseModel.FK_Reserva_RestauranteId" FromRole="Reserva" ToRole="Restaurante" />
+          <NavigationProperty Name="Turno" Relationship="AlDente.DatabaseModel.FK_Reserva_TurnoId" FromRole="Reserva" ToRole="Turno" />
+          <NavigationProperty Name="ReservaMesa" Relationship="AlDente.DatabaseModel.FK_ReservaMesa_Reserva" FromRole="Reserva" ToRole="ReservaMesa" />
+        </EntityType>
+        <EntityType Name="ReservaMesa">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReservaId" Type="Int32" Nullable="false" />
+          <Property Name="MesaId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Mesa" Relationship="AlDente.DatabaseModel.FK_ReservaMesa_Mesa" FromRole="ReservaMesa" ToRole="Mesa" />
+          <NavigationProperty Name="Reserva" Relationship="AlDente.DatabaseModel.FK_ReservaMesa_Reserva" FromRole="ReservaMesa" ToRole="Reserva" />
+        </EntityType>
+        <EntityType Name="Restaurante">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UrlMenu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Empleado" Relationship="AlDente.DatabaseModel.FK_Empleado_Restaurante" FromRole="Restaurante" ToRole="Empleado" />
+          <NavigationProperty Name="Opinion" Relationship="AlDente.DatabaseModel.FK_Opinion_Restaurante" FromRole="Restaurante" ToRole="Opinion" />
+          <NavigationProperty Name="Politica" Relationship="AlDente.DatabaseModel.FK_Politica_RestauranteId" FromRole="Restaurante" ToRole="Politica" />
+          <NavigationProperty Name="Reserva" Relationship="AlDente.DatabaseModel.FK_Reserva_RestauranteId" FromRole="Restaurante" ToRole="Reserva" />
+          <NavigationProperty Name="Sancion" Relationship="AlDente.DatabaseModel.FK_Sancion_RestauranteId" FromRole="Restaurante" ToRole="Sancion" />
+          <NavigationProperty Name="Turno" Relationship="AlDente.DatabaseModel.FK_Turno_Restaurante" FromRole="Restaurante" ToRole="Turno" />
+          <NavigationProperty Name="Beneficio" Relationship="AlDente.DatabaseModel.FK_Beneficio_RestauranteId" FromRole="Restaurante" ToRole="Beneficio" />
+          <NavigationProperty Name="PoliticaBeneficio" Relationship="AlDente.DatabaseModel.FK_PoliticaBeneficio_RestauranteId" FromRole="Restaurante" ToRole="PoliticaBeneficio" />
+          <NavigationProperty Name="PoliticaSancion" Relationship="AlDente.DatabaseModel.FK_PoliticaSancion_RestauranteId" FromRole="Restaurante" ToRole="PoliticaSancion" />
+        </EntityType>
+        <EntityType Name="Sancion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Motivo" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FechaSansion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TipoSancionId" Type="Int32" Nullable="false" />
+          <Property Name="ClienteId" Type="Int32" Nullable="false" />
+          <Property Name="RestauranteId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cliente" Relationship="AlDente.DatabaseModel.FK_Sancion_Cliente" FromRole="Sancion" ToRole="Cliente" />
+          <NavigationProperty Name="Restaurante" Relationship="AlDente.DatabaseModel.FK_Sancion_RestauranteId" FromRole="Sancion" ToRole="Restaurante" />
+          <NavigationProperty Name="TipoSancion" Relationship="AlDente.DatabaseModel.FK_Sancion_TipoSancion" FromRole="Sancion" ToRole="TipoSancion" />
+        </EntityType>
+        <EntityType Name="TipoSancion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Codigo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DiasSuspension" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Politica" Relationship="AlDente.DatabaseModel.FK_Politica_TipoSancion" FromRole="TipoSancion" ToRole="Politica" />
+          <NavigationProperty Name="Sancion" Relationship="AlDente.DatabaseModel.FK_Sancion_TipoSancion" FromRole="TipoSancion" ToRole="Sancion" />
+          <NavigationProperty Name="PoliticaSancion" Relationship="AlDente.DatabaseModel.FK_PoliticaSancion_TipoSancion" FromRole="TipoSancion" ToRole="PoliticaSancion" />
+        </EntityType>
+        <EntityType Name="Turno">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HoraInicio" Type="Time" Precision="7" />
+          <Property Name="HoraFin" Type="Time" Precision="7" />
+          <Property Name="RestauranteId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Reserva" Relationship="AlDente.DatabaseModel.FK_Reserva_TurnoId" FromRole="Turno" ToRole="Reserva" />
+          <NavigationProperty Name="Restaurante" Relationship="AlDente.DatabaseModel.FK_Turno_Restaurante" FromRole="Turno" ToRole="Restaurante" />
+        </EntityType>
+        <Association Name="FK_Cliente_Empleado">
+          <End Type="AlDente.DatabaseModel.Empleado" Role="Empleado" Multiplicity="0..1" />
+          <End Type="AlDente.DatabaseModel.Cliente" Role="Cliente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Cliente">
+              <PropertyRef Name="EmpleadoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cliente_EstadoCliente">
+          <End Type="AlDente.DatabaseModel.EstadoCliente" Role="EstadoCliente" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.Cliente" Role="Cliente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoCliente">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Cliente">
+              <PropertyRef Name="EstadoClienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Opinion_Cliente">
+          <End Type="AlDente.DatabaseModel.Cliente" Role="Cliente" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.Opinion" Role="Opinion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Opinion">
+              <PropertyRef Name="ClienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reserva_ClienteId">
+          <End Type="AlDente.DatabaseModel.Cliente" Role="Cliente" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.Reserva" Role="Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="ClienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sancion_Cliente">
+          <End Type="AlDente.DatabaseModel.Cliente" Role="Cliente" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.Sancion" Role="Sancion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sancion">
+              <PropertyRef Name="ClienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Empleado_EstadoEmpleado">
+          <End Type="AlDente.DatabaseModel.EstadoEmpleado" Role="EstadoEmpleado" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.Empleado" Role="Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoEmpleado">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="EstadoEmpleadoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Empleado_Restaurante">
+          <End Type="AlDente.DatabaseModel.Restaurante" Role="Restaurante" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.Empleado" Role="Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurante">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="RestauranteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reserva_EmpleadoId">
+          <End Type="AlDente.DatabaseModel.Empleado" Role="Empleado" Multiplicity="0..1" />
+          <End Type="AlDente.DatabaseModel.Reserva" Role="Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="EmpleadoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Politica_EstadoReservaId">
+          <End Type="AlDente.DatabaseModel.EstadoReserva" Role="EstadoReserva" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.Politica" Role="Politica" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoReserva">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Politica">
+              <PropertyRef Name="EstadoReservaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reserva_EstadoReserva">
+          <End Type="AlDente.DatabaseModel.EstadoReserva" Role="EstadoReserva" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.Reserva" Role="Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoReserva">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="EstadoReservaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReservaMesa_Mesa">
+          <End Type="AlDente.DatabaseModel.Mesa" Role="Mesa" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.ReservaMesa" Role="ReservaMesa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mesa">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReservaMesa">
+              <PropertyRef Name="MesaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Opinion_Restaurante">
+          <End Type="AlDente.DatabaseModel.Restaurante" Role="Restaurante" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.Opinion" Role="Opinion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurante">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Opinion">
+              <PropertyRef Name="RestauranteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Politica_RestauranteId">
+          <End Type="AlDente.DatabaseModel.Restaurante" Role="Restaurante" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.Politica" Role="Politica" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurante">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Politica">
+              <PropertyRef Name="RestauranteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Politica_TipoSancion">
+          <End Type="AlDente.DatabaseModel.TipoSancion" Role="TipoSancion" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.Politica" Role="Politica" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoSancion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Politica">
+              <PropertyRef Name="TipoSancionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reserva_RestauranteId">
+          <End Type="AlDente.DatabaseModel.Restaurante" Role="Restaurante" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.Reserva" Role="Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurante">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="RestauranteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reserva_TurnoId">
+          <End Type="AlDente.DatabaseModel.Turno" Role="Turno" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.Reserva" Role="Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Turno">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="TurnoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReservaMesa_Reserva">
+          <End Type="AlDente.DatabaseModel.Reserva" Role="Reserva" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.ReservaMesa" Role="ReservaMesa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reserva">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReservaMesa">
+              <PropertyRef Name="ReservaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sancion_RestauranteId">
+          <End Type="AlDente.DatabaseModel.Restaurante" Role="Restaurante" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.Sancion" Role="Sancion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurante">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sancion">
+              <PropertyRef Name="RestauranteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turno_Restaurante">
+          <End Type="AlDente.DatabaseModel.Restaurante" Role="Restaurante" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.Turno" Role="Turno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurante">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Turno">
+              <PropertyRef Name="RestauranteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sancion_TipoSancion">
+          <End Type="AlDente.DatabaseModel.TipoSancion" Role="TipoSancion" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.Sancion" Role="Sancion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoSancion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sancion">
+              <PropertyRef Name="TipoSancionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Beneficio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TipoBeneficioId" Type="Int32" Nullable="false" />
+          <Property Name="ClienteId" Type="Int32" Nullable="false" />
+          <Property Name="RestauranteId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cliente" Relationship="AlDente.DatabaseModel.FK_Beneficio_Cliente" FromRole="Beneficio" ToRole="Cliente" />
+          <NavigationProperty Name="Restaurante" Relationship="AlDente.DatabaseModel.FK_Beneficio_RestauranteId" FromRole="Beneficio" ToRole="Restaurante" />
+          <NavigationProperty Name="TipoBeneficio" Relationship="AlDente.DatabaseModel.FK_Beneficio_TipoSancion" FromRole="Beneficio" ToRole="TipoBeneficio" />
+        </EntityType>
+        <EntityType Name="PoliticaBeneficio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="TipoBeneficioId" Type="Int32" Nullable="false" />
+          <Property Name="NumeroMinimo" Type="Int32" Nullable="false" />
+          <Property Name="Periodo" Type="Int32" Nullable="false" />
+          <Property Name="EstadoReservaId" Type="Int32" Nullable="false" />
+          <Property Name="RestauranteId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="EstadoReserva" Relationship="AlDente.DatabaseModel.FK_PoliticaBeneficio_EstadoReservaId" FromRole="PoliticaBeneficio" ToRole="EstadoReserva" />
+          <NavigationProperty Name="Restaurante" Relationship="AlDente.DatabaseModel.FK_PoliticaBeneficio_RestauranteId" FromRole="PoliticaBeneficio" ToRole="Restaurante" />
+          <NavigationProperty Name="TipoBeneficio" Relationship="AlDente.DatabaseModel.FK_PoliticaBeneficio_TipoBeneficio" FromRole="PoliticaBeneficio" ToRole="TipoBeneficio" />
+        </EntityType>
+        <EntityType Name="PoliticaSancion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="TipoSancionId" Type="Int32" Nullable="false" />
+          <Property Name="NumeroMaximo" Type="Int32" Nullable="false" />
+          <Property Name="Periodo" Type="Int32" Nullable="false" />
+          <Property Name="EstadoReservaId" Type="Int32" Nullable="false" />
+          <Property Name="RestauranteId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="EstadoReserva" Relationship="AlDente.DatabaseModel.FK_PoliticaSancion_EstadoReservaId" FromRole="PoliticaSancion" ToRole="EstadoReserva" />
+          <NavigationProperty Name="Restaurante" Relationship="AlDente.DatabaseModel.FK_PoliticaSancion_RestauranteId" FromRole="PoliticaSancion" ToRole="Restaurante" />
+          <NavigationProperty Name="TipoSancion" Relationship="AlDente.DatabaseModel.FK_PoliticaSancion_TipoSancion" FromRole="PoliticaSancion" ToRole="TipoSancion" />
+        </EntityType>
+        <EntityType Name="TipoBeneficio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Codigo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Descuento" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Beneficio" Relationship="AlDente.DatabaseModel.FK_Beneficio_TipoSancion" FromRole="TipoBeneficio" ToRole="Beneficio" />
+          <NavigationProperty Name="PoliticaBeneficio" Relationship="AlDente.DatabaseModel.FK_PoliticaBeneficio_TipoBeneficio" FromRole="TipoBeneficio" ToRole="PoliticaBeneficio" />
+        </EntityType>
+        <Association Name="FK_Beneficio_Cliente">
+          <End Type="AlDente.DatabaseModel.Cliente" Role="Cliente" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.Beneficio" Role="Beneficio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Beneficio">
+              <PropertyRef Name="ClienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Beneficio_RestauranteId">
+          <End Type="AlDente.DatabaseModel.Restaurante" Role="Restaurante" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.Beneficio" Role="Beneficio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurante">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Beneficio">
+              <PropertyRef Name="RestauranteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Beneficio_TipoSancion">
+          <End Type="AlDente.DatabaseModel.TipoBeneficio" Role="TipoBeneficio" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.Beneficio" Role="Beneficio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoBeneficio">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Beneficio">
+              <PropertyRef Name="TipoBeneficioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PoliticaBeneficio_EstadoReservaId">
+          <End Type="AlDente.DatabaseModel.EstadoReserva" Role="EstadoReserva" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.PoliticaBeneficio" Role="PoliticaBeneficio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoReserva">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PoliticaBeneficio">
+              <PropertyRef Name="EstadoReservaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PoliticaSancion_EstadoReservaId">
+          <End Type="AlDente.DatabaseModel.EstadoReserva" Role="EstadoReserva" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.PoliticaSancion" Role="PoliticaSancion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoReserva">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PoliticaSancion">
+              <PropertyRef Name="EstadoReservaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PoliticaBeneficio_RestauranteId">
+          <End Type="AlDente.DatabaseModel.Restaurante" Role="Restaurante" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.PoliticaBeneficio" Role="PoliticaBeneficio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurante">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PoliticaBeneficio">
+              <PropertyRef Name="RestauranteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PoliticaSancion_RestauranteId">
+          <End Type="AlDente.DatabaseModel.Restaurante" Role="Restaurante" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.PoliticaSancion" Role="PoliticaSancion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurante">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PoliticaSancion">
+              <PropertyRef Name="RestauranteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PoliticaSancion_TipoSancion">
+          <End Type="AlDente.DatabaseModel.TipoSancion" Role="TipoSancion" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.PoliticaSancion" Role="PoliticaSancion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoSancion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PoliticaSancion">
+              <PropertyRef Name="TipoSancionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PoliticaBeneficio_TipoBeneficio">
+          <End Type="AlDente.DatabaseModel.TipoBeneficio" Role="TipoBeneficio" Multiplicity="1" />
+          <End Type="AlDente.DatabaseModel.PoliticaBeneficio" Role="PoliticaBeneficio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoBeneficio">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PoliticaBeneficio">
+              <PropertyRef Name="TipoBeneficioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AlDenteDatabaseModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Cliente">
+            <EntityTypeMapping TypeName="AlDente.DatabaseModel.Cliente">
+              <MappingFragment StoreEntitySet="Cliente">
+                <ScalarProperty Name="EmpleadoId" ColumnName="EmpleadoId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="EstadoClienteId" ColumnName="EstadoClienteId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="DNI" ColumnName="DNI" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Empleado">
+            <EntityTypeMapping TypeName="AlDente.DatabaseModel.Empleado">
+              <MappingFragment StoreEntitySet="Empleado">
+                <ScalarProperty Name="RestauranteId" ColumnName="RestauranteId" />
+                <ScalarProperty Name="EstadoEmpleadoId" ColumnName="EstadoEmpleadoId" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="DescripcionPuesto" ColumnName="DescripcionPuesto" />
+                <ScalarProperty Name="DNI" ColumnName="DNI" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EstadoCliente">
+            <EntityTypeMapping TypeName="AlDente.DatabaseModel.EstadoCliente">
+              <MappingFragment StoreEntitySet="EstadoCliente">
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EstadoEmpleado">
+            <EntityTypeMapping TypeName="AlDente.DatabaseModel.EstadoEmpleado">
+              <MappingFragment StoreEntitySet="EstadoEmpleado">
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EstadoReserva">
+            <EntityTypeMapping TypeName="AlDente.DatabaseModel.EstadoReserva">
+              <MappingFragment StoreEntitySet="EstadoReserva">
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mesa">
+            <EntityTypeMapping TypeName="AlDente.DatabaseModel.Mesa">
+              <MappingFragment StoreEntitySet="Mesa">
+                <ScalarProperty Name="Capacidad" ColumnName="Capacidad" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Opinion">
+            <EntityTypeMapping TypeName="AlDente.DatabaseModel.Opinion">
+              <MappingFragment StoreEntitySet="Opinion">
+                <ScalarProperty Name="Calificacion" ColumnName="Calificacion" />
+                <ScalarProperty Name="RestauranteId" ColumnName="RestauranteId" />
+                <ScalarProperty Name="ClienteId" ColumnName="ClienteId" />
+                <ScalarProperty Name="Texto" ColumnName="Texto" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reserva">
+            <EntityTypeMapping TypeName="AlDente.DatabaseModel.Reserva">
+              <MappingFragment StoreEntitySet="Reserva">
+                <ScalarProperty Name="TurnoId" ColumnName="TurnoId" />
+                <ScalarProperty Name="EmpleadoId" ColumnName="EmpleadoId" />
+                <ScalarProperty Name="RestauranteId" ColumnName="RestauranteId" />
+                <ScalarProperty Name="ClienteId" ColumnName="ClienteId" />
+                <ScalarProperty Name="EstadoReservaId" ColumnName="EstadoReservaId" />
+                <ScalarProperty Name="CantidadComensales" ColumnName="CantidadComensales" />
+                <ScalarProperty Name="MotivoCancelacion" ColumnName="MotivoCancelacion" />
+                <ScalarProperty Name="FechaCancelacion" ColumnName="FechaCancelacion" />
+                <ScalarProperty Name="FechaAsistencia" ColumnName="FechaAsistencia" />
+                <ScalarProperty Name="FechaReserva" ColumnName="FechaReserva" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReservaMesa">
+            <EntityTypeMapping TypeName="AlDente.DatabaseModel.ReservaMesa">
+              <MappingFragment StoreEntitySet="ReservaMesa">
+                <ScalarProperty Name="MesaId" ColumnName="MesaId" />
+                <ScalarProperty Name="ReservaId" ColumnName="ReservaId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Restaurante">
+            <EntityTypeMapping TypeName="AlDente.DatabaseModel.Restaurante">
+              <MappingFragment StoreEntitySet="Restaurante">
+                <ScalarProperty Name="UrlMenu" ColumnName="UrlMenu" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sancion">
+            <EntityTypeMapping TypeName="AlDente.DatabaseModel.Sancion">
+              <MappingFragment StoreEntitySet="Sancion">
+                <ScalarProperty Name="RestauranteId" ColumnName="RestauranteId" />
+                <ScalarProperty Name="ClienteId" ColumnName="ClienteId" />
+                <ScalarProperty Name="TipoSancionId" ColumnName="TipoSancionId" />
+                <ScalarProperty Name="FechaSansion" ColumnName="FechaSansion" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoSancion">
+            <EntityTypeMapping TypeName="AlDente.DatabaseModel.TipoSancion">
+              <MappingFragment StoreEntitySet="TipoSancion">
+                <ScalarProperty Name="DiasSuspension" ColumnName="DiasSuspension" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Turno">
+            <EntityTypeMapping TypeName="AlDente.DatabaseModel.Turno">
+              <MappingFragment StoreEntitySet="Turno">
+                <ScalarProperty Name="RestauranteId" ColumnName="RestauranteId" />
+                <ScalarProperty Name="HoraFin" ColumnName="HoraFin" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Beneficio">
+            <EntityTypeMapping TypeName="AlDente.DatabaseModel.Beneficio">
+              <MappingFragment StoreEntitySet="Beneficio">
+                <ScalarProperty Name="RestauranteId" ColumnName="RestauranteId" />
+                <ScalarProperty Name="ClienteId" ColumnName="ClienteId" />
+                <ScalarProperty Name="TipoBeneficioId" ColumnName="TipoBeneficioId" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PoliticaBeneficio">
+            <EntityTypeMapping TypeName="AlDente.DatabaseModel.PoliticaBeneficio">
+              <MappingFragment StoreEntitySet="PoliticaBeneficio">
+                <ScalarProperty Name="RestauranteId" ColumnName="RestauranteId" />
+                <ScalarProperty Name="EstadoReservaId" ColumnName="EstadoReservaId" />
+                <ScalarProperty Name="Periodo" ColumnName="Periodo" />
+                <ScalarProperty Name="NumeroMinimo" ColumnName="NumeroMinimo" />
+                <ScalarProperty Name="TipoBeneficioId" ColumnName="TipoBeneficioId" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PoliticaSancion">
+            <EntityTypeMapping TypeName="AlDente.DatabaseModel.PoliticaSancion">
+              <MappingFragment StoreEntitySet="PoliticaSancion">
+                <ScalarProperty Name="RestauranteId" ColumnName="RestauranteId" />
+                <ScalarProperty Name="EstadoReservaId" ColumnName="EstadoReservaId" />
+                <ScalarProperty Name="Periodo" ColumnName="Periodo" />
+                <ScalarProperty Name="NumeroMaximo" ColumnName="NumeroMaximo" />
+                <ScalarProperty Name="TipoSancionId" ColumnName="TipoSancionId" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoBeneficio">
+            <EntityTypeMapping TypeName="AlDente.DatabaseModel.TipoBeneficio">
+              <MappingFragment StoreEntitySet="TipoBeneficio">
+                <ScalarProperty Name="Descuento" ColumnName="Descuento" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

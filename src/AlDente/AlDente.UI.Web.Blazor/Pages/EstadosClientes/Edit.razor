@@ -1,5 +1,5 @@
 ﻿@page "/EstadosClientes/edit/{estadoClienteId:int}"
-
+@attribute [Authorize]
 @using AlDente.Contracts.EstadosClientes
 @inject NavigationManager uriHelper
 @inject IJSRuntime js

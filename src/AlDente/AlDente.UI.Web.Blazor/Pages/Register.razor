@@ -1,0 +1,107 @@
+﻿@page "/Register"
+@using Microsoft.AspNetCore.Hosting
+@inject IAuthenticationClientService AuthenticationService
+@inject NavigationManager NavigationManager
+@inject IWebHostEnvironment HostEnvironment
+@inject AppState AppState
+
+
+
+<div class="col-md-6 offset-md-3 mt-5">
+    <div class="card">
+        <h4 class="card-header">Aldente Register</h4>
+        <div class="card-body">
+            <EditForm Model="@model" OnValidSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <InputText @bind-Value="model.Nombre" class="form-control" />
+                    <ValidationMessage For="@(() => model.Nombre)" />
+                </div>
+                <div class="form-group">
+                    <label>Apellido</label>
+                    <InputText @bind-Value="model.Apellido" class="form-control" />
+                    <ValidationMessage For="@(() => model.Apellido)" />
+                </div>
+                <div class="form-group">
+                    <label>DNI</label>
+                    <InputNumber @bind-Value="model.DNI" class="form-control" />
+                    <ValidationMessage For="@(() => model.DNI)" />
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <InputText @bind-Value="model.Email" class="form-control" />
+                    <ValidationMessage For="@(() => model.Email)" />
+                </div>
+                <div class="form-group">
+                    <label>Repeat Email</label>
+                    <InputText @bind-Value="model.RepeatEmail" class="form-control" />
+                    <ValidationMessage For="@(() => model.RepeatEmail)" />
+                </div>
+                <div class="form-group">
+                    <label>Telefono</label>
+                    <InputText @bind-Value="model.Telefono" class="form-control" />
+                    <ValidationMessage For="@(() => model.Telefono)" />
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <InputText @bind-Value="model.Password" type="password" class="form-control" />
+                    <ValidationMessage For="@(() => model.Password)" />
+                </div>
+                <div class="form-group">
+                    <label>Repeat Password</label>
+                    <InputText @bind-Value="model.RepeatPassword" type="password" class="form-control" />
+                    <ValidationMessage For="@(() => model.RepeatPassword)" />
+                </div>
+                <button class="btn btn-primary" type="submit">
+                    @if (loading)
+                    {
+                        <span class="spinner-border spinner-border-sm mr-1"></span>
+                    }
+                    Login
+                </button>
+                @if (!string.IsNullOrEmpty(error))
+                {
+                    <div class="alert alert-danger mt-3 mb-0">@error</div>
+                }
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@code {
+    private RegisterModel model = new RegisterModel();
+
+    private bool loading;
+    private string error;
+
+    protected override void OnInitialized()
+    {
+        // redirect to home if already logged in
+        if (AuthenticationService.Session.User != null)
+        {
+            NavigationManager.NavigateTo("");
+        }
+    }
+
+    private async void HandleValidSubmit()
+    {
+        loading = true;
+        try
+        {
+            await AuthenticationService.Register(model);
+            AppState.TriggerRefreshAction();
+            var returnUrl = NavigationManager.QueryString("returnUrl") ?? "/";
+            NavigationManager.NavigateTo(returnUrl);
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+            loading = false;
+            StateHasChanged();
+        }
+    }
+
+
+}
+

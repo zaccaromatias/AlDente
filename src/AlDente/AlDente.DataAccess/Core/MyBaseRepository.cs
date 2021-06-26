@@ -6,6 +6,7 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AlDente.DataAccess.Core
@@ -27,9 +28,9 @@ namespace AlDente.DataAccess.Core
             return Insert<int>(entity, transaction: transaction);
 
         }
-        public async Task<int> AddAsync(TEntity entity)
+        public async Task<int> AddAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
-            return await InsertAsync<int>(entity, transaction: transaction);
+            return await InsertAsync<int>(entity, transaction: transaction, cancellationToken: cancellationToken);
         }
 
         public int AddAll(IEnumerable<TEntity> entities)
@@ -47,9 +48,9 @@ namespace AlDente.DataAccess.Core
             return Delete(id, transaction: transaction);
         }
 
-        public async Task<int> DeleteAsync(object id)
+        public async Task<int> DeleteAsync(object id, CancellationToken cancellationToken = default)
         {
-            return await DeleteAsync(id, transaction: transaction);
+            return await DeleteAsync(id, transaction: transaction, cancellationToken: cancellationToken);
         }
 
         public int Delete(TEntity entity)
@@ -57,9 +58,9 @@ namespace AlDente.DataAccess.Core
             return Delete<TEntity>(entity, transaction: transaction);
         }
 
-        public async Task<int> DeleteAsync(TEntity entity)
+        public async Task<int> DeleteAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
-            return await DeleteAsync<TEntity>(entity, transaction: transaction);
+            return await DeleteAsync<TEntity>(entity, transaction: transaction, cancellationToken: cancellationToken);
         }
 
         public TResult Merge<TResult>(TEntity entity)
@@ -71,14 +72,19 @@ namespace AlDente.DataAccess.Core
         {
             return Query(where, transaction: transaction);
         }
+
+        public async Task<IEnumerable<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> where, CancellationToken cancellationToken)
+        {
+            return await QueryAsync(where, transaction: transaction, cancellationToken: cancellationToken);
+        }
         public IEnumerable<TEntity> GetAll()
         {
             return base.QueryAll(transaction: transaction);
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            return await base.QueryAllAsync(transaction: transaction);
+            return await base.QueryAllAsync(transaction: transaction, cancellationToken: cancellationToken);
         }
 
         public int Update(TEntity entity)
@@ -86,9 +92,9 @@ namespace AlDente.DataAccess.Core
             return Update(entity, entity, transaction: transaction);
         }
 
-        public async Task<int> UpdateAsync(TEntity entity)
+        public async Task<int> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
-            return await UpdateAsync(entity, transaction: transaction);
+            return await UpdateAsync(entity, transaction: transaction, cancellationToken: cancellationToken);
         }
 
         public TEntity GetById(object id)
@@ -96,9 +102,9 @@ namespace AlDente.DataAccess.Core
             return Query(id, transaction: transaction).FirstOrDefault();
         }
 
-        public async Task<TEntity> GetByIdAsync(object id)
+        public async Task<TEntity> GetByIdAsync(object id, CancellationToken cancellationToken = default)
         {
-            return (await QueryAsync(id, transaction: transaction)).FirstOrDefault();
+            return (await QueryAsync(id, transaction: transaction, cancellationToken: cancellationToken)).FirstOrDefault();
         }
     }
 

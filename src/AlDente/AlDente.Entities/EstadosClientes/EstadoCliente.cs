@@ -1,9 +1,10 @@
-﻿namespace AlDente.Entities.EstadosClientes
+﻿using AlDente.Entities.Core;
+
+namespace AlDente.Entities.EstadosClientes
 {
-    public class EstadoCliente
+    public class EstadoCliente : EntityBase
     {
         public string Codigo { get; set; }
         public string Descripcion { get; set; }
-        public int Id { get; set; }
     }
 }

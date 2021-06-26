@@ -3,17 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31321.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "AlDente.Database", "AlDente.Database\AlDente.Database.sqlproj", "{8BB0A0AD-7C9C-4199-BCB6-4AB00EE3AEFB}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlDente.UI.Web.Blazor", "AlDente.UI.Web.Blazor\AlDente.UI.Web.Blazor.csproj", "{522A9989-F917-4B2A-9966-08AC8A2544D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlDente.DataAccess", "AlDente.DataAccess\AlDente.DataAccess.csproj", "{B4F39A2A-099A-4675-8C3B-F07581B112D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlDente.DataAccess", "AlDente.DataAccess\AlDente.DataAccess.csproj", "{B4F39A2A-099A-4675-8C3B-F07581B112D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlDente.Entities", "AlDente.Entities\AlDente.Entities.csproj", "{55A27B6B-9658-4868-8DCD-780D6092FB04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlDente.Entities", "AlDente.Entities\AlDente.Entities.csproj", "{55A27B6B-9658-4868-8DCD-780D6092FB04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlDente.Services", "AlDente.Services\AlDente.Services.csproj", "{4D41A21E-7501-4320-9553-B2204D7C9E39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlDente.Services", "AlDente.Services\AlDente.Services.csproj", "{4D41A21E-7501-4320-9553-B2204D7C9E39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlDente.Contracts", "AlDente.Contracts\AlDente.Contracts.csproj", "{D95E6EFD-1E0B-436D-84F5-62D537CEA972}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlDente.Contracts", "AlDente.Contracts\AlDente.Contracts.csproj", "{D95E6EFD-1E0B-436D-84F5-62D537CEA972}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlDente.Diagram", "AlDente.Diagram\AlDente.Diagram.csproj", "{CEDDFC82-3024-4F00-B81F-FFF40F277339}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "AlDente.Database", "AlDente.Database\AlDente.Database.sqlproj", "{8BB0A0AD-7C9C-4199-BCB6-4AB00EE3AEFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,12 +23,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8BB0A0AD-7C9C-4199-BCB6-4AB00EE3AEFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8BB0A0AD-7C9C-4199-BCB6-4AB00EE3AEFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8BB0A0AD-7C9C-4199-BCB6-4AB00EE3AEFB}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{8BB0A0AD-7C9C-4199-BCB6-4AB00EE3AEFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8BB0A0AD-7C9C-4199-BCB6-4AB00EE3AEFB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8BB0A0AD-7C9C-4199-BCB6-4AB00EE3AEFB}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{522A9989-F917-4B2A-9966-08AC8A2544D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{522A9989-F917-4B2A-9966-08AC8A2544D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{522A9989-F917-4B2A-9966-08AC8A2544D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -47,6 +43,16 @@ Global
 		{D95E6EFD-1E0B-436D-84F5-62D537CEA972}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D95E6EFD-1E0B-436D-84F5-62D537CEA972}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D95E6EFD-1E0B-436D-84F5-62D537CEA972}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEDDFC82-3024-4F00-B81F-FFF40F277339}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEDDFC82-3024-4F00-B81F-FFF40F277339}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEDDFC82-3024-4F00-B81F-FFF40F277339}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEDDFC82-3024-4F00-B81F-FFF40F277339}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BB0A0AD-7C9C-4199-BCB6-4AB00EE3AEFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BB0A0AD-7C9C-4199-BCB6-4AB00EE3AEFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BB0A0AD-7C9C-4199-BCB6-4AB00EE3AEFB}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{8BB0A0AD-7C9C-4199-BCB6-4AB00EE3AEFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BB0A0AD-7C9C-4199-BCB6-4AB00EE3AEFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BB0A0AD-7C9C-4199-BCB6-4AB00EE3AEFB}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
-﻿<EditForm Model="@Estado" OnValidSubmit="@OnValidSubmit">
+﻿@attribute [Authorize]
+<EditForm Model="@Estado" OnValidSubmit="@OnValidSubmit">
     <DataAnnotationsValidator />
     <div class="form-group">
         <label>Id :</label>

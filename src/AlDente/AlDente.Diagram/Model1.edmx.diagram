@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="97121c92c26d48609c7b807440301af5" Name="Diagram1" ShowGrid="false" DisplayType="true" ZoomLevel="34">
+        <EntityTypeShape EntityType="AlDente.DatabaseModel.Cliente" Width="1.875" PointX="9.375" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlDente.DatabaseModel.Empleado" Width="2.25" PointX="6.375" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlDente.DatabaseModel.EstadoCliente" Width="1.75" PointX="6.875" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlDente.DatabaseModel.EstadoEmpleado" Width="2" PointX="3.625" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlDente.DatabaseModel.EstadoReserva" Width="2.375" PointX="5.875" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlDente.DatabaseModel.Mesa" Width="1.5" PointX="17.5" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlDente.DatabaseModel.Opinion" Width="1.5" PointX="15" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlDente.DatabaseModel.Politica" Width="1.875" PointX="3.375" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlDente.DatabaseModel.Reserva" Width="2.5" PointX="11.5" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlDente.DatabaseModel.ReservaMesa" Width="1.5" PointX="15" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlDente.DatabaseModel.Restaurante" Width="1.875" PointX="0.75" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlDente.DatabaseModel.Sancion" Width="2" PointX="12" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlDente.DatabaseModel.TipoSancion" Width="1.75" PointX="9.5" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlDente.DatabaseModel.Turno" Width="2" PointX="2" PointY="13.5" IsExpanded="true" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_Cliente_Empleado" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_Cliente_EstadoCliente" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_Opinion_Cliente" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_Reserva_ClienteId" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_Sancion_Cliente" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_Empleado_EstadoEmpleado" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_Empleado_Restaurante" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_Reserva_EmpleadoId" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_Politica_EstadoReservaId" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_Reserva_EstadoReserva" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_ReservaMesa_Mesa" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_Opinion_Restaurante" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_Politica_RestauranteId" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_Politica_TipoSancion" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_Reserva_RestauranteId" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_Reserva_TurnoId" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_ReservaMesa_Reserva" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_Sancion_RestauranteId" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_Turno_Restaurante" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_Sancion_TipoSancion" />
+        <EntityTypeShape EntityType="AlDente.DatabaseModel.Beneficio" Width="1.5" PointX="18" PointY="9.5" />
+        <EntityTypeShape EntityType="AlDente.DatabaseModel.PoliticaBeneficio" Width="1.875" PointX="14.625" PointY="5.25" />
+        <EntityTypeShape EntityType="AlDente.DatabaseModel.PoliticaSancion" Width="1.5" PointX="12" PointY="5.25" />
+        <EntityTypeShape EntityType="AlDente.DatabaseModel.TipoBeneficio" Width="1.5" PointX="17.125" PointY="5.375" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_Beneficio_Cliente" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_Beneficio_RestauranteId" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_Beneficio_TipoSancion" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_PoliticaBeneficio_EstadoReservaId" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_PoliticaSancion_EstadoReservaId" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_PoliticaBeneficio_RestauranteId" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_PoliticaSancion_RestauranteId" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_PoliticaSancion_TipoSancion" />
+        <AssociationConnector Association="AlDente.DatabaseModel.FK_PoliticaBeneficio_TipoBeneficio" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

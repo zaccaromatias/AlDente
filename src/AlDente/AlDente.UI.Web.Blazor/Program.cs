@@ -1,21 +1,26 @@
-using Microsoft.AspNetCore;
+using AlDente.UI.Web.Blazor.Services;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AlDente.UI.Web.Blazor
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var builder = CreateHostBuilder(args);
+            var host = builder.Build();
+
+            IServiceProvider serviceProvider = host.Services.GetRequiredService<IServiceProvider>();
+            using (var s = serviceProvider.CreateScope())
+            {
+                IAuthenticationClientService authenticationClientService = s.ServiceProvider.GetRequiredService<IAuthenticationClientService>();
+                await authenticationClientService.Initialize();
+            }
+            await host.RunAsync();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

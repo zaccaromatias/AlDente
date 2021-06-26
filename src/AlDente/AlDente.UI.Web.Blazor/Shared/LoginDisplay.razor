@@ -1,0 +1,15 @@
+﻿@inject AppState AppState
+<AuthorizeView>
+    <Authorized>
+        <a href="#">Hello, @context.User.Identity.Name</a>
+        <a href="/logout">Log out</a>
+    </Authorized>
+    <NotAuthorized>
+        <a href="/register">Register</a>
+        <a href="/Login">Log in</a>
+    </NotAuthorized>
+</AuthorizeView>
+@code{
+
+
+}
