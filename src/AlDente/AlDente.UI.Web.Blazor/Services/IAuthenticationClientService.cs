@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using AlDente.UI.Web.Blazor.Models;
+using System.Threading.Tasks;
 
 namespace AlDente.UI.Web.Blazor.Services
 {
@@ -6,9 +7,9 @@ namespace AlDente.UI.Web.Blazor.Services
     {
         UserSession Session { get; }
         Task Initialize();
-        Task Login(string email, string password);
+        Task Login(LoginViewModel model);
 
-        Task Register(AlDente.UI.Web.Blazor.Models.RegisterModel registerModel);
+        Task Register(RegisterModel registerModel);
         Task Logout();
     }
 }

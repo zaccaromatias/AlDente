@@ -7,8 +7,10 @@ using AlDente.Services.Clientes;
 using AlDente.Services.EstadosClientes;
 using AlDente.UI.Web.Blazor.Data;
 using AlDente.UI.Web.Blazor.Helpers;
+using AlDente.UI.Web.Blazor.Models;
 using AlDente.UI.Web.Blazor.Services;
 using BlazorBrowserStorage;
+using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -65,6 +67,8 @@ namespace AlDente.UI.Web.Blazor
             services.AddSingleton<AppState>();
 
             services.AddScoped<AuthenticationStateProvider>(provider => provider.GetRequiredService<ClienteAuthenticationStateProvider>());
+            services.AddTransient<IValidator<LoginViewModel>, LoginViewModelValidator>();
+            services.AddTransient<IValidator<RegisterModel>, RegisterModelValidator>();
         }
 
 

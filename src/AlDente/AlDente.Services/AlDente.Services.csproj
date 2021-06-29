@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AlDente.Contracts\AlDente.Contracts.csproj" />
     <ProjectReference Include="..\AlDente.DataAccess\AlDente.DataAccess.csproj" />
+    <ProjectReference Include="..\AlDente.Globalization\AlDente.Globalization.csproj" />
   </ItemGroup>
 
 </Project>

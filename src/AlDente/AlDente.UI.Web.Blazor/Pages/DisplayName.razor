@@ -1,0 +1,31 @@
+﻿@using System.Reflection
+@using System.Linq.Expressions;
+@using System.ComponentModel.DataAnnotations;
+@typeparam T
+@if (ChildContent == null)
+{
+    <label @attributes="AdditionalAttributes" for="@InputFor">@label</label>
+}
+else
+{
+    <label @attributes="AdditionalAttributes">
+        @label
+        @ChildContent
+    </label>
+}
+@code {
+    [Parameter] public Expression<Func<T>> For { get; set; }
+    [Parameter] public string InputFor { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IDictionary<string, object> AdditionalAttributes { get; set; }
+
+    private string label => GetDisplayName();
+
+    private string GetDisplayName()
+    {
+        var expression = (MemberExpression)For.Body;
+        var value = expression.Member.GetCustomAttribute(typeof(DisplayAttribute)) as DisplayAttribute;
+        return value?.GetName() ?? expression.Member.Name ?? "";
+    }
+}

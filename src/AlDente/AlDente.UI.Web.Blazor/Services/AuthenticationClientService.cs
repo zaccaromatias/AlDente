@@ -39,12 +39,12 @@ namespace AlDente.UI.Web.Blazor.Services
             ClienteAuthenticationStateProvider.NotifyAuthenticationStateChanged();
         }
 
-        public async Task Login(string email, string password)
+        public async Task Login(LoginViewModel model)
         {
             var user = await ClienteService.Login(new LoginDTO
             {
-                Email = email,
-                Password = password
+                Email = model.Email,
+                Password = model.Password
             });
             UserSession.LoadUser(user);
             await LocalStorageService.SetItem("user", user);

@@ -14,7 +14,7 @@
     @if (HostEnvironment.IsDevelopment())
     {
         <div class="alert alert-info">
-            Username: test@gmail.com<br />
+            Email: test@gmail.com<br />
             Password: test
         </div>
     }
@@ -23,24 +23,21 @@
         <h4 class="card-header">Aldente Login</h4>
         <div class="card-body">
             <EditForm Model="@model" OnValidSubmit="HandleValidSubmit">
-                <DataAnnotationsValidator />
+                <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
                 <div class="form-group">
-                    <label>Email</label>
-                    <InputText @bind-Value="model.Email" class="form-control" />
+                    <DisplayName For="@(() => model.Email)" InputFor="@nameof(LoginViewModel.Email)" />
+                    <InputText @bind-Value="model.Email" class="form-control" id="@nameof(LoginViewModel.Email)" />
                     <ValidationMessage For="@(() => model.Email)" />
+
                 </div>
                 <div class="form-group">
-                    <label>Password</label>
-                    <InputText @bind-Value="model.Password" type="password" class="form-control" />
+                    <DisplayName For="@(() => model.Password)" InputFor="@nameof(LoginViewModel.Password)" />
+                    <InputText @bind-Value="model.Password" type="password" class="form-control" id="@nameof(LoginViewModel.Password)" />
                     <ValidationMessage For="@(() => model.Password)" />
                 </div>
-                <button class="btn btn-primary">
-                    @if (loading)
-                    {
-                        <span class="spinner-border spinner-border-sm mr-1"></span>
-                    }
-                    Login
-                </button>
+                <ButtonWithSppiner loading="@loading" class="btn btn-primary">
+                    @AlDente.Globalization.Strings.Login
+                </ButtonWithSppiner>
                 @if (!string.IsNullOrEmpty(error))
                 {
                     <div class="alert alert-danger mt-3 mb-0">@error</div>
@@ -51,11 +48,14 @@
 </div>
 
 @code {
+    private FluentValidationValidator fluentValidationValidator;
     private LoginViewModel model = new LoginViewModel();
 
     private bool loading;
+
     private string error;
 
+    private string DisabledButton => loading ? "disabled" : "";
     protected override void OnInitialized()
     {
         // redirect to home if already logged in
@@ -75,7 +75,7 @@
         loading = true;
         try
         {
-            await AuthenticationService.Login(model.Email, model.Password);
+            await AuthenticationService.Login(model);
             AppState.TriggerRefreshAction();
             var returnUrl = NavigationManager.QueryString("returnUrl") ?? "/";
             NavigationManager.NavigateTo(returnUrl);
@@ -88,12 +88,5 @@
         }
     }
 
-    private class LoginViewModel
-    {
-        [Required]
-        public string Email { get; set; }
 
-        [Required]
-        public string Password { get; set; }
-    }
 }

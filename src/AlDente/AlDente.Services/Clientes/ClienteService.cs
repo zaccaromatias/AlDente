@@ -2,6 +2,7 @@
 using AlDente.Contracts.Core;
 using AlDente.DataAccess.Clientes;
 using AlDente.DataAccess.Core;
+using AlDente.Globalization;
 using AlDente.Services.Core;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,15 +18,15 @@ namespace AlDente.Services.Clientes
         {
             clienteRepository.Attach(this.unitOfWork);
             this.clienteRepository = clienteRepository;
-            this.CustomValidations.Add("AK_Cliente_Email", "Ya existe un cliente registrado con el mismo email");
-            this.CustomValidations.Add("AK_Cliente_DNI", "Ya existe un cliente registrado con el mismo DNI");
+            this.CustomValidations.Add("AK_Cliente_Email", Messages.AK_Cliente_Email);
+            this.CustomValidations.Add("AK_Cliente_DNI", Messages.AK_Cliente_DNI);
         }
 
         public async Task<ClienteBasicDTO> Login(LoginDTO loginDTO)
         {
             var result = (await clienteRepository.QueryAsync(x => x.Email == loginDTO.Email && x.Password == loginDTO.Password)).SingleOrDefault();
             if (result == null)
-                throw new DomainException("Email o contraseña incorrecta.");
+                throw new DomainException(Messages.EmailOrPasswordWasNotCorrect);
             return await GetClienteBasicDTO(result.Id);
         }
 
