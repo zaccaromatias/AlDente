@@ -61,6 +61,15 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Actions.
+        /// </summary>
+        public static string Actions {
+            get {
+                return ResourceManager.GetString("Actions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There is already a registered client with the same ID.
         /// </summary>
         public static string AK_Cliente_DNI {
@@ -79,6 +88,24 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is already a registered state with the same code.
+        /// </summary>
+        public static string AK_EstadoCliente_Codigo {
+            get {
+                return ResourceManager.GetString("AK_EstadoCliente_Codigo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Codigo.
+        /// </summary>
+        public static string Code {
+            get {
+                return ResourceManager.GetString("Code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create.
         /// </summary>
         public static string Create {
@@ -93,6 +120,15 @@ namespace AlDente.Globalization {
         public static string Delete {
             get {
                 return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
             }
         }
         
@@ -124,6 +160,15 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Id.
+        /// </summary>
+        public static string Id {
+            get {
+                return ResourceManager.GetString("Id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last Name.
         /// </summary>
         public static string LastName {
@@ -138,6 +183,24 @@ namespace AlDente.Globalization {
         public static string Login {
             get {
                 return ResourceManager.GetString("Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thank you for coming back.
+        /// </summary>
+        public static string LoginSuccessContent {
+            get {
+                return ResourceManager.GetString("LoginSuccessContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login successfully.
+        /// </summary>
+        public static string LoginSuccessTitle {
+            get {
+                return ResourceManager.GetString("LoginSuccessTitle", resourceCulture);
             }
         }
         
@@ -178,11 +241,38 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is already a registered state with the same Id.
+        /// </summary>
+        public static string PK_EstadoCliente_Id {
+            get {
+                return ResourceManager.GetString("PK_EstadoCliente_Id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Register.
         /// </summary>
         public static string Register {
             get {
                 return ResourceManager.GetString("Register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thank you for being part of &lt;b&gt;AlDente&lt;/b&gt;, reserve your place and come and enjoy our dishes.
+        /// </summary>
+        public static string RegisterSuccessContent {
+            get {
+                return ResourceManager.GetString("RegisterSuccessContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your registration was a success.
+        /// </summary>
+        public static string RegisterSuccessTitle {
+            get {
+                return ResourceManager.GetString("RegisterSuccessTitle", resourceCulture);
             }
         }
         

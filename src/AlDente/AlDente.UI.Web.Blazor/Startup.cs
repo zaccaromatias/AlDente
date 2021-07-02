@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Syncfusion.Blazor;
+using Syncfusion.Licensing;
 using System;
 
 namespace AlDente.UI.Web.Blazor
@@ -69,6 +71,9 @@ namespace AlDente.UI.Web.Blazor
             services.AddScoped<AuthenticationStateProvider>(provider => provider.GetRequiredService<ClienteAuthenticationStateProvider>());
             services.AddTransient<IValidator<LoginViewModel>, LoginViewModelValidator>();
             services.AddTransient<IValidator<RegisterModel>, RegisterModelValidator>();
+            services.AddTransient<IValidator<EstadoClienteDTO>, EstadoClienteDTOValidator>();
+            services.AddSyncfusionBlazor();
+            services.AddSingleton<IToastService, ToastService>();
         }
 
 
@@ -76,6 +81,7 @@ namespace AlDente.UI.Web.Blazor
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
+            SyncfusionLicenseProvider.RegisterLicense("NDY3MjE0QDMxMzkyZTMyMmUzMEc3TUJwaTc0dHNIZjFnTzdHVlQ3WTFLWUVtckZJVGp5Sk9WK0xJRWp2NDA9");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

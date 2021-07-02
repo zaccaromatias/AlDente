@@ -2,6 +2,7 @@
 using AlDente.DataAccess.Core;
 using AlDente.DataAccess.EstadosClientes;
 using AlDente.Entities.EstadosClientes;
+using AlDente.Globalization;
 using AlDente.Services.Core;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,15 +19,20 @@ namespace AlDente.Services.EstadosClientes
         {
             estadoClienteRepository.Attach(this.unitOfWork);
             this.estadoClienteRepository = estadoClienteRepository;
+            this.CustomValidations.Add("AK_EstadoCliente_Codigo", Messages.AK_EstadoCliente_Codigo);
+            this.CustomValidations.Add("PK_EstadoCliente_Id", Messages.PK_EstadoCliente_Id);
         }
 
         public async Task Create(EstadoClienteDTO estadoClienteDto)
         {
-            await estadoClienteRepository.AddAsync(new EstadoCliente
+            await Try(async () =>
             {
-                Id = estadoClienteDto.Id,
-                Codigo = estadoClienteDto.Codigo,
-                Descripcion = estadoClienteDto.Descripcion
+                await estadoClienteRepository.AddAsync(new EstadoCliente
+                {
+                    Id = estadoClienteDto.Id,
+                    Codigo = estadoClienteDto.Codigo,
+                    Descripcion = estadoClienteDto.Descripcion
+                });
             });
         }
 
@@ -59,11 +65,14 @@ namespace AlDente.Services.EstadosClientes
 
         public async Task Update(EstadoClienteDTO estadoClienteDto)
         {
-            var pepe = await estadoClienteRepository.UpdateAsync(new EstadoCliente
+            await Try(async () =>
             {
-                Codigo = estadoClienteDto.Codigo,
-                Descripcion = estadoClienteDto.Descripcion,
-                Id = estadoClienteDto.Id
+                await estadoClienteRepository.UpdateAsync(new EstadoCliente
+                {
+                    Codigo = estadoClienteDto.Codigo,
+                    Descripcion = estadoClienteDto.Descripcion,
+                    Id = estadoClienteDto.Id
+                });
             });
         }
     }

@@ -29,6 +29,18 @@ namespace AlDente.Services.Core
             }
         }
 
+        public async Task Try(Func<Task> func)
+        {
+            try
+            {
+                await func();
+            }
+            catch (System.Exception ex)
+            {
+                throw Handle(ex);
+            }
+        }
+
         private Exception Handle(Exception exception)
         {
             if (exception is SqlException sqlException)

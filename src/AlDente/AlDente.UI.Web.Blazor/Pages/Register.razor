@@ -4,7 +4,7 @@
 @inject NavigationManager NavigationManager
 @inject IWebHostEnvironment HostEnvironment
 @inject AppState AppState
-
+@inject IToastService toastService
 
 
 <div class="col-md-6 offset-md-3 mt-5">
@@ -89,6 +89,7 @@
             await AuthenticationService.Register(model);
             AppState.TriggerRefreshAction();
             var returnUrl = NavigationManager.QueryString("returnUrl") ?? "/";
+            toastService.ShowMessage(MessageType.Success, Globalization.Strings.RegisterSuccessTitle, Globalization.Strings.RegisterSuccessContent);
             NavigationManager.NavigateTo(returnUrl);
         }
         catch (Exception ex)

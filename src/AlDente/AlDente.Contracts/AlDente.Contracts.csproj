@@ -8,4 +8,12 @@
     <Folder Include="NewFolder\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="10.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AlDente.Globalization\AlDente.Globalization.csproj" />
+  </ItemGroup>
+
 </Project>

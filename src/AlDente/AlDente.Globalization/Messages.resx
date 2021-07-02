@@ -117,17 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
   <data name="AK_Cliente_DNI" xml:space="preserve">
     <value>There is already a registered client with the same ID</value>
   </data>
   <data name="AK_Cliente_Email" xml:space="preserve">
     <value>There is already a registered customer with the same email</value>
   </data>
+  <data name="AK_EstadoCliente_Codigo" xml:space="preserve">
+    <value>There is already a registered state with the same code</value>
+  </data>
+  <data name="Code" xml:space="preserve">
+    <value>Codigo</value>
+  </data>
   <data name="Create" xml:space="preserve">
     <value>Create</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
   </data>
   <data name="DNI" xml:space="preserve">
     <value>DNI</value>
@@ -138,11 +150,20 @@
   <data name="EmailOrPasswordWasNotCorrect" xml:space="preserve">
     <value>Email or password was not correct.</value>
   </data>
+  <data name="Id" xml:space="preserve">
+    <value>Id</value>
+  </data>
   <data name="LastName" xml:space="preserve">
     <value>Last Name</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Login</value>
+  </data>
+  <data name="LoginSuccessContent" xml:space="preserve">
+    <value>Thank you for coming back</value>
+  </data>
+  <data name="LoginSuccessTitle" xml:space="preserve">
+    <value>Login successfully</value>
   </data>
   <data name="LogOut" xml:space="preserve">
     <value>Log out</value>
@@ -156,8 +177,17 @@
   <data name="Phone" xml:space="preserve">
     <value>Phone</value>
   </data>
+  <data name="PK_EstadoCliente_Id" xml:space="preserve">
+    <value>There is already a registered state with the same Id</value>
+  </data>
   <data name="Register" xml:space="preserve">
     <value>Register</value>
+  </data>
+  <data name="RegisterSuccessContent" xml:space="preserve">
+    <value>Thank you for being part of &lt;b&gt;AlDente&lt;/b&gt;, reserve your place and come and enjoy our dishes</value>
+  </data>
+  <data name="RegisterSuccessTitle" xml:space="preserve">
+    <value>Your registration was a success</value>
   </data>
   <data name="RepeatEmail" xml:space="preserve">
     <value>Repeat Email</value>

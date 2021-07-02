@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlDente.Diagram", "AlDente.
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "AlDente.Database", "AlDente.Database\AlDente.Database.sqlproj", "{8BB0A0AD-7C9C-4199-BCB6-4AB00EE3AEFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlDente.Globalization", "AlDente.Globalization\AlDente.Globalization.csproj", "{9E2AE007-61A5-4E97-A375-007CD67C2D39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlDente.Globalization", "AlDente.Globalization\AlDente.Globalization.csproj", "{9E2AE007-61A5-4E97-A375-007CD67C2D39}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

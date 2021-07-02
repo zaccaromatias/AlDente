@@ -1,25 +1,13 @@
-﻿@page "/"
-@using Syncfusion.Blazor.Notifications
+﻿@using Syncfusion.Blazor.Notifications
+@using AlDente.UI.Web.Blazor.Services
 
-
-<h1>Hello, world!</h1>
-Welcome to your new app.
-<SurveyPrompt Title="Hola Mundo" />
-<div class="col-lg-12 control-section toast-default-section">
-    <SfToast ID="toast_default" @ref="ToastObj" Timeout="400">
-        <ToastPosition X="@XPosition" Y="@YPosition"></ToastPosition>
-        <ToastAnimationSettings>
-            <ToastShowAnimationSettings Effect="ToastEffect.SlideRightIn" Duration="400"></ToastShowAnimationSettings>
-            <ToastHideAnimationSettings Effect="ToastEffect.SlideRightOut" Duration="200"></ToastHideAnimationSettings>
-        </ToastAnimationSettings>
-    </SfToast>
-    <div class="col-lg-12 col-sm-12 col-md-12 center">
-        <div id="toastBtnDefault" style="margin: auto;text-align: center">
-            <button class="e-btn" @onclick="@ShowOnClick">Show Toasts</button>
-            <button class="e-btn" @onclick="@HideOnClick">Hide All</button>
-        </div>
-    </div>
-</div>
+<SfToast ID="toast_default" @ref="_sfToast" Timeout="400">
+    <ToastPosition X="@XPosition" Y="@YPosition"></ToastPosition>
+    <ToastAnimationSettings>
+        <ToastShowAnimationSettings Effect="ToastEffect.SlideRightIn" Duration="400"></ToastShowAnimationSettings>
+        <ToastHideAnimationSettings Effect="ToastEffect.SlideRightOut" Duration="200"></ToastHideAnimationSettings>
+    </ToastAnimationSettings>
+</SfToast>
 <style>
     @@font-face {
         font-family: 'Toast_icons';
@@ -72,24 +60,20 @@ Welcome to your new app.
         text-align: center;
     }
 </style>
+
 @code {
-    SfToast ToastObj;
+    [Inject]
+    private IToastService ToastService { get; set; }
+
+    private SfToast _sfToast;
     private string XPosition = "Right";
     private string YPosition = "Bottom";
-    private async Task ShowOnClick()
-    {
-        ToastModel model = new ToastModel()
-        {
-            Title = "Success",
-            CssClass = "e-toast-success",
-            Icon = "e-success toast-icons",
-            Content = "Algo de contenido"
 
-        };
-        await this.ToastObj.ShowAsync(model);
-    }
-    private async Task HideOnClick()
+    protected override void OnAfterRender(bool firstRender)
     {
-        await this.ToastObj.HideAsync("All");
+        if (firstRender)
+        {
+            ToastService.SfToast = _sfToast;
+        }
     }
 }
