@@ -1,0 +1,120 @@
+﻿@page "/Clientes/"
+@attribute [Authorize]
+@*librerias*@
+@using Syncfusion.Blazor.Grids
+@using AlDente.Contracts.Clientes
+@using AlDente.Globalization
+
+@inject IClienteService ClienteRestaurant 
+@inject IToastService Toast
+<h3>Clientes</h3>
+@if (TodosLosClientes == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (TodosLosClientes.Count() == 0)
+{
+    <p><em>No hay estados del cliente</em></p>
+}
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGrid DataSource="@TodosLosClientes" Toolbar="@(new List<string>() { "Add", "Edit", "Delete" })" AllowPaging="true">
+                <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" Mode="EditMode.Dialog" NewRowPosition="NewRowPosition.Bottom" ShowDeleteConfirmDialog="true" ShowConfirmDialog="true">
+                    <Validator>
+                        <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
+                    </Validator>
+                    <Template>
+                        @{
+
+                            var cliente = (context as ClienteDTO);
+                            <div class="form-group">
+                                <DisplayName For="@(()=>cliente.Id)" InputFor="@nameof(ClienteBasicDTO.Id)" />
+                                <InputNumber @bind-Value="cliente.Id" class="form-control" id="@nameof(ClienteBasicDTO.Id)" />
+                                <ValidationMessage For="@(() => cliente.Id)" />
+                            </div>
+                            <div class="form-group">
+                                <DisplayName For="@(()=>cliente.Nombre)" InputFor="@nameof(ClienteBasicDTO.Nombre)" />
+                                <InputText @bind-Value="cliente.Nombre" class="form-control" id="@nameof(ClienteBasicDTO.Nombre)" />
+                                <ValidationMessage For="@(() => cliente.Nombre)" />
+                            </div>
+                            @*<div class="form-group">
+                                <DisplayName For="@(()=>estado.Descripcion)" InputFor="@nameof(EstadoClienteDTO.Descripcion)" />
+                                <InputText @bind-Value="estado.Descripcion" class="form-control" id="@nameof(EstadoClienteDTO.Descripcion)" />
+                                <ValidationMessage For="@(() => estado.Descripcion)" />
+                            </div>*@
+                            @if (!string.IsNullOrEmpty(error))
+                            {
+                                <div class="alert alert-danger mt-3 mb-0">@error</div>
+                            }
+                        }
+                    </Template>
+                </GridEditSettings>
+                <GridEvents TValue="ClienteDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
+                <GridColumns>
+                    <GridColumn Field=@nameof(ClienteDTO.Id) Width="140"></GridColumn>
+                    <GridColumn Field=@nameof(ClienteDTO.Nombre)></GridColumn>
+                    @*<GridColumn Field=@nameof(EstadoClienteDTO.Descripcion)></GridColumn>*@
+                    <GridColumn HeaderText="@Strings.Actions" Width="150">
+                        <GridCommandColumns>
+                            <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-primary" })"></GridCommandColumn>
+                            <GridCommandColumn Type="CommandButtonType.Delete" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-delete", CssClass = "e-danger" })"></GridCommandColumn>
+                        </GridCommandColumns>
+                    </GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+@code {
+    public static List<ClienteDTO> TodosLosClientes { get; set; }
+    private FluentValidationValidator fluentValidationValidator;
+    private string error;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        TodosLosClientes = (await ClienteRestaurant.GetAll()).ToList();
+    }
+
+    public async Task ActionBeginHandler(ActionEventArgs<ClienteDTO> args)
+    {
+        //    try
+        //{
+        //    if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Save))
+        //    {
+        //        if (args.Action == "Add")
+        //        {
+        //            await ClienteRestaurant.Create(args.Data);
+        //            Toast.ShowMessage(MessageType.Success, "[Create Success!!!]", "[Se creo con exito]");
+        //        }
+        //        else
+        //        {
+        //            await ClienteRestaurant.Update(args.Data);
+        //            Toast.ShowMessage(MessageType.Success, "[Updated Success!!!]", "[Se actualizo con exito]");
+        //        }
+        //    }
+        //    if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete))
+        //    {
+        //        await ClienteRestaurant.Delete(args.Data.Id);
+        //        Toast.ShowMessage(MessageType.Success, "[Delete Success!!!]", "[Se Removio con exito]");
+        //    }
+        //}
+        //catch (Exception ex)
+        //{
+        //    Toast.ShowMessage(MessageType.Error, "Error", ex.Message);
+        //    //error = ex.Message;
+        //    args.Cancel = true;
+        //    //StateHasChanged();
+        //}
+    }
+    public async Task ActionCompleteHandler(ActionEventArgs<ClienteDTO> args)
+    {
+        //if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete)
+        //    || args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Save))
+        //{
+        //    await OnInitializedAsync();
+        //}
+    }
+}

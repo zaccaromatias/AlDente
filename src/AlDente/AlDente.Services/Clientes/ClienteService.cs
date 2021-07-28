@@ -4,6 +4,7 @@ using AlDente.DataAccess.Clientes;
 using AlDente.DataAccess.Core;
 using AlDente.Globalization;
 using AlDente.Services.Core;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -64,6 +65,17 @@ namespace AlDente.Services.Clientes
                 Email = cliente.Email,
                 Id = cliente.Id,
                 Estado = (EstadosDeUnCliente)cliente.EstadoClienteId
+            });
+        }
+
+        public async Task<IEnumerable<ClienteDTO>> GetAll()
+        {
+            var clientes = await clienteRepository.GetAllAsync();
+            return clientes.Select(x => new ClienteDTO
+            {
+                // Datos del cliente
+                Nombre = x.Nombre,
+                Id     = x.Id
             });
         }
     }

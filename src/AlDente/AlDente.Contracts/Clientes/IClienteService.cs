@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AlDente.Contracts.Clientes
 {
@@ -6,5 +7,8 @@ namespace AlDente.Contracts.Clientes
     {
         Task<ClienteBasicDTO> Login(LoginDTO loginDTO);
         Task<ClienteBasicDTO> Register(ClienteRegisterDTO dto);
+
+        Task<IEnumerable<ClienteDTO>> GetAll();
+
     }
 }
