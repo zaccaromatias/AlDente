@@ -1,10 +1,13 @@
 using AlDente.Contracts.Clientes;
 using AlDente.Contracts.EstadosClientes;
+using AlDente.Contracts.Mesas;
 using AlDente.DataAccess.Clientes;
 using AlDente.DataAccess.Core;
 using AlDente.DataAccess.EstadosClientes;
+using AlDente.DataAccess.Mesas;
 using AlDente.Services.Clientes;
 using AlDente.Services.EstadosClientes;
+using AlDente.Services.Mesas;
 using AlDente.UI.Web.Blazor.Data;
 using AlDente.UI.Web.Blazor.Helpers;
 using AlDente.UI.Web.Blazor.Models;
@@ -47,6 +50,8 @@ namespace AlDente.UI.Web.Blazor
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<IEstadoClienteService, EstadoClienteService>();
             services.AddScoped<IClienteService, ClienteService>();
+            services.AddScoped<IMesaService, MesaService>();
+            services.AddScoped<IMesaRepository, MesaRepository>();
             services.AddBlazorBrowserStorage();
             services.AddHttpContextAccessor();
             services.AddSession(options =>
@@ -72,6 +77,7 @@ namespace AlDente.UI.Web.Blazor
             services.AddTransient<IValidator<LoginViewModel>, LoginViewModelValidator>();
             services.AddTransient<IValidator<RegisterModel>, RegisterModelValidator>();
             services.AddTransient<IValidator<EstadoClienteDTO>, EstadoClienteDTOValidator>();
+            services.AddTransient<IValidator<MesaDTO>, MesaDTOValidator>();
             services.AddSyncfusionBlazor();
             services.AddSingleton<IToastService, ToastService>();
         }
