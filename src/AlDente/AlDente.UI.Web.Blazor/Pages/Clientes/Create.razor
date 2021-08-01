@@ -1,0 +1,19 @@
+﻿@page "/Clientes/create"
+@attribute [Authorize]
+@using AlDente.Contracts.Clientes
+@inject NavigationManager uriHelper
+@inject IJSRuntime js
+@inject IClienteService ClienteService
+<h3>Create</h3>
+<Form ButtonText="Create" Estado="@model"
+      OnValidSubmit="@CreateEstado" />
+@code {
+    ClienteDTO model = new ClienteDTO();
+    async Task CreateEstado()
+    {
+        await ClienteService.Create(model);
+        await js.InvokeVoidAsync("alert", $"Guardado Con Exito");
+        uriHelper.NavigateTo("Clientes");
+    }
+}
+

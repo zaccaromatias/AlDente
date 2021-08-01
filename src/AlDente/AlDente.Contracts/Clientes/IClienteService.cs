@@ -10,5 +10,8 @@ namespace AlDente.Contracts.Clientes
 
         Task<IEnumerable<ClienteDTO>> GetAll();
 
+        Task Create(ClienteDTO estadoClienteDto);
+        //Task Update(EstadoClienteDTO estadoClienteDto);
+
     }
 }

@@ -1,4 +1,4 @@
-﻿@page "/Clientes/"
+﻿@page "/Clientes/grid"
 @attribute [Authorize]
 @*librerias*@
 @using Syncfusion.Blazor.Grids
@@ -26,23 +26,33 @@ else if (TodosLosClientes.Count() == 0)
                     </Validator>
                     <Template>
                         @{
-
                             var cliente = (context as ClienteDTO);
                             <div class="form-group">
-                                <DisplayName For="@(()=>cliente.Id)" InputFor="@nameof(ClienteBasicDTO.Id)" />
-                                <InputNumber @bind-Value="cliente.Id" class="form-control" id="@nameof(ClienteBasicDTO.Id)" />
-                                <ValidationMessage For="@(() => cliente.Id)" />
-                            </div>
-                            <div class="form-group">
-                                <DisplayName For="@(()=>cliente.Nombre)" InputFor="@nameof(ClienteBasicDTO.Nombre)" />
-                                <InputText @bind-Value="cliente.Nombre" class="form-control" id="@nameof(ClienteBasicDTO.Nombre)" />
+                                <DisplayName For="@(()=>cliente.Nombre)" InputFor="@nameof(ClienteDTO.Nombre)" />
+                                <InputText @bind-Value="cliente.Nombre" class="form-control" id="@nameof(ClienteDTO.Nombre)" />
                                 <ValidationMessage For="@(() => cliente.Nombre)" />
                             </div>
-                            @*<div class="form-group">
-                                <DisplayName For="@(()=>estado.Descripcion)" InputFor="@nameof(EstadoClienteDTO.Descripcion)" />
-                                <InputText @bind-Value="estado.Descripcion" class="form-control" id="@nameof(EstadoClienteDTO.Descripcion)" />
-                                <ValidationMessage For="@(() => estado.Descripcion)" />
-                            </div>*@
+                            <div class="form-group">
+                                <DisplayName For="@(()=>cliente.Apellido)" InputFor="@nameof(ClienteDTO.Apellido)" />
+                                <InputText @bind-Value="cliente.Apellido" class="form-control" id="@nameof(ClienteDTO.Apellido)" />
+                                <ValidationMessage For="@(() => cliente.Apellido)" />
+                            </div>
+                            <div class="form-group">
+                                <DisplayName For="@(()=>cliente.DNI)" InputFor="@nameof(ClienteDTO.DNI)" />
+                                <InputNumber @bind-Value="cliente.DNI" class="form-control" id="@nameof(ClienteDTO.DNI)" />
+                                <ValidationMessage For="@(() => cliente.DNI)" />
+                            </div>
+                            <div class="form-group">
+                                <DisplayName For="@(()=>cliente.Telefono)" InputFor="@nameof(ClienteDTO.Telefono)" />
+                                <InputText @bind-Value="cliente.Telefono" class="form-control" id="@nameof(ClienteDTO.Telefono)" />
+                                <ValidationMessage For="@(() => cliente.Telefono)" />
+                            </div>
+
+                            <div class="form-group">
+                                <DisplayName For="@(()=>cliente.NombreUsuario)" InputFor="@nameof(ClienteDTO.NombreUsuario)" />
+                                <InputText @bind-Value="cliente.NombreUsuario" class="form-control" id="@nameof(ClienteDTO.NombreUsuario)" />
+                                <ValidationMessage For="@(() => cliente.NombreUsuario)" />
+                            </div>
                             @if (!string.IsNullOrEmpty(error))
                             {
                                 <div class="alert alert-danger mt-3 mb-0">@error</div>
@@ -51,10 +61,16 @@ else if (TodosLosClientes.Count() == 0)
                     </Template>
                 </GridEditSettings>
                 <GridEvents TValue="ClienteDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
+                @*Agrega las columnas en la Grid*@
                 <GridColumns>
                     <GridColumn Field=@nameof(ClienteDTO.Id) Width="140"></GridColumn>
                     <GridColumn Field=@nameof(ClienteDTO.Nombre)></GridColumn>
-                    @*<GridColumn Field=@nameof(EstadoClienteDTO.Descripcion)></GridColumn>*@
+                    <GridColumn Field=@nameof(ClienteDTO.Apellido)></GridColumn>
+                    <GridColumn Field=@nameof(ClienteDTO.DNI)></GridColumn>
+                    <GridColumn Field=@nameof(ClienteDTO.Telefono)></GridColumn>
+                    <GridColumn Field=@nameof(ClienteDTO.NombreUsuario)></GridColumn>
+                    @*Como hacer con el estado*@
+                    <GridColumn Field=@nameof(ClienteDTO)></GridColumn>
                     <GridColumn HeaderText="@Strings.Actions" Width="150">
                         <GridCommandColumns>
                             <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-primary" })"></GridCommandColumn>
