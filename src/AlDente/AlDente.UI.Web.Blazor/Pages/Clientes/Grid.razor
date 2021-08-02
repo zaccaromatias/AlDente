@@ -1,11 +1,11 @@
-﻿@page "/Clientes/grid"
+﻿@page "/Clientes"
 @attribute [Authorize]
 @*librerias*@
 @using Syncfusion.Blazor.Grids
 @using AlDente.Contracts.Clientes
 @using AlDente.Globalization
 
-@inject IClienteService ClienteRestaurant 
+@inject IClienteService ClienteRestaurant
 @inject IToastService Toast
 <h3>Clientes</h3>
 @if (TodosLosClientes == null)
@@ -63,14 +63,12 @@ else if (TodosLosClientes.Count() == 0)
                 <GridEvents TValue="ClienteDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
                 @*Agrega las columnas en la Grid*@
                 <GridColumns>
-                    <GridColumn Field=@nameof(ClienteDTO.Id) Width="140"></GridColumn>
+                    <GridColumn Field=@nameof(ClienteDTO.Id) Width="140" IsPrimaryKey="true"></GridColumn>
                     <GridColumn Field=@nameof(ClienteDTO.Nombre)></GridColumn>
                     <GridColumn Field=@nameof(ClienteDTO.Apellido)></GridColumn>
                     <GridColumn Field=@nameof(ClienteDTO.DNI)></GridColumn>
                     <GridColumn Field=@nameof(ClienteDTO.Telefono)></GridColumn>
                     <GridColumn Field=@nameof(ClienteDTO.NombreUsuario)></GridColumn>
-                    @*Como hacer con el estado*@
-                    <GridColumn Field=@nameof(ClienteDTO)></GridColumn>
                     <GridColumn HeaderText="@Strings.Actions" Width="150">
                         <GridCommandColumns>
                             <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-primary" })"></GridCommandColumn>
