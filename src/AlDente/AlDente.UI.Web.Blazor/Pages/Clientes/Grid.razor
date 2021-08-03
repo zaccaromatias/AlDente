@@ -4,6 +4,7 @@
 @using Syncfusion.Blazor.Grids
 @using AlDente.Contracts.Clientes
 @using AlDente.Globalization
+@using Syncfusion.Blazor.DropDowns
 
 @inject IClienteService ClienteRestaurant
 @inject IToastService Toast
@@ -53,6 +54,13 @@ else if (TodosLosClientes.Count() == 0)
                                 <InputText @bind-Value="cliente.NombreUsuario" class="form-control" id="@nameof(ClienteDTO.NombreUsuario)" />
                                 <ValidationMessage For="@(() => cliente.NombreUsuario)" />
                             </div>
+                            <div class="form-group">
+                                <DisplayName For="@(()=>cliente.Estado)" InputFor="@nameof(ClienteDTO.Estado)" />
+                                <SfDropDownList TItem="EstadoCliente" TValue="EstadosDeUnCliente" PopupHeight="230px" Placeholder="[Seleccione Un Estado]" @bind-Value="@cliente.Estado" DataSource="@Estados">
+                                    <DropDownListFieldSettings Text="Text" Value="Id"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                                <ValidationMessage For="@(() => cliente.Estado)" />
+                            </div>
                             @if (!string.IsNullOrEmpty(error))
                             {
                                 <div class="alert alert-danger mt-3 mb-0">@error</div>
@@ -85,6 +93,26 @@ else if (TodosLosClientes.Count() == 0)
     public static List<ClienteDTO> TodosLosClientes { get; set; }
     private FluentValidationValidator fluentValidationValidator;
     private string error;
+
+    public class EstadoCliente
+    {
+        public EstadosDeUnCliente Id { get; set; }
+        public string Text { get; set; }
+        public EstadoCliente(EstadosDeUnCliente id, string text)
+        {
+            this.Id = id;
+            this.Text = text;
+
+        }
+    }
+
+    public static List<EstadoCliente> Estados { get; set; } = new List<EstadoCliente>
+{
+        new EstadoCliente(EstadosDeUnCliente.Activo,"[Activo]"),
+        new EstadoCliente(EstadosDeUnCliente.Inactivo,"[Inactivo]"),
+        new EstadoCliente(EstadosDeUnCliente.Nuevo,"[Nuevo]"),
+        new EstadoCliente(EstadosDeUnCliente.Suspendido,"[Suspendido]")
+    };
 
     protected override async Task OnInitializedAsync()
     {
