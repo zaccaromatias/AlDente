@@ -92,14 +92,41 @@ namespace AlDente.Services.Clientes
             {
                 await clienteRepository.AddAsync(new Cliente
                 {
-                    Id            = clienteDTO.Id,
-                    Nombre        = clienteDTO.Nombre,
-                    Apellido      = clienteDTO.Apellido,
-                    DNI           = clienteDTO.DNI,
-                    Telefono      = clienteDTO.Telefono,
-                    NombreUsuario = clienteDTO.NombreUsuario
+                    Id                = clienteDTO.Id,
+                    Email             = clienteDTO.Email,
+                    Nombre            = clienteDTO.Nombre,
+                    Apellido          = clienteDTO.Apellido,
+                    DNI               = clienteDTO.DNI,
+                    Password          = clienteDTO.Password,
+                    EstadoClienteId   = (int)(EstadosDeUnCliente)clienteDTO.Estado,
+                    Telefono          = clienteDTO.Telefono,
+                    NombreUsuario     = clienteDTO.NombreUsuario
                 });
             });
         }
+
+        public async Task Delete(int id)
+        {
+            await clienteRepository.DeleteAsync(id);
+        }
+
+        public async Task Update(ClienteDTO clienteDTO)
+        {
+            await Try(async () =>
+            {
+                await clienteRepository.UpdateAsync(new Cliente
+                {
+                    Id              = clienteDTO.Id,
+                    Email           = clienteDTO.Email,
+                    Nombre          = clienteDTO.Nombre,
+                    Apellido        = clienteDTO.Apellido,
+                    DNI             = clienteDTO.DNI,
+                    Telefono        = clienteDTO.Telefono,
+                    NombreUsuario   = clienteDTO.NombreUsuario
+                });
+            });
+        }
+
     }
 }
+

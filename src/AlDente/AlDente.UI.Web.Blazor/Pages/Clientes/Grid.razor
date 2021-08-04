@@ -29,6 +29,11 @@ else if (TodosLosClientes.Count() == 0)
                         @{
                             var cliente = (context as ClienteDTO);
                             <div class="form-group">
+                                <DisplayName For="@(()=>cliente.Email)" InputFor="@nameof(ClienteDTO.Email)" />
+                                <InputText @bind-Value="cliente.Email" class="form-control" id="@nameof(ClienteDTO.Email)" />
+                                <ValidationMessage For="@(() => cliente.Email)" />
+                            </div>
+                            <div class="form-group">
                                 <DisplayName For="@(()=>cliente.Nombre)" InputFor="@nameof(ClienteDTO.Nombre)" />
                                 <InputText @bind-Value="cliente.Nombre" class="form-control" id="@nameof(ClienteDTO.Nombre)" />
                                 <ValidationMessage For="@(() => cliente.Nombre)" />
@@ -70,20 +75,21 @@ else if (TodosLosClientes.Count() == 0)
                 </GridEditSettings>
                 <GridEvents TValue="ClienteDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
                 @*Agrega las columnas en la Grid*@
-                <GridColumns>
-                    <GridColumn Field=@nameof(ClienteDTO.Id) Width="140" IsPrimaryKey="true"></GridColumn>
-                    <GridColumn Field=@nameof(ClienteDTO.Nombre)></GridColumn>
-                    <GridColumn Field=@nameof(ClienteDTO.Apellido)></GridColumn>
-                    <GridColumn Field=@nameof(ClienteDTO.DNI)></GridColumn>
-                    <GridColumn Field=@nameof(ClienteDTO.Telefono)></GridColumn>
-                    <GridColumn Field=@nameof(ClienteDTO.NombreUsuario)></GridColumn>
-                    <GridColumn HeaderText="@Strings.Actions" Width="150">
-                        <GridCommandColumns>
-                            <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-primary" })"></GridCommandColumn>
-                            <GridCommandColumn Type="CommandButtonType.Delete" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-delete", CssClass = "e-danger" })"></GridCommandColumn>
-                        </GridCommandColumns>
-                    </GridColumn>
-                </GridColumns>
+            <GridColumns>
+                <GridColumn Field=@nameof(ClienteDTO.Id) Width="140" IsPrimaryKey="true"></GridColumn>
+                <GridColumn Field=@nameof(ClienteDTO.Email)></GridColumn>
+                <GridColumn Field=@nameof(ClienteDTO.Nombre)></GridColumn>
+                <GridColumn Field=@nameof(ClienteDTO.Apellido)></GridColumn>
+                <GridColumn Field=@nameof(ClienteDTO.DNI)></GridColumn>
+                <GridColumn Field=@nameof(ClienteDTO.Telefono)></GridColumn>
+                <GridColumn Field=@nameof(ClienteDTO.NombreUsuario)></GridColumn>
+                <GridColumn HeaderText="@Strings.Actions" Width="150">
+                    <GridCommandColumns>
+                        <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-primary" })"></GridCommandColumn>
+                        <GridCommandColumn Type="CommandButtonType.Delete" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-delete", CssClass = "e-danger" })"></GridCommandColumn>
+                    </GridCommandColumns>
+                </GridColumn>
+            </GridColumns>
             </SfGrid>
         </div>
     </div>
@@ -122,41 +128,41 @@ else if (TodosLosClientes.Count() == 0)
 
     public async Task ActionBeginHandler(ActionEventArgs<ClienteDTO> args)
     {
-        //    try
-        //{
-        //    if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Save))
-        //    {
-        //        if (args.Action == "Add")
-        //        {
-        //            await ClienteRestaurant.Create(args.Data);
-        //            Toast.ShowMessage(MessageType.Success, "[Create Success!!!]", "[Se creo con exito]");
-        //        }
-        //        else
-        //        {
-        //            await ClienteRestaurant.Update(args.Data);
-        //            Toast.ShowMessage(MessageType.Success, "[Updated Success!!!]", "[Se actualizo con exito]");
-        //        }
-        //    }
-        //    if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete))
-        //    {
-        //        await ClienteRestaurant.Delete(args.Data.Id);
-        //        Toast.ShowMessage(MessageType.Success, "[Delete Success!!!]", "[Se Removio con exito]");
-        //    }
-        //}
-        //catch (Exception ex)
-        //{
-        //    Toast.ShowMessage(MessageType.Error, "Error", ex.Message);
-        //    //error = ex.Message;
-        //    args.Cancel = true;
-        //    //StateHasChanged();
-        //}
+        try
+        {
+            if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Save))
+            {
+                if (args.Action == "Add")
+                {
+                    await ClienteRestaurant.Create(args.Data);
+                    Toast.ShowMessage(MessageType.Success, "[Create Success!!!]", "[Se creo con exito]");
+                }
+                else
+                {
+                    await ClienteRestaurant.Update(args.Data);
+                    Toast.ShowMessage(MessageType.Success, "[Updated Success!!!]", "[Se actualizo con exito]");
+                }
+            }
+            if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete))
+            {
+                await ClienteRestaurant.Delete(args.Data.Id);
+                Toast.ShowMessage(MessageType.Success, "[Delete Success!!!]", "[Se Removio con exito]");
+            }
+        }
+        catch (Exception ex)
+        {
+            Toast.ShowMessage(MessageType.Error, "Error", ex.Message);
+            //error = ex.Message;
+            args.Cancel = true;
+            //StateHasChanged();
+        }
     }
     public async Task ActionCompleteHandler(ActionEventArgs<ClienteDTO> args)
     {
-        //if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete)
-        //    || args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Save))
-        //{
-        //    await OnInitializedAsync();
-        //}
+        if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete)
+            || args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Save))
+        {
+            await OnInitializedAsync();
+        }
     }
 }
