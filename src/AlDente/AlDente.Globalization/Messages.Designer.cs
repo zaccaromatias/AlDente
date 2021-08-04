@@ -106,11 +106,29 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Comensales.
+        /// </summary>
+        public static string Comensales {
+            get {
+                return ResourceManager.GetString("Comensales", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create.
         /// </summary>
         public static string Create {
             get {
                 return ResourceManager.GetString("Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fecha.
+        /// </summary>
+        public static string Date {
+            get {
+                return ResourceManager.GetString("Date", resourceCulture);
             }
         }
         
@@ -318,6 +336,15 @@ namespace AlDente.Globalization {
         public static string TheFieldsXAndYMustBeTheSame {
             get {
                 return ResourceManager.GetString("TheFieldsXAndYMustBeTheSame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Turno.
+        /// </summary>
+        public static string Turno {
+            get {
+                return ResourceManager.GetString("Turno", resourceCulture);
             }
         }
         

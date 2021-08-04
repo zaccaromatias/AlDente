@@ -132,8 +132,14 @@
   <data name="Code" xml:space="preserve">
     <value>Codigo</value>
   </data>
+  <data name="Comensales" xml:space="preserve">
+    <value>Comensales</value>
+  </data>
   <data name="Create" xml:space="preserve">
     <value>Create</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Fecha</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
@@ -203,6 +209,9 @@
   </data>
   <data name="TheFieldsXAndYMustBeTheSame" xml:space="preserve">
     <value>The fields {0} and {1} must be the same</value>
+  </data>
+  <data name="Turno" xml:space="preserve">
+    <value>Turno</value>
   </data>
   <data name="Update" xml:space="preserve">
     <value>Update</value>
