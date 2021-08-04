@@ -2,9 +2,9 @@
 using AlDente.Contracts.Core;
 using AlDente.DataAccess.Clientes;
 using AlDente.DataAccess.Core;
+using AlDente.Entities.Clientes;
 using AlDente.Globalization;
 using AlDente.Services.Core;
-using AlDente.Entities.Clientes;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -75,15 +75,15 @@ namespace AlDente.Services.Clientes
             return clientes.Select(x => new ClienteDTO
             {
                 // Datos del cliente
-               Id               = x.Id,
-               Email            = x.Email,
-               Nombre           = x.Nombre,
-               Apellido         = x.Apellido,
-               DNI              = x.DNI,
-               Password         = x.Password,
-               Estado           = (EstadosDeUnCliente)x.EstadoClienteId,
-               Telefono         = x.Telefono,
-               NombreUsuario    = x.NombreUsuario
+                Id = x.Id,
+                Email = x.Email,
+                Nombre = x.Nombre,
+                Apellido = x.Apellido,
+                DNI = x.DNI,
+                Password = x.Password,
+                Estado = (EstadosDeUnCliente)x.EstadoClienteId,
+                Telefono = x.Telefono,
+                NombreUsuario = x.NombreUsuario
             });
         }
         public async Task Create(ClienteDTO clienteDTO)
@@ -92,15 +92,15 @@ namespace AlDente.Services.Clientes
             {
                 await clienteRepository.AddAsync(new Cliente
                 {
-                    Id                = clienteDTO.Id,
-                    Email             = clienteDTO.Email,
-                    Nombre            = clienteDTO.Nombre,
-                    Apellido          = clienteDTO.Apellido,
-                    DNI               = clienteDTO.DNI,
-                    Password          = clienteDTO.Password,
-                    EstadoClienteId   = (int)(EstadosDeUnCliente)clienteDTO.Estado,
-                    Telefono          = clienteDTO.Telefono,
-                    NombreUsuario     = clienteDTO.NombreUsuario
+                    Id = 0,
+                    Email = clienteDTO.Email,
+                    Nombre = clienteDTO.Nombre,
+                    Apellido = clienteDTO.Apellido,
+                    DNI = clienteDTO.DNI,
+                    Password = clienteDTO.Password,
+                    EstadoClienteId = (int)clienteDTO.Estado,
+                    Telefono = clienteDTO.Telefono,
+                    NombreUsuario = clienteDTO.NombreUsuario
                 });
             });
         }
@@ -116,13 +116,15 @@ namespace AlDente.Services.Clientes
             {
                 await clienteRepository.UpdateAsync(new Cliente
                 {
-                    Id              = clienteDTO.Id,
-                    Email           = clienteDTO.Email,
-                    Nombre          = clienteDTO.Nombre,
-                    Apellido        = clienteDTO.Apellido,
-                    DNI             = clienteDTO.DNI,
-                    Telefono        = clienteDTO.Telefono,
-                    NombreUsuario   = clienteDTO.NombreUsuario
+                    Id = clienteDTO.Id,
+                    Email = clienteDTO.Email,
+                    Nombre = clienteDTO.Nombre,
+                    Apellido = clienteDTO.Apellido,
+                    DNI = clienteDTO.DNI,
+                    Password = clienteDTO.Password,
+                    EstadoClienteId = (int)clienteDTO.Estado,
+                    Telefono = clienteDTO.Telefono,
+                    NombreUsuario = clienteDTO.NombreUsuario
                 });
             });
         }
