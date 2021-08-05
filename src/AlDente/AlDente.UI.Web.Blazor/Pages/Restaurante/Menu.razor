@@ -1,4 +1,5 @@
 ﻿@page "/Menu"
+@attribute [Authorize]
 <SfPdfViewerServer DocumentPath="@DocumentPath" Height="90vh" Width="100%"></SfPdfViewerServer>
 @code {
 

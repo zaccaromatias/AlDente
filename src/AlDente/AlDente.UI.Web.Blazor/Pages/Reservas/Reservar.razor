@@ -3,10 +3,8 @@
 @using Syncfusion.Blazor.Calendars
 @using Syncfusion.Blazor.Inputs
 @using Syncfusion.Blazor.Buttons
-
-
-
 @page "/Reservar"
+@attribute [Authorize]
 <div class="col-md-6 offset-md-3 mt-5">
     <div class="card">
         <h4 class="card-header">Reservar Ahora</h4>
@@ -38,7 +36,7 @@
 
                     </div>
                     <div class="col-md-3 align-self-center text-center">
-                        <SfButton CssClass="e-info" ID="Buscar" OnClick="@BuscarCombinaciones">[Buscar]</SfButton>
+                        <ButtonProgress CssClass="e-info" OnClick="BuscarCombinaciones">[Buscar]</ButtonProgress>
                     </div>
                 </div>
                 @if (!string.IsNullOrEmpty(Reserva.MensajeDeErrorAlBuscar))
@@ -88,11 +86,14 @@
     private FluentValidationValidator fluentValidationValidator;
     private ReservaViewModel Reserva { get; set; } = new ReservaViewModel();
 
+
     private Guid? combinacionDTO { get; set; }
 
-    private void BuscarCombinaciones()
+    private async Task BuscarCombinaciones()
     {
-        this.Reserva.CargarCombinaciones();
+        await this.Reserva.CargarCombinaciones();
+        StateHasChanged();
+
     }
 
     private void RealizarReserva()
