@@ -42,7 +42,8 @@ namespace AlDente.UI.Web.Blazor
             RepoDb.SqlServerBootstrap.Initialize();
             //services.AddBlazoredLocalStorage();
             services.AddRazorPages();
-            services.AddServerSideBlazor();
+            services.AddServerSideBlazor()
+                .AddHubOptions(o => { o.MaximumReceiveMessageSize = 102400000; });
             services.AddSingleton<WeatherForecastService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAuthenticationClientService, AuthenticationClientService>();
