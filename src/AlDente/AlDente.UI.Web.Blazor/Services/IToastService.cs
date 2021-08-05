@@ -1,17 +1,17 @@
-﻿using Syncfusion.Blazor.Notifications;
+﻿
 
 namespace AlDente.UI.Web.Blazor.Services
 {
     public interface IToastService
     {
-        SfToast SfToast { get; set; }
+        Syncfusion.Blazor.Notifications.SfToast SfToast { get; set; }
 
         void ShowMessage(MessageType type, string title, string content = null);
     }
 
     public class ToastService : IToastService
     {
-        public SfToast SfToast { get; set; }
+        public Syncfusion.Blazor.Notifications.SfToast SfToast { get; set; }
 
         public void ShowMessage(MessageType type, string title, string content = null)
         {
@@ -38,7 +38,7 @@ namespace AlDente.UI.Web.Blazor.Services
                 default:
                     break;
             }
-            SfToast.Show(new ToastModel
+            SfToast.Show(new Syncfusion.Blazor.Notifications.ToastModel
             {
                 Title = title,
                 Content = content,

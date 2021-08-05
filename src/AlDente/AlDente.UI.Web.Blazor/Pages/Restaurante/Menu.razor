@@ -1,0 +1,15 @@
+﻿@page "/Menu"
+@using Syncfusion.Blazor.PdfViewerServer
+<SfPdfViewerServer DocumentPath="@DocumentPath" Height="90vh" Width="100%"></SfPdfViewerServer>
+@code {
+    private string DocumentPath { get; set; }
+
+    protected override void OnInitialized()
+    {
+        //string Url = "https://drive.google.com/u/0/uc?id=1Y_Frdo2t3oM1Yld4r5Dym8VH-haRxFGW&export=download";
+        //System.Net.WebClient webClient = new System.Net.WebClient();
+        //byte[] byteArray = webClient.DownloadData(Url);
+        DocumentPath = "wwwroot/Menu.pdf";
+
+    }
+}
