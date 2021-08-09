@@ -1,0 +1,18 @@
+﻿@page "/Turnos/create"
+@attribute [Authorize]
+@using AlDente.Contracts.Turnos
+@inject NavigationManager uriHelper
+@inject IJSRuntime js
+@inject ITurnoService TurnoService
+<h3>Create</h3>
+<Form ButtonText="Create" Turno="@model"
+      OnValidSubmit="@CreateTurno" />
+@code {
+    TurnoDTO model = new TurnoDTO();
+    async Task CreateTurno()
+    {
+        await TurnoService.Create(model);
+        await js.InvokeVoidAsync("alert", $"Guardado Con Exito");
+        uriHelper.NavigateTo("Turnos");
+    }
+}

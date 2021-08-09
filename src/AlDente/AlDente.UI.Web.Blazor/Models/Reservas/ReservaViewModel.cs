@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AlDente.UI.Web.Blazor.Models.Reservas
 {
@@ -40,14 +41,16 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
 
         public bool EsValidoParaBuscarCombinaciones => this.Turno != null && this.Comensales > 0 && this.Date.HasValue && this.Date != DateTime.MinValue;
         public bool EsValidoParaReservar => EsValidoParaBuscarCombinaciones && this.Combinacion.Count() == 1 && this.Combinacion.First() != Guid.Empty;
-        public void CargarCombinaciones()
+        public async Task CargarCombinaciones()
         {
+
             if (!EsValidoParaBuscarCombinaciones)
             {
                 this.MensajeDeErrorAlBuscar = "Verifique que todos los datos esten ingresados para poder buscar.";
                 return;
             }
             this.ClearCombinaciones();
+            await Task.Delay(2000);
             this.Combinaciones.Add(new CombinacionDTO
             {
                 Mesas = new List<MesasDTO>

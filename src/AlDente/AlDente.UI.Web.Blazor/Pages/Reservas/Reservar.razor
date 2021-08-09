@@ -3,10 +3,8 @@
 @using Syncfusion.Blazor.Calendars
 @using Syncfusion.Blazor.Inputs
 @using Syncfusion.Blazor.Buttons
-
-
-
 @page "/Reservar"
+@attribute [Authorize]
 <div class="col-md-6 offset-md-3 mt-5">
     <div class="card">
         <h4 class="card-header">Reservar Ahora</h4>
@@ -16,26 +14,29 @@
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <DisplayName For="@(()=>Reserva.Comensales)" InputFor="@nameof(Reserva.Comensales)" />
-                        <SfNumericTextBox TValue="int?" @bind-Value="Reserva.Comensales" ID="@nameof(Reserva.Comensales)" OnChange="@Clear"></SfNumericTextBox>
+                        <SfNumericTextBox TValue="int?" @bind-Value="Reserva.Comensales" Min="2" Max="8" ID="@nameof(Reserva.Comensales)" OnChange="@Clear"></SfNumericTextBox>
                         <ValidationMessage For="@(() => Reserva.Comensales)" />
                     </div>
                     <div class="form-group col-md-3">
                         <DisplayName For="@(()=>Reserva.Date)" InputFor="@nameof(Reserva.Date)" />
-                        <SfDatePicker TValue="DateTime?" Placeholder="Choose a Date" @bind-Value="Reserva.Date" ID="@nameof(Reserva.Date)" OnChange="@Clear" />
+                        <SfDatePicker TValue="DateTime?" Placeholder="Choose a Date" @bind-Value="Reserva.Date" ID="@nameof(Reserva.Date)">
+                            <DatePickerEvents TValue="DateTime?" ValueChange="Clear" />
+                        </SfDatePicker>
+
 
                         <ValidationMessage For="@(() => Reserva.Date)" />
                     </div>
                     <div class="form-group col-md-3">
                         <DisplayName For="@(()=>Reserva.Turno)" InputFor="@nameof(Reserva.Turno)" />
-                        <SfDropDownList TItem="TurnoDTO" TValue="TurnoDTO" Placeholder="[Seleccione Un Turno]" @bind-Value="@Reserva.Turno" DataSource="@Reserva.Turnos" ID="@nameof(Reserva.Turno)" OnChange="@Clear">
-                            <DropDownListEvents TItem="TurnoDTO" TValue="TurnoDTO"></DropDownListEvents>
+                        <SfDropDownList TItem="TurnoDTO" TValue="TurnoDTO" Placeholder="[Seleccione Un Turno]" @bind-Value="@Reserva.Turno" DataSource="@Reserva.Turnos" ID="@nameof(Reserva.Turno)">
+                            <DropDownListEvents TItem="TurnoDTO" TValue="TurnoDTO" OnValueSelect="TurnoHasChanged"></DropDownListEvents>
                             <DropDownListFieldSettings Text="Text"></DropDownListFieldSettings>
                         </SfDropDownList>
                         <ValidationMessage For="@(() => Reserva.Turno)" />
 
                     </div>
                     <div class="col-md-3 align-self-center text-center">
-                        <SfButton CssClass="e-info" ID="Buscar" OnClick="@BuscarCombinaciones">[Buscar]</SfButton>
+                        <ButtonProgress CssClass="e-info" OnClick="BuscarCombinaciones">[Buscar]</ButtonProgress>
                     </div>
                 </div>
                 @if (!string.IsNullOrEmpty(Reserva.MensajeDeErrorAlBuscar))
@@ -85,11 +86,14 @@
     private FluentValidationValidator fluentValidationValidator;
     private ReservaViewModel Reserva { get; set; } = new ReservaViewModel();
 
+
     private Guid? combinacionDTO { get; set; }
 
-    private void BuscarCombinaciones()
+    private async Task BuscarCombinaciones()
     {
-        this.Reserva.CargarCombinaciones();
+        await this.Reserva.CargarCombinaciones();
+        StateHasChanged();
+
     }
 
     private void RealizarReserva()
@@ -102,6 +106,11 @@
         this.Reserva.ClearCombinaciones();
     }
 
+
+    private void TurnoHasChanged()
+    {
+        this.Reserva.ClearCombinaciones();
+    }
 
     private async Task OnSubmint()
     {
