@@ -1,0 +1,121 @@
+﻿@page "/Turnos"
+@attribute [Authorize]
+@using Syncfusion.Blazor.Grids
+@using AlDente.Contracts.Turnos
+@using AlDente.Globalization
+
+@inject ITurnoService TurnoRestaurant
+@inject IToastService Toast
+<h3>Turnos</h3>
+@if (TodosLosTurnos == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (TodosLosTurnos.Count() == 0)
+{
+    <p><em>No hay turnos</em></p>
+}
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGrid DataSource="@TodosLosTurnos" Toolbar="@(new List<string>() { "Add", "Edit", "Delete" })" AllowPaging="true">
+                <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" Mode="EditMode.Dialog" NewRowPosition="NewRowPosition.Bottom" ShowDeleteConfirmDialog="true" ShowConfirmDialog="true">
+                    <Validator>
+                        <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
+                    </Validator>
+                    <Template>
+                        @{
+
+                            var turnos = (context as TurnoDTO);
+                            <div class="form-group">
+                                <DisplayName For="@(()=>turnos.Id)" InputFor="@nameof(TurnoDTO.Id)" />
+                                <InputNumber @bind-Value="turnos.Id" class="form-control" id="@nameof(TurnoDTO.Id)" />
+                                <ValidationMessage For="@(() => turnos.Id)" />
+                            </div>
+                            <div class="form-group">
+                                <DisplayName For="@(()=>turnos.HoraInicio)" InputFor="@nameof(TurnoDTO.HoraInicio)" />
+                                <InputDate @bind-Value="turnos.HoraInicio" class="form-control" id="@nameof(TurnoDTO.HoraInicio)" />
+                                <ValidationMessage For="@(() => turnos.HoraInicio)" />
+                            </div>
+                            <div class="form-group">
+                                <DisplayName For="@(()=>turnos.HoraFin)" InputFor="@nameof(TurnoDTO.HoraFin)" />
+                                <InputDate @bind-Value="turnos.HoraFin" class="form-control" id="@nameof(TurnoDTO.HoraFin)" />
+                                <ValidationMessage For="@(() => turnos.HoraFin)" />
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(error))
+                            {
+                                <div class="alert alert-danger mt-3 mb-0">@error</div>
+                            }
+                        }
+                    </Template>
+                </GridEditSettings>
+                <GridEvents TValue="TurnoDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
+                <GridColumns>
+                    <GridColumn Field=@nameof(TurnoDTO.Id) Width="140" IsPrimaryKey="true"></GridColumn>
+                    <GridColumn Field=@nameof(TurnoDTO.HoraInicio)></GridColumn>
+                    <GridColumn Field=@nameof(TurnoDTO.HoraFin)></GridColumn>
+                    <GridColumn HeaderText="@Strings.Actions" Width="150">
+                        <GridCommandColumns>
+                            <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-primary" })"></GridCommandColumn>
+                            <GridCommandColumn Type="CommandButtonType.Delete" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-delete", CssClass = "e-danger" })"></GridCommandColumn>
+                        </GridCommandColumns>
+                    </GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+@code {
+    public static List<TurnoDTO> TodosLosTurnos { get; set; }
+    private FluentValidationValidator fluentValidationValidator;
+    private string error;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        TodosLosTurnos = (await TurnoRestaurant.GetAll()).ToList();
+    }
+
+    public async Task ActionBeginHandler(ActionEventArgs<TurnoDTO> args)
+    {
+        try
+        {
+            if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Save))
+            {
+                if (args.Action == "Add")
+                {
+                    await TurnoRestaurant.Create(args.Data);
+                    Toast.ShowMessage(MessageType.Success, "[Create Success!!!]", "[Se creo con exito]");
+                }
+                else
+                {
+                    await TurnoRestaurant.Update(args.Data);
+                    Toast.ShowMessage(MessageType.Success, "[Updated Success!!!]", "[Se actualizo con exito]");
+
+                }
+            }
+            if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete))
+            {
+                await TurnoRestaurant.Delete(args.Data.Id);
+                Toast.ShowMessage(MessageType.Success, "[Delete Success!!!]", "[Se Removio con exito]");
+            }
+        }
+        catch (Exception ex)
+        {
+            Toast.ShowMessage(MessageType.Error, "Error", ex.Message);
+            //error = ex.Message;
+            args.Cancel = true;
+            //StateHasChanged();
+        }
+    }
+    public async Task ActionCompleteHandler(ActionEventArgs<TurnoDTO> args)
+    {
+        if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete)
+            || args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Save))
+        {
+            await OnInitializedAsync();
+        }
+    }
+}
