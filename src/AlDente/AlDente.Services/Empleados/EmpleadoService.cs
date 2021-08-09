@@ -62,7 +62,8 @@ namespace AlDente.Services.Empleados
                 Email = x.Email,      
                 Password = x.Password,
                 FechaCreacion = x.FechaCreacion,
-                Estado = (EstadosDeUnEmpleado)x.EstadoEmpleadoId
+                Estado = (EstadosDeUnEmpleado)x.EstadoEmpleadoId,
+                RestauranteId= x.RestauranteId
 
             });
         }
@@ -103,7 +104,9 @@ namespace AlDente.Services.Empleados
                     Apellido = empleadoDTO.Apellido,
                     Email = empleadoDTO.Email,
                     Password = empleadoDTO.Password,
-                    EstadoEmpleadoId = (int)empleadoDTO.Estado
+                    EstadoEmpleadoId = (int)empleadoDTO.Estado,
+                    FechaCreacion = empleadoDTO.FechaCreacion,
+                    RestauranteId= empleadoDTO.RestauranteId
                 });
             });
         }
