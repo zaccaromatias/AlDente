@@ -1,0 +1,128 @@
+﻿@page "/Restaurantes"
+@attribute [Authorize]
+@using Syncfusion.Blazor.Grids
+@using AlDente.Contracts.Restaurantes
+@using AlDente.Globalization
+
+@inject IRestauranteService servRestaurante
+@inject IToastService Toast
+<h3>Restaurantes</h3>
+@if (TodosLosRestaurantes == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (TodosLosRestaurantes.Count() == 0)
+{
+    <p><em>No hay restaurantes</em></p>
+}
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGrid DataSource="@TodosLosRestaurantes" Toolbar="@(new List<string>() { "Add", "Edit", "Delete" })" AllowPaging="true">
+                <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" Mode="EditMode.Dialog" NewRowPosition="NewRowPosition.Bottom" ShowDeleteConfirmDialog="true" ShowConfirmDialog="true">
+                    <Validator>
+                        <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
+                    </Validator>
+                    <Template>
+                        @{
+
+                            var restaurantes = (context as RestauranteDTO);
+
+                            <div class="form-group">
+                                <DisplayName For="@(()=>restaurantes.Descripcion)" InputFor="@nameof(RestauranteDTO.Descripcion)" />
+                                <InputText @bind-Value="restaurantes.Descripcion" class="form-control" id="@nameof(RestauranteDTO.Descripcion)" />
+                                <ValidationMessage For="@(() => restaurantes.Descripcion)" />
+                            </div>
+                            <div class="form-group">
+                                <DisplayName For="@(()=>restaurantes.Direccion)" InputFor="@nameof(RestauranteDTO.Direccion)" />
+                                <InputText @bind-Value="restaurantes.Direccion" class="form-control" id="@nameof(RestauranteDTO.Direccion)" />
+                                <ValidationMessage For="@(() => restaurantes.Direccion)" />
+                            </div>
+                            <div class="form-group">
+                                <DisplayName For="@(()=>restaurantes.Telefono)" InputFor="@nameof(RestauranteDTO.Telefono)" />
+                                <InputText @bind-Value="restaurantes.Telefono" class="form-control" id="@nameof(RestauranteDTO.Telefono)" />
+                                <ValidationMessage For="@(() => restaurantes.Telefono)" />
+                            </div>
+                            <div class="form-group">
+                                <DisplayName For="@(()=>restaurantes.UrlMenu)" InputFor="@nameof(RestauranteDTO.UrlMenu)" />
+                                <InputText @bind-Value="restaurantes.UrlMenu" class="form-control" id="@nameof(RestauranteDTO.UrlMenu)" />
+                                <ValidationMessage For="@(() => restaurantes.UrlMenu)" />
+                            </div>
+                            @if (!string.IsNullOrEmpty(error))
+                            {
+                                <div class="alert alert-danger mt-3 mb-0">@error</div>
+                            }
+                        }
+                    </Template>
+                </GridEditSettings>
+                <GridEvents TValue="RestauranteDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
+                <GridColumns>
+                    <GridColumn Field=@nameof(RestauranteDTO.Id) Width="140" IsPrimaryKey="true"></GridColumn>
+                    <GridColumn Field=@nameof(RestauranteDTO.Descripcion)></GridColumn>
+                    <GridColumn Field=@nameof(RestauranteDTO.Direccion)></GridColumn>
+                    <GridColumn Field=@nameof(RestauranteDTO.Telefono)></GridColumn>
+                    <GridColumn Field=@nameof(RestauranteDTO.UrlMenu)></GridColumn>
+                    <GridColumn HeaderText="@Strings.Actions" Width="150">
+                        <GridCommandColumns>
+                            <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-primary" })"></GridCommandColumn>
+                            <GridCommandColumn Type="CommandButtonType.Delete" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-delete", CssClass = "e-danger" })"></GridCommandColumn>
+                        </GridCommandColumns>
+                    </GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+@code {
+    public static List<RestauranteDTO> TodosLosRestaurantes { get; set; }
+    private FluentValidationValidator fluentValidationValidator;
+    private string error;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        TodosLosRestaurantes = (await servRestaurante.GetAll()).ToList();
+    }
+
+    public async Task ActionBeginHandler(ActionEventArgs<RestauranteDTO> args)
+    {
+        try
+        {
+            if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Save))
+            {
+                if (args.Action == "Add")
+                {
+                    await servRestaurante.Create(args.Data);
+                    Toast.ShowMessage(MessageType.Success, "[Create Success!!!]", "[Se creo con exito]");
+                }
+                else
+                {
+                    await servRestaurante.Update(args.Data);
+                    Toast.ShowMessage(MessageType.Success, "[Updated Success!!!]", "[Se actualizo con exito]");
+
+                }
+            }
+            if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete))
+            {
+                await servRestaurante.Delete(args.Data.Id);
+                Toast.ShowMessage(MessageType.Success, "[Delete Success!!!]", "[Se Removio con exito]");
+            }
+        }
+        catch (Exception ex)
+        {
+            Toast.ShowMessage(MessageType.Error, "Error", ex.Message);
+            //error = ex.Message;
+            args.Cancel = true;
+            //StateHasChanged();
+        }
+    }
+    public async Task ActionCompleteHandler(ActionEventArgs<RestauranteDTO> args)
+    {
+        if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete)
+            || args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Save))
+        {
+            await OnInitializedAsync();
+        }
+    }
+}
