@@ -1,13 +1,11 @@
 ﻿using AlDente.Contracts.Turnos;
-using AlDente.Contracts.Core;
-using AlDente.DataAccess.Turnos;
 using AlDente.DataAccess.Core;
-using AlDente.Globalization;
+using AlDente.DataAccess.Turnos;
+using AlDente.Entities.Turnos;
 using AlDente.Services.Core;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AlDente.Entities.Turnos;
 
 namespace AlDente.Services.Turnos
 {
@@ -28,9 +26,10 @@ namespace AlDente.Services.Turnos
             var turnos = await turnoRepository.GetAllAsync();
             return turnos.Select(x => new TurnoDTO
             {
-                Id              = x.Id,
-               HoraInicio       = x.HoraInicio,
-               HoraFin          = x.HoraFin
+                Id = x.Id,
+                HoraInicio = x.HoraInicio,
+                HoraFin = x.HoraFin,
+                RestauranteId = x.RestauranteId
             });
         }
 
@@ -41,7 +40,9 @@ namespace AlDente.Services.Turnos
                 await turnoRepository.AddAsync(new Turno
                 {
                     HoraInicio = turnoDTO.HoraInicio,
-                    HoraFin    = turnoDTO.HoraFin
+                    HoraFin = turnoDTO.HoraFin,
+                    RestauranteId = this.unitOfWork.RestauranteId
+
                 });
             });
         }
@@ -55,11 +56,12 @@ namespace AlDente.Services.Turnos
         {
             await Try(async () =>
             {
-                await turnoRepository.UpdateAsync(new Turno 
+                await turnoRepository.UpdateAsync(new Turno
                 {
-                    Id          = turnoDTO.Id,
-                    HoraInicio  = turnoDTO.HoraInicio,
-                    HoraFin     = turnoDTO.HoraFin
+                    Id = turnoDTO.Id,
+                    HoraInicio = turnoDTO.HoraInicio,
+                    HoraFin = turnoDTO.HoraFin,
+                    RestauranteId = turnoDTO.RestauranteId
                 });
             });
         }

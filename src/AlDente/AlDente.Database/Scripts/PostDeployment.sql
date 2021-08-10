@@ -9,7 +9,10 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
+:r .\Post\InsertarRestaurante.sql
+:r .\Post\CargarEstadosEmpleados.sql
 :r .\Post\CargarEstadosClientes.sql
+:r .\Post\InsertarClienteTest.sql
 
 
 

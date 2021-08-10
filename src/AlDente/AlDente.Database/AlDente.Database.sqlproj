@@ -82,6 +82,9 @@
     <Build Include="Tables\PoliticaBeneficio.sql" />
     <Build Include="Tables\TipoBeneficio.sql" />
     <Build Include="Tables\Beneficio.sql" />
+    <None Include="Scripts\Post\InsertarClienteTest.sql" />
+    <None Include="Scripts\Post\InsertarRestaurante.sql" />
+    <None Include="Scripts\Post\CargarEstadosEmpleados.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AlDente.Database.publish.xml" />

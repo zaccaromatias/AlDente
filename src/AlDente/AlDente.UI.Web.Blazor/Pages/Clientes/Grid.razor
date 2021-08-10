@@ -8,92 +8,89 @@
 
 @inject IClienteService ClienteRestaurant
 @inject IToastService Toast
-<h3>Clientes</h3>
-@if (TodosLosClientes == null)
-{
-    <p><em>Loading...</em></p>
-}
-else if (TodosLosClientes.Count() == 0)
-{
-    <p><em>No hay estados del cliente</em></p>
-}
-<div class="col-lg-12 control-section">
-    <div class="content-wrapper">
-        <div class="row">
-            <SfGrid DataSource="@TodosLosClientes" Toolbar="@(new List<string>() { "Add", "Edit", "Delete" })" AllowPaging="true">
-                <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" Mode="EditMode.Dialog" NewRowPosition="NewRowPosition.Bottom" ShowDeleteConfirmDialog="true" ShowConfirmDialog="true">
-                    <Validator>
-                        <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
-                    </Validator>
-                    <Template>
-                        @{
-                            var cliente = (context as ClienteDTO);
-                            <div class="form-group">
-                                <DisplayName For="@(()=>cliente.Email)" InputFor="@nameof(ClienteDTO.Email)" />
-                                <InputText @bind-Value="cliente.Email" class="form-control" id="@nameof(ClienteDTO.Email)" />
-                                <ValidationMessage For="@(() => cliente.Email)" />
-                            </div>
-                            <div class="form-group">
-                                <DisplayName For="@(()=>cliente.Nombre)" InputFor="@nameof(ClienteDTO.Nombre)" />
-                                <InputText @bind-Value="cliente.Nombre" class="form-control" id="@nameof(ClienteDTO.Nombre)" />
-                                <ValidationMessage For="@(() => cliente.Nombre)" />
-                            </div>
-                            <div class="form-group">
-                                <DisplayName For="@(()=>cliente.Apellido)" InputFor="@nameof(ClienteDTO.Apellido)" />
-                                <InputText @bind-Value="cliente.Apellido" class="form-control" id="@nameof(ClienteDTO.Apellido)" />
-                                <ValidationMessage For="@(() => cliente.Apellido)" />
-                            </div>
-                            <div class="form-group">
-                                <DisplayName For="@(()=>cliente.DNI)" InputFor="@nameof(ClienteDTO.DNI)" />
-                                <InputNumber @bind-Value="cliente.DNI" class="form-control" id="@nameof(ClienteDTO.DNI)" />
-                                <ValidationMessage For="@(() => cliente.DNI)" />
-                            </div>
-                            <div class="form-group">
-                                <DisplayName For="@(()=>cliente.Telefono)" InputFor="@nameof(ClienteDTO.Telefono)" />
-                                <InputText @bind-Value="cliente.Telefono" class="form-control" id="@nameof(ClienteDTO.Telefono)" />
-                                <ValidationMessage For="@(() => cliente.Telefono)" />
-                            </div>
+<MyCard Header="Clientes">
+    @if (TodosLosClientes == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    <div class="col-lg-12 control-section">
+        <div class="content-wrapper">
+            <div class="row">
+                <SfGrid DataSource="@TodosLosClientes" Toolbar="@(new List<string>() { "Add", "Edit", "Delete" })" AllowPaging="true">
+                    <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" Mode="EditMode.Dialog" NewRowPosition="NewRowPosition.Bottom" ShowDeleteConfirmDialog="true" ShowConfirmDialog="true">
+                        <Validator>
+                            <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
+                        </Validator>
+                        <Template>
+                            @{
+                                var cliente = (context as ClienteDTO);
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>cliente.Email)" InputFor="@nameof(ClienteDTO.Email)" />
+                                    <InputText @bind-Value="cliente.Email" class="form-control" id="@nameof(ClienteDTO.Email)" />
+                                    <ValidationMessage For="@(() => cliente.Email)" />
+                                </div>
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>cliente.Nombre)" InputFor="@nameof(ClienteDTO.Nombre)" />
+                                    <InputText @bind-Value="cliente.Nombre" class="form-control" id="@nameof(ClienteDTO.Nombre)" />
+                                    <ValidationMessage For="@(() => cliente.Nombre)" />
+                                </div>
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>cliente.Apellido)" InputFor="@nameof(ClienteDTO.Apellido)" />
+                                    <InputText @bind-Value="cliente.Apellido" class="form-control" id="@nameof(ClienteDTO.Apellido)" />
+                                    <ValidationMessage For="@(() => cliente.Apellido)" />
+                                </div>
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>cliente.DNI)" InputFor="@nameof(ClienteDTO.DNI)" />
+                                    <InputNumber @bind-Value="cliente.DNI" class="form-control" id="@nameof(ClienteDTO.DNI)" />
+                                    <ValidationMessage For="@(() => cliente.DNI)" />
+                                </div>
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>cliente.Telefono)" InputFor="@nameof(ClienteDTO.Telefono)" />
+                                    <InputText @bind-Value="cliente.Telefono" class="form-control" id="@nameof(ClienteDTO.Telefono)" />
+                                    <ValidationMessage For="@(() => cliente.Telefono)" />
+                                </div>
 
-                            <div class="form-group">
-                                <DisplayName For="@(()=>cliente.NombreUsuario)" InputFor="@nameof(ClienteDTO.NombreUsuario)" />
-                                <InputText @bind-Value="cliente.NombreUsuario" class="form-control" id="@nameof(ClienteDTO.NombreUsuario)" />
-                                <ValidationMessage For="@(() => cliente.NombreUsuario)" />
-                            </div>
-                            <div class="form-group">
-                                <DisplayName For="@(()=>cliente.Estado)" InputFor="@nameof(ClienteDTO.Estado)" />
-                                <SfDropDownList TItem="EstadoCliente" TValue="EstadosDeUnCliente" PopupHeight="230px" Placeholder="[Seleccione Un Estado]" @bind-Value="@cliente.Estado" DataSource="@Estados">
-                                    <DropDownListFieldSettings Text="Text" Value="Id"></DropDownListFieldSettings>
-                                </SfDropDownList>
-                                <ValidationMessage For="@(() => cliente.Estado)" />
-                            </div>
-                            @if (!string.IsNullOrEmpty(error))
-                            {
-                                <div class="alert alert-danger mt-3 mb-0">@error</div>
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>cliente.NombreUsuario)" InputFor="@nameof(ClienteDTO.NombreUsuario)" />
+                                    <InputText @bind-Value="cliente.NombreUsuario" class="form-control" id="@nameof(ClienteDTO.NombreUsuario)" />
+                                    <ValidationMessage For="@(() => cliente.NombreUsuario)" />
+                                </div>
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>cliente.Estado)" InputFor="@nameof(ClienteDTO.Estado)" />
+                                    <SfDropDownList TItem="EstadoCliente" TValue="EstadosDeUnCliente" PopupHeight="230px" Placeholder="[Seleccione Un Estado]" @bind-Value="@cliente.Estado" DataSource="@Estados">
+                                        <DropDownListFieldSettings Text="Text" Value="Id"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                    <ValidationMessage For="@(() => cliente.Estado)" />
+                                </div>
+                                @if (!string.IsNullOrEmpty(error))
+                                {
+                                    <div class="alert alert-danger mt-3 mb-0">@error</div>
+                                }
                             }
-                        }
-                    </Template>
-                </GridEditSettings>
-                <GridEvents TValue="ClienteDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
-                @*Agrega las columnas en la Grid*@
-            <GridColumns>
-                <GridColumn Field=@nameof(ClienteDTO.Id) Width="140" IsPrimaryKey="true"></GridColumn>
-                <GridColumn Field=@nameof(ClienteDTO.Email)></GridColumn>
-                <GridColumn Field=@nameof(ClienteDTO.Nombre)></GridColumn>
-                <GridColumn Field=@nameof(ClienteDTO.Apellido)></GridColumn>
-                <GridColumn Field=@nameof(ClienteDTO.DNI)></GridColumn>
-                <GridColumn Field=@nameof(ClienteDTO.Telefono)></GridColumn>
-                <GridColumn Field=@nameof(ClienteDTO.NombreUsuario)></GridColumn>
-                <GridColumn HeaderText="@Strings.Actions" Width="150">
-                    <GridCommandColumns>
-                        <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-primary" })"></GridCommandColumn>
-                        <GridCommandColumn Type="CommandButtonType.Delete" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-delete", CssClass = "e-danger" })"></GridCommandColumn>
-                    </GridCommandColumns>
-                </GridColumn>
-            </GridColumns>
-            </SfGrid>
+                        </Template>
+                    </GridEditSettings>
+                    <GridEvents TValue="ClienteDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
+                    @*Agrega las columnas en la Grid*@
+                    <GridColumns>
+                        <GridColumn Field=@nameof(ClienteDTO.Id) Width="140" IsPrimaryKey="true"></GridColumn>
+                        <GridColumn Field=@nameof(ClienteDTO.Email)></GridColumn>
+                        <GridColumn Field=@nameof(ClienteDTO.Nombre)></GridColumn>
+                        <GridColumn Field=@nameof(ClienteDTO.Apellido)></GridColumn>
+                        <GridColumn Field=@nameof(ClienteDTO.DNI)></GridColumn>
+                        <GridColumn Field=@nameof(ClienteDTO.Telefono)></GridColumn>
+                        <GridColumn Field=@nameof(ClienteDTO.NombreUsuario)></GridColumn>
+                        <GridColumn HeaderText="@Strings.Actions" Width="150">
+                            <GridCommandColumns>
+                                <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-primary" })"></GridCommandColumn>
+                                <GridCommandColumn Type="CommandButtonType.Delete" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-delete", CssClass = "e-danger" })"></GridCommandColumn>
+                            </GridCommandColumns>
+                        </GridColumn>
+                    </GridColumns>
+                </SfGrid>
+            </div>
         </div>
     </div>
-</div>
+</MyCard>
 
 @code {
     public static List<ClienteDTO> TodosLosClientes { get; set; }

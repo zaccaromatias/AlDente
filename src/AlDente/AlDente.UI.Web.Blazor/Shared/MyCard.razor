@@ -1,0 +1,16 @@
+﻿<div class="col-md-10 offset-md-1 mt-5">
+    <div class="card">
+        <h4 class="card-header">@Header</h4>
+        <div class="card-body">
+            @ChildContent
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public string Header { get; set; }
+}

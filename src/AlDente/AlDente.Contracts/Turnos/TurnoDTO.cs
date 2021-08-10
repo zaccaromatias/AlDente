@@ -1,8 +1,6 @@
 ﻿using AlDente.Globalization;
 using FluentValidation;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AlDente.Contracts.Turnos
 {
@@ -11,6 +9,7 @@ namespace AlDente.Contracts.Turnos
         public int Id { get; set; }
         public DateTime HoraInicio { get; set; }
         public DateTime HoraFin { get; set; }
+        public int RestauranteId { get; set; }
     }
     public class TurnoDTOValidator : AbstractValidator<TurnoDTO>
     {
@@ -18,12 +17,12 @@ namespace AlDente.Contracts.Turnos
         {
             RuleFor(x => x.HoraInicio)
                .NotEmpty()
-                .WithMessage(Strings.XIsRequired("HoraInicio"))
-                .WithName("HoraInicio");
+                .WithMessage(Strings.XIsRequired("Hora Inicio"))
+                .WithName("Hora Inicio");
             RuleFor(x => x.HoraFin)
               .NotEmpty()
-               .WithMessage(Strings.XIsRequired("HoraFin"))
-               .WithName("HoraFin");
+               .WithMessage(Strings.XIsRequired("Hora Fin"))
+               .WithName("Hora Fin");
         }
     }
 }

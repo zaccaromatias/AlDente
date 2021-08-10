@@ -5,65 +5,58 @@
 @inject IWebHostEnvironment HostEnvironment
 @inject AppState AppState
 @inject IToastService toastService
-
-
-<div class="col-md-6 offset-md-3 mt-5">
-    <div class="card">
-        <h4 class="card-header">Aldente Register</h4>
-        <div class="card-body">
-            <EditForm Model="@model" OnValidSubmit="HandleValidSubmit">
-                <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
-                <div class="form-group">
-                    <DisplayName For="@(()=>model.Nombre)" InputFor="@nameof(RegisterModel.Nombre)" />
-                    <InputText @bind-Value="model.Nombre" class="form-control" id="@nameof(RegisterModel.Nombre)" />
-                    <ValidationMessage For="@(() => model.Nombre)" />
-                </div>
-                <div class="form-group">
-                    <DisplayName For="@(()=>model.Apellido)" InputFor="@nameof(RegisterModel.Apellido)" />
-                    <InputText @bind-Value="model.Apellido" class="form-control" id="@nameof(RegisterModel.Apellido)" />
-                    <ValidationMessage For="@(() => model.Apellido)" />
-                </div>
-                <div class="form-group">
-                    <DisplayName For="@(()=>model.DNI)" InputFor="@nameof(RegisterModel.DNI)" />
-                    <InputNumber @bind-Value="model.DNI" class="form-control" id="@nameof(RegisterModel.DNI)" />
-                    <ValidationMessage For="@(() => model.DNI)" />
-                </div>
-                <div class="form-group">
-                    <DisplayName For="@(()=>model.Email)" InputFor="@nameof(RegisterModel.Email)" />
-                    <InputText @bind-Value="model.Email" class="form-control" id="@nameof(RegisterModel.Email)" />
-                    <ValidationMessage For="@(() => model.Email)" />
-                </div>
-                <div class="form-group">
-                    <DisplayName For="@(()=>model.RepeatEmail)" InputFor="@nameof(RegisterModel.RepeatEmail)" />
-                    <InputText @bind-Value="model.RepeatEmail" class="form-control" id="@nameof(RegisterModel.RepeatEmail)" />
-                    <ValidationMessage For="@(() => model.RepeatEmail)" />
-                </div>
-                <div class="form-group">
-                    <DisplayName For="@(()=>model.Telefono)" InputFor="@nameof(RegisterModel.Telefono)" />
-                    <InputText @bind-Value="model.Telefono" class="form-control" id="@nameof(RegisterModel.Telefono)" />
-                    <ValidationMessage For="@(() => model.Telefono)" />
-                </div>
-                <div class="form-group">
-                    <DisplayName For="@(()=>model.Password)" InputFor="@nameof(RegisterModel.Password)" />
-                    <InputText @bind-Value="model.Password" type="password" class="form-control" id="@nameof(RegisterModel.Password)" />
-                    <ValidationMessage For="@(() => model.Password)" />
-                </div>
-                <div class="form-group">
-                    <DisplayName For="@(()=>model.RepeatPassword)" InputFor="@nameof(RegisterModel.RepeatPassword)" />
-                    <InputText @bind-Value="model.RepeatPassword" type="password" class="form-control" id="@nameof(RegisterModel.RepeatPassword)" />
-                    <ValidationMessage For="@(() => model.RepeatPassword)" />
-                </div>
-                <ButtonWithSppiner loading="@loading" class="btn btn-primary">
-                    @AlDente.Globalization.Strings.SignIn
-                </ButtonWithSppiner>
-                @if (!string.IsNullOrEmpty(error))
-                {
-                    <div class="alert alert-danger mt-3 mb-0">@error</div>
-                }
-            </EditForm>
+<MyCard Header="@AlDente.Globalization.Messages.SignIn">
+    <EditForm Model="@model" OnValidSubmit="HandleValidSubmit">
+        <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
+        <div class="form-group">
+            <DisplayName For="@(()=>model.Nombre)" InputFor="@nameof(RegisterModel.Nombre)" />
+            <InputText @bind-Value="model.Nombre" class="form-control" id="@nameof(RegisterModel.Nombre)" />
+            <ValidationMessage For="@(() => model.Nombre)" />
         </div>
-    </div>
-</div>
+        <div class="form-group">
+            <DisplayName For="@(()=>model.Apellido)" InputFor="@nameof(RegisterModel.Apellido)" />
+            <InputText @bind-Value="model.Apellido" class="form-control" id="@nameof(RegisterModel.Apellido)" />
+            <ValidationMessage For="@(() => model.Apellido)" />
+        </div>
+        <div class="form-group">
+            <DisplayName For="@(()=>model.DNI)" InputFor="@nameof(RegisterModel.DNI)" />
+            <InputNumber @bind-Value="model.DNI" class="form-control" id="@nameof(RegisterModel.DNI)" />
+            <ValidationMessage For="@(() => model.DNI)" />
+        </div>
+        <div class="form-group">
+            <DisplayName For="@(()=>model.Email)" InputFor="@nameof(RegisterModel.Email)" />
+            <InputText @bind-Value="model.Email" class="form-control" id="@nameof(RegisterModel.Email)" />
+            <ValidationMessage For="@(() => model.Email)" />
+        </div>
+        <div class="form-group">
+            <DisplayName For="@(()=>model.RepeatEmail)" InputFor="@nameof(RegisterModel.RepeatEmail)" />
+            <InputText @bind-Value="model.RepeatEmail" class="form-control" id="@nameof(RegisterModel.RepeatEmail)" />
+            <ValidationMessage For="@(() => model.RepeatEmail)" />
+        </div>
+        <div class="form-group">
+            <DisplayName For="@(()=>model.Telefono)" InputFor="@nameof(RegisterModel.Telefono)" />
+            <InputText @bind-Value="model.Telefono" class="form-control" id="@nameof(RegisterModel.Telefono)" />
+            <ValidationMessage For="@(() => model.Telefono)" />
+        </div>
+        <div class="form-group">
+            <DisplayName For="@(()=>model.Password)" InputFor="@nameof(RegisterModel.Password)" />
+            <InputText @bind-Value="model.Password" type="password" class="form-control" id="@nameof(RegisterModel.Password)" />
+            <ValidationMessage For="@(() => model.Password)" />
+        </div>
+        <div class="form-group">
+            <DisplayName For="@(()=>model.RepeatPassword)" InputFor="@nameof(RegisterModel.RepeatPassword)" />
+            <InputText @bind-Value="model.RepeatPassword" type="password" class="form-control" id="@nameof(RegisterModel.RepeatPassword)" />
+            <ValidationMessage For="@(() => model.RepeatPassword)" />
+        </div>
+        <ButtonWithSppiner loading="@loading" class="btn btn-primary">
+            @AlDente.Globalization.Strings.SignIn
+        </ButtonWithSppiner>
+        @if (!string.IsNullOrEmpty(error))
+        {
+            <div class="alert alert-danger mt-3 mb-0">@error</div>
+        }
+    </EditForm>
+</MyCard>
 
 @code {
     private FluentValidationValidator fluentValidationValidator;

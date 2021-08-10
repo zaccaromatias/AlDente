@@ -18,6 +18,8 @@ namespace AlDente.DataAccess.Core
         private SqlConnection EnsureConnection() =>
             connection = connection ?? new SqlConnection(settings.ConnectionString);
 
+        public int RestauranteId => this.settings.RestauranteId;
+
         public UnitOfWork(IOptions<AppSettings> settings)
         {
             this.settings = settings.Value;

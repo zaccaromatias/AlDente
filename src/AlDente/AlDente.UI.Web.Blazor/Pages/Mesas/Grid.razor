@@ -6,59 +6,56 @@
 
 @inject IMesaService servMesa
 @inject IToastService Toast
-<h3>Mesas</h3>
-@if (TodasLasMesas == null)
-{
-    <p><em>Loading...</em></p>
-}
-else if (TodasLasMesas.Count() == 0)
-{
-    <p><em>No hay mesas</em></p>
-}
-<div class="col-lg-12 control-section">
-    <div class="content-wrapper">
-        <div class="row">
-            <SfGrid DataSource="@TodasLasMesas" Toolbar="@(new List<string>() { "Add", "Edit", "Delete" })" AllowPaging="true">
-                <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" Mode="EditMode.Dialog" NewRowPosition="NewRowPosition.Bottom" ShowDeleteConfirmDialog="true" ShowConfirmDialog="true">
-                    <Validator>
-                        <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
-                    </Validator>
-                    <Template>
-                        @{
+<MyCard Header="Mesas">
+    @if (TodasLasMesas == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    <div class="col-lg-12 control-section">
+        <div class="content-wrapper">
+            <div class="row">
+                <SfGrid DataSource="@TodasLasMesas" Toolbar="@(new List<string>() { "Add", "Edit", "Delete" })" AllowPaging="true">
+                    <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" Mode="EditMode.Dialog" NewRowPosition="NewRowPosition.Bottom" ShowDeleteConfirmDialog="true" ShowConfirmDialog="true">
+                        <Validator>
+                            <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
+                        </Validator>
+                        <Template>
+                            @{
 
-                            var mesas = (context as MesaDTO);
-                            @*<div class="form-group">
-                                <DisplayName For="@(()=>mesas.Id)" InputFor="@nameof(MesaDTO.Id)" />
-                                <InputNumber @bind-Value="mesas.Id" class="form-control" id="@nameof(MesaDTO.Id)" />
-                                <ValidationMessage For="@(() => mesas.Id)" />
-                            </div>*@
-                            <div class="form-group">
-                                <DisplayName For="@(()=>mesas.Capacidad)" InputFor="@nameof(MesaDTO.Capacidad)" />
-                                <InputNumber @bind-Value="mesas.Capacidad" class="form-control" id="@nameof(MesaDTO.Capacidad)" />
-                                <ValidationMessage For="@(() => mesas.Capacidad)" />
-                            </div>
-                            @if (!string.IsNullOrEmpty(error))
-                            {
-                                <div class="alert alert-danger mt-3 mb-0">@error</div>
+                                var mesas = (context as MesaDTO);
+                                @*<div class="form-group">
+                                        <DisplayName For="@(()=>mesas.Id)" InputFor="@nameof(MesaDTO.Id)" />
+                                        <InputNumber @bind-Value="mesas.Id" class="form-control" id="@nameof(MesaDTO.Id)" />
+                                        <ValidationMessage For="@(() => mesas.Id)" />
+                                    </div>*@
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>mesas.Capacidad)" InputFor="@nameof(MesaDTO.Capacidad)" />
+                                    <InputNumber @bind-Value="mesas.Capacidad" class="form-control" id="@nameof(MesaDTO.Capacidad)" />
+                                    <ValidationMessage For="@(() => mesas.Capacidad)" />
+                                </div>
+                                @if (!string.IsNullOrEmpty(error))
+                                {
+                                    <div class="alert alert-danger mt-3 mb-0">@error</div>
+                                }
                             }
-                        }
-                    </Template>
-                </GridEditSettings>
-                <GridEvents TValue="MesaDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
-                <GridColumns>
-                    <GridColumn Field=@nameof(MesaDTO.Id) Width="140" IsPrimaryKey="true"></GridColumn>
-                    <GridColumn Field=@nameof(MesaDTO.Capacidad)></GridColumn>
-                    <GridColumn HeaderText="@Strings.Actions" Width="150">
-                        <GridCommandColumns>
-                            <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-primary" })"></GridCommandColumn>
-                            <GridCommandColumn Type="CommandButtonType.Delete" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-delete", CssClass = "e-danger" })"></GridCommandColumn>
-                        </GridCommandColumns>
-                    </GridColumn>
-                </GridColumns>
-            </SfGrid>
+                        </Template>
+                    </GridEditSettings>
+                    <GridEvents TValue="MesaDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
+                    <GridColumns>
+                        <GridColumn Field=@nameof(MesaDTO.Id) Width="140" IsPrimaryKey="true"></GridColumn>
+                        <GridColumn Field=@nameof(MesaDTO.Capacidad)></GridColumn>
+                        <GridColumn HeaderText="@Strings.Actions" Width="150">
+                            <GridCommandColumns>
+                                <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-primary" })"></GridCommandColumn>
+                                <GridCommandColumn Type="CommandButtonType.Delete" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-delete", CssClass = "e-danger" })"></GridCommandColumn>
+                            </GridCommandColumns>
+                        </GridColumn>
+                    </GridColumns>
+                </SfGrid>
+            </div>
         </div>
     </div>
-</div>
+</MyCard>
 
 @code {
     public static List<MesaDTO> TodasLasMesas { get; set; }

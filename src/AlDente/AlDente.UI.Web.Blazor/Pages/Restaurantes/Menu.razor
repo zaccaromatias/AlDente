@@ -1,4 +1,5 @@
 ﻿@page "/Menu"
+@inject Contracts.Restaurantes.IRestauranteService RestauranteService;
 @attribute [Authorize]
 <SfPdfViewerServer DocumentPath="@DocumentPath" Height="90vh" Width="100%"></SfPdfViewerServer>
 @code {
@@ -7,11 +8,11 @@
 
     protected async override Task OnInitializedAsync()
     {
+        string url = await RestauranteService.GetUrlMenu();
         using (System.Net.WebClient webClient = new System.Net.WebClient())
         {
             //No es la clasica URL de Drive xq esa te abre el visor propio de Google
             //De esta forma se descarga directamente como PDF que es lo que precisa el control
-            var url = "https://drive.google.com/u/0/uc?id=1Y_Frdo2t3oM1Yld4r5Dym8VH-haRxFGW&export=download";
             byte[] byteArray = await webClient.DownloadDataTaskAsync(url);
             DocumentPath = "data:application/pdf;base64," + Convert.ToBase64String(byteArray);
         }

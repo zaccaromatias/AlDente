@@ -61,7 +61,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Actions.
+        ///   Looks up a localized string similar to Acciones.
         /// </summary>
         public static string Actions {
             get {
@@ -70,7 +70,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is already a registered client with the same ID.
+        ///   Looks up a localized string similar to Ya existe un cliente registrado con el mismo Id.
         /// </summary>
         public static string AK_Cliente_DNI {
             get {
@@ -79,7 +79,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is already a registered customer with the same email.
+        ///   Looks up a localized string similar to Ya existe un cliente registrado con el mismo correo electrónico.
         /// </summary>
         public static string AK_Cliente_Email {
             get {
@@ -88,7 +88,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is already a registered state with the same code.
+        ///   Looks up a localized string similar to Ya existe un estado registrado con el mismo código.
         /// </summary>
         public static string AK_EstadoCliente_Codigo {
             get {
@@ -115,7 +115,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create.
+        ///   Looks up a localized string similar to Crear.
         /// </summary>
         public static string Create {
             get {
@@ -133,7 +133,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete.
+        ///   Looks up a localized string similar to Eliminar.
         /// </summary>
         public static string Delete {
             get {
@@ -142,7 +142,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Description.
+        ///   Looks up a localized string similar to Descripción.
         /// </summary>
         public static string Description {
             get {
@@ -169,7 +169,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Email or password was not correct..
+        ///   Looks up a localized string similar to Email o contraseña incorrecta..
         /// </summary>
         public static string EmailOrPasswordWasNotCorrect {
             get {
@@ -187,7 +187,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Last Name.
+        ///   Looks up a localized string similar to Apellido.
         /// </summary>
         public static string LastName {
             get {
@@ -196,7 +196,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Login.
+        ///   Looks up a localized string similar to Iniciar Session.
         /// </summary>
         public static string Login {
             get {
@@ -205,7 +205,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Thank you for coming back.
+        ///   Looks up a localized string similar to Gracias por regresar.
         /// </summary>
         public static string LoginSuccessContent {
             get {
@@ -214,7 +214,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Login successfully.
+        ///   Looks up a localized string similar to Ha iniciado sesión correctamente..
         /// </summary>
         public static string LoginSuccessTitle {
             get {
@@ -223,7 +223,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Log out.
+        ///   Looks up a localized string similar to Cerrar Sesión.
         /// </summary>
         public static string LogOut {
             get {
@@ -232,7 +232,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Name.
+        ///   Looks up a localized string similar to Nombre.
         /// </summary>
         public static string Name {
             get {
@@ -241,7 +241,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Password.
+        ///   Looks up a localized string similar to Contraseña.
         /// </summary>
         public static string Password {
             get {
@@ -250,7 +250,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Phone.
+        ///   Looks up a localized string similar to Teléfono.
         /// </summary>
         public static string Phone {
             get {
@@ -259,7 +259,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is already a registered state with the same Id.
+        ///   Looks up a localized string similar to Ya existe un estado registrado con el mismo Id..
         /// </summary>
         public static string PK_EstadoCliente_Id {
             get {
@@ -268,7 +268,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Register.
+        ///   Looks up a localized string similar to Registrarse.
         /// </summary>
         public static string Register {
             get {
@@ -277,7 +277,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Thank you for being part of &lt;b&gt;AlDente&lt;/b&gt;, reserve your place and come and enjoy our dishes.
+        ///   Looks up a localized string similar to Gracias por formar parte de &lt;b&gt; AlDente &lt;/b&gt;, reserva tu lugar y ven a disfrutar de nuestros platos..
         /// </summary>
         public static string RegisterSuccessContent {
             get {
@@ -286,7 +286,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your registration was a success.
+        ///   Looks up a localized string similar to Se ha registrado con exito.
         /// </summary>
         public static string RegisterSuccessTitle {
             get {
@@ -295,7 +295,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Repeat Email.
+        ///   Looks up a localized string similar to Repita el correo electrónico.
         /// </summary>
         public static string RepeatEmail {
             get {
@@ -304,7 +304,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Repeat Password.
+        ///   Looks up a localized string similar to Repita la Contraseña.
         /// </summary>
         public static string RepeatPassword {
             get {
@@ -313,7 +313,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save.
+        ///   Looks up a localized string similar to Guardar.
         /// </summary>
         public static string Save {
             get {
@@ -322,7 +322,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sign in.
+        ///   Looks up a localized string similar to Registrarse.
         /// </summary>
         public static string SignIn {
             get {
@@ -331,7 +331,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The fields {0} and {1} must be the same.
+        ///   Looks up a localized string similar to Los campos {0} y {1} deben ser iguales..
         /// </summary>
         public static string TheFieldsXAndYMustBeTheSame {
             get {
@@ -349,7 +349,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Update.
+        ///   Looks up a localized string similar to Actualizar.
         /// </summary>
         public static string Update {
             get {
@@ -358,7 +358,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos; is not a valid email address..
+        ///   Looks up a localized string similar to &apos;{0}&apos; no es una dirección de correo electrónico válida..
         /// </summary>
         public static string XIsNotAValidEmailAddress {
             get {
@@ -367,7 +367,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos; is required..
+        ///   Looks up a localized string similar to &quot;{0}&quot; es obligatorio..
         /// </summary>
         public static string XIsRequired {
             get {
@@ -376,7 +376,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;{0} &apos;must be less than {1} characters.
+        ///   Looks up a localized string similar to &quot;{0}&quot; debe tener menos de {1} caracteres..
         /// </summary>
         public static string XMustBeLessThanYCharacters {
             get {

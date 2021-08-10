@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AlDente.Entities.Turnos
 {
@@ -8,5 +6,6 @@ namespace AlDente.Entities.Turnos
     {
         public DateTime HoraInicio { get; set; }
         public DateTime HoraFin { get; set; }
+        public int RestauranteId { get; set; }
     }
 }

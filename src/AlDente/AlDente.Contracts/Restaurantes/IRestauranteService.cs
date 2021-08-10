@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AlDente.Contracts.Restaurantes
@@ -14,5 +12,7 @@ namespace AlDente.Contracts.Restaurantes
         Task Update(RestauranteDTO restauranteDTO);
 
         Task Delete(int id);
+
+        Task<string> GetUrlMenu();
     }
 }

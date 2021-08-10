@@ -3,10 +3,8 @@ using AlDente.DataAccess.Core;
 using AlDente.DataAccess.Restaurantes;
 using AlDente.Entities.Restaurantes;
 using AlDente.Services.Core;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AlDente.Services.Restaurantes
@@ -61,12 +59,20 @@ namespace AlDente.Services.Restaurantes
             {
                 await restauranteRepository.UpdateAsync(new Restaurante
                 {
-                    Id= restauranteDto.Id, 
+                    Id = restauranteDto.Id,
                     Descripcion = restauranteDto.Descripcion,
                     Direccion = restauranteDto.Direccion,
                     Telefono = restauranteDto.Telefono,
                     UrlMenu = restauranteDto.UrlMenu
                 });
+            });
+        }
+
+        public async Task<string> GetUrlMenu()
+        {
+            return await Try(async () =>
+            {
+                return (await this.restauranteRepository.GetByIdAsync(this.unitOfWork.RestauranteId)).UrlMenu;
             });
         }
     }

@@ -8,88 +8,89 @@
 
 @inject IEmpleadoService servEmpleado
 @inject IToastService Toast
-<h3>Empleados</h3>
-@if (TodosLosEmpleados == null)
-{
-    <p><em>Loading...</em></p>
-}
-else if (TodosLosEmpleados.Count() == 0)
-{
-    <p><em>No hay empleados</em></p>
-}
-<div class="col-lg-12 control-section">
-    <div class="content-wrapper">
-        <div class="row">
-            <SfGrid DataSource="@TodosLosEmpleados" Toolbar="@(new List<string>() { "Add", "Edit", "Delete" })" AllowPaging="true">
-                <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" Mode="EditMode.Dialog" NewRowPosition="NewRowPosition.Bottom" ShowDeleteConfirmDialog="true" ShowConfirmDialog="true">
-                    <Validator>
-                        <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
-                    </Validator>
-                    <Template>
-                        @{
-                            var empleado = (context as EmpleadoDTO);
-                            <div class="form-group">
-                                <DisplayName For="@(()=>empleado.DNI)" InputFor="@nameof(EmpleadoDTO.DNI)" />
-                                <InputNumber @bind-Value="empleado.DNI" class="form-control" id="@nameof(EmpleadoDTO.DNI)" />
-                                <ValidationMessage For="@(() => empleado.DNI)" />
-                            </div>
-                            <div class="form-group">
-                                <DisplayName For="@(()=>empleado.Nombre)" InputFor="@nameof(EmpleadoDTO.Nombre)" />
-                                <InputText @bind-Value="empleado.Nombre" class="form-control" id="@nameof(EmpleadoDTO.Nombre)" />
-                                <ValidationMessage For="@(() => empleado.Nombre)" />
-                            </div>
-                            <div class="form-group">
-                                <DisplayName For="@(()=>empleado.Apellido)" InputFor="@nameof(EmpleadoDTO.Apellido)" />
-                                <InputText @bind-Value="empleado.Apellido" class="form-control" id="@nameof(EmpleadoDTO.Apellido)" />
-                                <ValidationMessage For="@(() => empleado.Apellido)" />
-                            </div>
-                            <div class="form-group">
-                                <DisplayName For="@(()=>empleado.DescripcionPuesto)" InputFor="@nameof(EmpleadoDTO.DescripcionPuesto)" />
-                                <InputText @bind-Value="empleado.DescripcionPuesto" class="form-control" id="@nameof(EmpleadoDTO.DescripcionPuesto)" />
-                                <ValidationMessage For="@(() => empleado.DescripcionPuesto)" />
-                            </div>
-                            <div class="form-group">
-                                <DisplayName For="@(()=>empleado.Email)" InputFor="@nameof(EmpleadoDTO.Email)" />
-                                <InputText @bind-Value="empleado.Email" class="form-control" id="@nameof(EmpleadoDTO.Email)" />
-                                <ValidationMessage For="@(() => empleado.Email)" />
-                            </div>
 
-                            <div class="form-group">
-                                <DisplayName For="@(()=>empleado.Estado)" InputFor="@nameof(EmpleadoDTO.Estado)" />
-                                <SfDropDownList TItem="EstadoEmpleado" TValue="EstadosDeUnEmpleado" PopupHeight="230px" Placeholder="[Seleccione Un Estado]" @bind-Value="@empleado.Estado" DataSource="@Estados">
-                                    <DropDownListFieldSettings Text="Text" Value="Id"></DropDownListFieldSettings>
-                                </SfDropDownList>
-                                <ValidationMessage For="@(() => empleado.Estado)" />
-                            </div>
-                            @if (!string.IsNullOrEmpty(error))
-                            {
-                                <div class="alert alert-danger mt-3 mb-0">@error</div>
+
+<MyCard Header="Empleados">
+    @if (TodosLosEmpleados == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    <div class="col-lg-12 control-section">
+        <div class="content-wrapper">
+            <div class="row">
+                <SfGrid DataSource="@TodosLosEmpleados" Toolbar="@(new List<string>() { "Add", "Edit", "Delete" })" AllowPaging="true">
+                    <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" Mode="EditMode.Dialog" NewRowPosition="NewRowPosition.Bottom" ShowDeleteConfirmDialog="true" ShowConfirmDialog="true">
+                        <Validator>
+                            <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
+                        </Validator>
+                        <Template>
+                            @{
+
+                                var empleado = (context as EmpleadoDTO);
+
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>empleado.DNI)" InputFor="@nameof(EmpleadoDTO.DNI)" />
+                                    <InputNumber @bind-Value="empleado.DNI" class="form-control" id="@nameof(EmpleadoDTO.DNI)" />
+                                    <ValidationMessage For="@(() => empleado.DNI)" />
+                                </div>
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>empleado.Nombre)" InputFor="@nameof(EmpleadoDTO.Nombre)" />
+                                    <InputText @bind-Value="empleado.Nombre" class="form-control" id="@nameof(EmpleadoDTO.Nombre)" />
+                                    <ValidationMessage For="@(() => empleado.Nombre)" />
+                                </div>
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>empleado.Apellido)" InputFor="@nameof(EmpleadoDTO.Apellido)" />
+                                    <InputText @bind-Value="empleado.Apellido" class="form-control" id="@nameof(EmpleadoDTO.Apellido)" />
+                                    <ValidationMessage For="@(() => empleado.Apellido)" />
+                                </div>
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>empleado.DescripcionPuesto)" InputFor="@nameof(EmpleadoDTO.DescripcionPuesto)" />
+                                    <InputText @bind-Value="empleado.DescripcionPuesto" class="form-control" id="@nameof(EmpleadoDTO.DescripcionPuesto)" />
+                                    <ValidationMessage For="@(() => empleado.DescripcionPuesto)" />
+                                </div>
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>empleado.Email)" InputFor="@nameof(EmpleadoDTO.Email)" />
+                                    <InputText @bind-Value="empleado.Email" class="form-control" id="@nameof(EmpleadoDTO.Email)" />
+                                    <ValidationMessage For="@(() => empleado.Email)" />
+                                </div>
+
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>empleado.Estado)" InputFor="@nameof(EmpleadoDTO.Estado)" />
+                                    <SfDropDownList TItem="EstadoEmpleado" TValue="EstadosDeUnEmpleado" PopupHeight="230px" Placeholder="[Seleccione Un Estado]" @bind-Value="@empleado.Estado" DataSource="@Estados">
+                                        <DropDownListFieldSettings Text="Text" Value="Id"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                    <ValidationMessage For="@(() => empleado.Estado)" />
+                                </div>
+                                @if (!string.IsNullOrEmpty(error))
+                                {
+                                    <div class="alert alert-danger mt-3 mb-0">@error</div>
+                                }
                             }
-                        }
-                    </Template>
-                </GridEditSettings>
-                <GridEvents TValue="EmpleadoDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
-                <GridColumns>
-                    <GridColumn Field=@nameof(EmpleadoDTO.Id) Width="140" IsPrimaryKey="true"></GridColumn>
-                    <GridColumn Field=@nameof(EmpleadoDTO.DNI)></GridColumn>
-                    <GridColumn Field=@nameof(EmpleadoDTO.Nombre)></GridColumn>
-                    <GridColumn Field=@nameof(EmpleadoDTO.Apellido)></GridColumn>
-                    <GridColumn Field=@nameof(EmpleadoDTO.DescripcionPuesto)></GridColumn>
-                    <GridColumn Field=@nameof(EmpleadoDTO.Email)></GridColumn>
-                    <GridColumn Field=@nameof(EmpleadoDTO.FechaCreacion)></GridColumn>
-                    <GridColumn Field=@nameof(EmpleadoDTO.Estado)></GridColumn>
+                        </Template>
+                    </GridEditSettings>
+                    <GridEvents TValue="EmpleadoDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
+                    <GridColumns>
+                        <GridColumn Field=@nameof(EmpleadoDTO.Id) Width="140" IsPrimaryKey="true"></GridColumn>
+                        <GridColumn Field=@nameof(EmpleadoDTO.DNI)></GridColumn>
+                        <GridColumn Field=@nameof(EmpleadoDTO.Nombre)></GridColumn>
+                        <GridColumn Field=@nameof(EmpleadoDTO.Apellido)></GridColumn>
+                        <GridColumn Field=@nameof(EmpleadoDTO.DescripcionPuesto)></GridColumn>
+                        <GridColumn Field=@nameof(EmpleadoDTO.Email)></GridColumn>
+                        <GridColumn Field=@nameof(EmpleadoDTO.FechaCreacion)></GridColumn>
+                        <GridColumn Field=@nameof(EmpleadoDTO.Estado)></GridColumn>
 
-                    <GridColumn HeaderText="@Strings.Actions" Width="150">
-                        <GridCommandColumns>
-                            <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-primary" })"></GridCommandColumn>
-                            <GridCommandColumn Type="CommandButtonType.Delete" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-delete", CssClass = "e-danger" })"></GridCommandColumn>
-                        </GridCommandColumns>
-                    </GridColumn>
-                </GridColumns>
-            </SfGrid>
+                        <GridColumn HeaderText="@Strings.Actions" Width="150">
+                            <GridCommandColumns>
+                                <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-primary" })"></GridCommandColumn>
+                                <GridCommandColumn Type="CommandButtonType.Delete" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-delete", CssClass = "e-danger" })"></GridCommandColumn>
+                            </GridCommandColumns>
+                        </GridColumn>
+                    </GridColumns>
+                </SfGrid>
+            </div>
         </div>
     </div>
-</div>
+</MyCard>
 
 @code {
     public static List<EmpleadoDTO> TodosLosEmpleados { get; set; }

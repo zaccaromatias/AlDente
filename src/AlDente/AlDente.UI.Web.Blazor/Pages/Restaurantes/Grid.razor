@@ -6,73 +6,76 @@
 
 @inject IRestauranteService servRestaurante
 @inject IToastService Toast
-<h3>Restaurantes</h3>
-@if (TodosLosRestaurantes == null)
-{
-    <p><em>Loading...</em></p>
-}
-else if (TodosLosRestaurantes.Count() == 0)
-{
-    <p><em>No hay restaurantes</em></p>
-}
-<div class="col-lg-12 control-section">
-    <div class="content-wrapper">
-        <div class="row">
-            <SfGrid DataSource="@TodosLosRestaurantes" Toolbar="@(new List<string>() { "Add", "Edit", "Delete" })" AllowPaging="true">
-                <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" Mode="EditMode.Dialog" NewRowPosition="NewRowPosition.Bottom" ShowDeleteConfirmDialog="true" ShowConfirmDialog="true">
-                    <Validator>
-                        <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
-                    </Validator>
-                    <Template>
-                        @{
+<MyCard Header="Restaurantes">
+    @if (TodosLosRestaurantes == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    <div class="col-lg-12 control-section">
+        <div class="content-wrapper">
+            <div class="row">
+                <SfGrid DataSource="@TodosLosRestaurantes" Toolbar="@(new List<string>() {  "Edit" })" AllowPaging="true">
+                    <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" Mode="EditMode.Dialog" NewRowPosition="NewRowPosition.Bottom" ShowDeleteConfirmDialog="true" ShowConfirmDialog="true">
+                        <Validator>
+                            <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
+                        </Validator>
+                        <Template>
+                            @{
 
-                            var restaurantes = (context as RestauranteDTO);
+                                var restaurante = (context as RestauranteDTO);
 
-                            <div class="form-group">
-                                <DisplayName For="@(()=>restaurantes.Descripcion)" InputFor="@nameof(RestauranteDTO.Descripcion)" />
-                                <InputText @bind-Value="restaurantes.Descripcion" class="form-control" id="@nameof(RestauranteDTO.Descripcion)" />
-                                <ValidationMessage For="@(() => restaurantes.Descripcion)" />
-                            </div>
-                            <div class="form-group">
-                                <DisplayName For="@(()=>restaurantes.Direccion)" InputFor="@nameof(RestauranteDTO.Direccion)" />
-                                <InputText @bind-Value="restaurantes.Direccion" class="form-control" id="@nameof(RestauranteDTO.Direccion)" />
-                                <ValidationMessage For="@(() => restaurantes.Direccion)" />
-                            </div>
-                            <div class="form-group">
-                                <DisplayName For="@(()=>restaurantes.Telefono)" InputFor="@nameof(RestauranteDTO.Telefono)" />
-                                <InputText @bind-Value="restaurantes.Telefono" class="form-control" id="@nameof(RestauranteDTO.Telefono)" />
-                                <ValidationMessage For="@(() => restaurantes.Telefono)" />
-                            </div>
-                            <div class="form-group">
-                                <DisplayName For="@(()=>restaurantes.UrlMenu)" InputFor="@nameof(RestauranteDTO.UrlMenu)" />
-                                <InputText @bind-Value="restaurantes.UrlMenu" class="form-control" id="@nameof(RestauranteDTO.UrlMenu)" />
-                                <ValidationMessage For="@(() => restaurantes.UrlMenu)" />
-                            </div>
-                            @if (!string.IsNullOrEmpty(error))
-                            {
-                                <div class="alert alert-danger mt-3 mb-0">@error</div>
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>restaurante.Descripcion)" InputFor="@nameof(RestauranteDTO.Descripcion)" />
+                                    <InputText @bind-Value="restaurante.Descripcion" class="form-control" id="@nameof(RestauranteDTO.Descripcion)" />
+                                    <ValidationMessage For="@(() => restaurante.Descripcion)" />
+                                </div>
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>restaurante.Direccion)" InputFor="@nameof(RestauranteDTO.Direccion)" />
+                                    <InputText @bind-Value="restaurante.Direccion" class="form-control" id="@nameof(RestauranteDTO.Direccion)" />
+                                    <ValidationMessage For="@(() => restaurante.Direccion)" />
+                                </div>
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>restaurante.Telefono)" InputFor="@nameof(RestauranteDTO.Telefono)" />
+                                    <InputText @bind-Value="restaurante.Telefono" class="form-control" id="@nameof(RestauranteDTO.Telefono)" />
+                                    <ValidationMessage For="@(() => restaurante.Telefono)" />
+                                </div>
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>restaurante.UrlMenu)" InputFor="@nameof(RestauranteDTO.UrlMenu)" />
+                                    <InputText @bind-Value="restaurante.UrlMenu" class="form-control" id="@nameof(RestauranteDTO.UrlMenu)" />
+                                    <ValidationMessage For="@(() => restaurante.UrlMenu)" />
+                                </div>
+                                @if (!string.IsNullOrEmpty(error))
+                                {
+                                    <div class="alert alert-danger mt-3 mb-0">@error</div>
+                                }
                             }
-                        }
-                    </Template>
-                </GridEditSettings>
-                <GridEvents TValue="RestauranteDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
-                <GridColumns>
-                    <GridColumn Field=@nameof(RestauranteDTO.Id) Width="140" IsPrimaryKey="true"></GridColumn>
-                    <GridColumn Field=@nameof(RestauranteDTO.Descripcion)></GridColumn>
-                    <GridColumn Field=@nameof(RestauranteDTO.Direccion)></GridColumn>
-                    <GridColumn Field=@nameof(RestauranteDTO.Telefono)></GridColumn>
-                    <GridColumn Field=@nameof(RestauranteDTO.UrlMenu)></GridColumn>
-                    <GridColumn HeaderText="@Strings.Actions" Width="150">
-                        <GridCommandColumns>
-                            <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-primary" })"></GridCommandColumn>
-                            <GridCommandColumn Type="CommandButtonType.Delete" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-delete", CssClass = "e-danger" })"></GridCommandColumn>
-                        </GridCommandColumns>
-                    </GridColumn>
-                </GridColumns>
-            </SfGrid>
+                        </Template>
+                    </GridEditSettings>
+                    <GridEvents TValue="RestauranteDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
+                    <GridColumns>
+                        <GridColumn Field=@nameof(RestauranteDTO.Id) Width="140" IsPrimaryKey="true"></GridColumn>
+                        <GridColumn Field=@nameof(RestauranteDTO.Descripcion)></GridColumn>
+                        <GridColumn Field=@nameof(RestauranteDTO.Direccion)></GridColumn>
+                        <GridColumn Field=@nameof(RestauranteDTO.Telefono)></GridColumn>
+                        <GridColumn Field=@nameof(RestauranteDTO.UrlMenu)>
+                            <Template>
+                                @{
+                                    var restaurante = (context as RestauranteDTO);
+                                    <a href="@restaurante.UrlMenu" target="_blank">Link</a>
+                                }
+                            </Template>
+                        </GridColumn>
+                        <GridColumn HeaderText="@Strings.Actions" Width="150">
+                            <GridCommandColumns>
+                                <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-primary" })"></GridCommandColumn>
+                            </GridCommandColumns>
+                        </GridColumn>
+                    </GridColumns>
+                </SfGrid>
+            </div>
         </div>
     </div>
-</div>
+</MyCard>
 
 @code {
     public static List<RestauranteDTO> TodosLosRestaurantes { get; set; }
@@ -91,30 +94,18 @@ else if (TodosLosRestaurantes.Count() == 0)
         {
             if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Save))
             {
-                if (args.Action == "Add")
-                {
-                    await servRestaurante.Create(args.Data);
-                    Toast.ShowMessage(MessageType.Success, "[Create Success!!!]", "[Se creo con exito]");
-                }
-                else
+                if (args.Action != "Add")
                 {
                     await servRestaurante.Update(args.Data);
                     Toast.ShowMessage(MessageType.Success, "[Updated Success!!!]", "[Se actualizo con exito]");
 
                 }
             }
-            if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete))
-            {
-                await servRestaurante.Delete(args.Data.Id);
-                Toast.ShowMessage(MessageType.Success, "[Delete Success!!!]", "[Se Removio con exito]");
-            }
         }
         catch (Exception ex)
         {
             Toast.ShowMessage(MessageType.Error, "Error", ex.Message);
-            //error = ex.Message;
             args.Cancel = true;
-            //StateHasChanged();
         }
     }
     public async Task ActionCompleteHandler(ActionEventArgs<RestauranteDTO> args)

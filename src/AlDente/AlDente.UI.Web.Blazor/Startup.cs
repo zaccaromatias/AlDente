@@ -2,21 +2,21 @@ using AlDente.Contracts.Clientes;
 using AlDente.Contracts.Empleados;
 using AlDente.Contracts.EstadosClientes;
 using AlDente.Contracts.Mesas;
-using AlDente.Contracts.Turnos;
 using AlDente.Contracts.Restaurantes;
+using AlDente.Contracts.Turnos;
 using AlDente.DataAccess.Clientes;
 using AlDente.DataAccess.Core;
 using AlDente.DataAccess.Empleados;
 using AlDente.DataAccess.EstadosClientes;
 using AlDente.DataAccess.Mesas;
-using AlDente.DataAccess.Turnos;
 using AlDente.DataAccess.Restaurantes;
+using AlDente.DataAccess.Turnos;
 using AlDente.Services.Clientes;
 using AlDente.Services.Empleados;
 using AlDente.Services.EstadosClientes;
 using AlDente.Services.Mesas;
-using AlDente.Services.Turnos;
 using AlDente.Services.Restaurantes;
+using AlDente.Services.Turnos;
 using AlDente.UI.Web.Blazor.Data;
 using AlDente.UI.Web.Blazor.Helpers;
 using AlDente.UI.Web.Blazor.Models;
@@ -82,12 +82,12 @@ namespace AlDente.UI.Web.Blazor
                 options.CacheItemExpiration = 0;
                 options.CommandTimeout = 0;
                 options.ConnectionString = Configuration.GetConnectionString("DefaultDataBase");
+                options.RestauranteId = Configuration.GetValue<int>("RestauranteId");
 
             });
             services.AddAuthorizationCore();
             services.AddSingleton<ClienteAuthenticationStateProvider>();
             services.AddScoped<AuthenticationStateProvider>(provider => provider.GetRequiredService<ClienteAuthenticationStateProvider>());
-            //services.AddSingleton<AuthenticationStateProvider, ClienteAuthenticationStateProvider>();
             services.AddSingleton<AppState>();
 
             services.AddScoped<AuthenticationStateProvider>(provider => provider.GetRequiredService<ClienteAuthenticationStateProvider>());

@@ -60,3 +60,6 @@ header {
             display: none;
         }
 }
+.e-dialog {
+    max-height:98% !important;
+}

@@ -24,23 +24,4 @@ ON x.Id = e.Id;
 DELETE e
 FROM dbo.EstadoCliente e
 WHERE NOT EXISTS (SELECT 1 FROM #EstadosClientes x where x.Id = e.Id);
-
 GO
-DROP TABLE IF EXISTS [dbo].[dbo.Test]
-GO
-DROP TABLE IF EXISTS dbo.Reservas
-GO
-DROP TABLE IF EXISTS dbo.Politica
-GO
-INSERT INTO dbo.Cliente(Apellido,Nombre,DNI,Email,Telefono,EstadoClienteId,[Password])
-SELECT 'Test' AS Apellido
-,'Test' AS Nombre
-,1234 AS DNI
-,'test@gmail.com' AS Email
-,'1234' AS Telefono
-,2 AS EstadoClienteId
-,'test' AS [Password]
-WHERE NOT EXISTS(SELECT 1 FROM dbo.Cliente c WHERE c.Email = 'test@gmail.com' OR c.DNI = 1234)
-GO
-
-
