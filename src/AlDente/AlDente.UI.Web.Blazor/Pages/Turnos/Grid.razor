@@ -3,8 +3,9 @@
 @using Syncfusion.Blazor.Grids
 @using AlDente.Contracts.Turnos
 @using AlDente.Globalization
+@using Syncfusion.Blazor.Calendars
 
-@inject ITurnoService TurnoRestaurant
+@inject ITurnoService _turnoService
 @inject IToastService Toast
 
 <MyCard Header="Turnos">
@@ -23,16 +24,16 @@
                         <Template>
                             @{
 
-                                var turnos = (context as TurnoDTO);
+                                var turno = (context as TurnoDTO);
                                 <div class="form-group">
-                                    <DisplayName For="@(()=>turnos.HoraInicio)" InputFor="@nameof(TurnoDTO.HoraInicio)" />
-                                    <InputDate @bind-Value="turnos.HoraInicio" class="form-control" id="@nameof(TurnoDTO.HoraInicio)" />
-                                    <ValidationMessage For="@(() => turnos.HoraInicio)" />
+                                    <DisplayName For="@(()=>turno.HoraInicio)" InputFor="@nameof(TurnoDTO.HoraInicio)" />
+                                    <SfTimePicker TValue="TimeSpan" Placeholder="Ingrese Hora" class="form-control" Format="@("hh\\:mm")" @bind-Value="turno.HoraInicio" ID="@nameof(TurnoDTO.HoraInicio)"></SfTimePicker>
+                                    <ValidationMessage For="@(() => turno.HoraInicio)" />
                                 </div>
                                 <div class="form-group">
-                                    <DisplayName For="@(()=>turnos.HoraFin)" InputFor="@nameof(TurnoDTO.HoraFin)" />
-                                    <InputDate @bind-Value="turnos.HoraFin" class="form-control" id="@nameof(TurnoDTO.HoraFin)" />
-                                    <ValidationMessage For="@(() => turnos.HoraFin)" />
+                                    <DisplayName For="@(()=>turno.HoraFin)" InputFor="@nameof(TurnoDTO.HoraFin)" />
+                                    <SfTimePicker TValue="TimeSpan" Placeholder="Ingrese Hora" class="form-control" Format="@("hh\\:mm")" @bind-Value="turno.HoraFin" ID="@nameof(TurnoDTO.HoraFin)"></SfTimePicker>
+                                    <ValidationMessage For="@(() => turno.HoraFin)" />
                                 </div>
 
                                 @if (!string.IsNullOrEmpty(error))
@@ -67,7 +68,7 @@
     protected override async Task OnInitializedAsync()
     {
 
-        TodosLosTurnos = (await TurnoRestaurant.GetAll()).ToList();
+        TodosLosTurnos = (await _turnoService.GetAll()).ToList();
     }
 
     public async Task ActionBeginHandler(ActionEventArgs<TurnoDTO> args)
@@ -78,19 +79,19 @@
             {
                 if (args.Action == "Add")
                 {
-                    await TurnoRestaurant.Create(args.Data);
+                    await _turnoService.Create(args.Data);
                     Toast.ShowMessage(MessageType.Success, "[Create Success!!!]", "[Se creo con exito]");
                 }
                 else
                 {
-                    await TurnoRestaurant.Update(args.Data);
+                    await _turnoService.Update(args.Data);
                     Toast.ShowMessage(MessageType.Success, "[Updated Success!!!]", "[Se actualizo con exito]");
 
                 }
             }
             if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete))
             {
-                await TurnoRestaurant.Delete(args.Data.Id);
+                await _turnoService.Delete(args.Data.Id);
                 Toast.ShowMessage(MessageType.Success, "[Delete Success!!!]", "[Se Removio con exito]");
             }
         }
