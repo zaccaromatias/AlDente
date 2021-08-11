@@ -1,4 +1,5 @@
 using AlDente.Contracts.Clientes;
+using AlDente.Contracts.DiasLaborables;
 using AlDente.Contracts.Empleados;
 using AlDente.Contracts.EstadosClientes;
 using AlDente.Contracts.Mesas;
@@ -6,12 +7,14 @@ using AlDente.Contracts.Restaurantes;
 using AlDente.Contracts.Turnos;
 using AlDente.DataAccess.Clientes;
 using AlDente.DataAccess.Core;
+using AlDente.DataAccess.DiasLaborables;
 using AlDente.DataAccess.Empleados;
 using AlDente.DataAccess.EstadosClientes;
 using AlDente.DataAccess.Mesas;
 using AlDente.DataAccess.Restaurantes;
 using AlDente.DataAccess.Turnos;
 using AlDente.Services.Clientes;
+using AlDente.Services.DiasLaborables;
 using AlDente.Services.Empleados;
 using AlDente.Services.EstadosClientes;
 using AlDente.Services.Mesas;
@@ -68,6 +71,9 @@ namespace AlDente.UI.Web.Blazor
             services.AddScoped<IEmpleadoRepository, EmpleadoRepository>();
             services.AddScoped<IRestauranteService, RestauranteService>();
             services.AddScoped<IRestauranteRepository, RestauranteRepository>();
+            services.AddScoped<IDiaLaboralRepository, DiaLaboralRepository>();
+            services.AddScoped<IDiaLaboralService, DiaLaboralService>();
+
 
             services.AddBlazorBrowserStorage();
             services.AddHttpContextAccessor();
@@ -98,6 +104,7 @@ namespace AlDente.UI.Web.Blazor
             services.AddTransient<IValidator<EmpleadoDTO>, EmpleadoDTOValidator>();
             services.AddTransient<IValidator<RestauranteDTO>, RestauranteDTOValidator>();
             services.AddTransient<IValidator<TurnoDTO>, TurnoDTOValidator>();
+            services.AddTransient<IValidator<DiaLaboralDTO>, DiaLaboralDTOValidator>();
             services.AddSyncfusionBlazor();
             services.AddSingleton<IToastService, ToastService>();
         }

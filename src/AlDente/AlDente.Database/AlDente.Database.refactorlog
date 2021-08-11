@@ -21,4 +21,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="Password" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="c1ba256b-bb80-46f6-b58d-9d616b98f9da" ChangeDateTime="08/11/2021 16:27:49">
+    <Property Name="ElementName" Value="[dbo].[DiasLaborables].[DiaDeLaSemana ]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[DiasLaborables]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DiaDeLaSemana" />
+  </Operation>
 </Operations>
