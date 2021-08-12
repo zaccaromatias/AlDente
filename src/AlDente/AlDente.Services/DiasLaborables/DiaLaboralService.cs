@@ -45,7 +45,7 @@ namespace AlDente.Services.DiasLaborables
                 {
                     DiaDelaSemana = (int)diaLaboralDto.Dia,
                     HoraInicio = diaLaboralDto.HoraInicio,
-                    HoraFin= diaLaboralDto.HoraFin,
+                    HoraFin = diaLaboralDto.HoraFin,
                     RestauranteId = this.unitOfWork.RestauranteId
                 });
             });
@@ -68,6 +68,19 @@ namespace AlDente.Services.DiasLaborables
                     HoraFin = diaLaboralDto.HoraFin,
                     RestauranteId = diaLaboralDto.RestauranteId
                 });
+            });
+        }
+
+        public async Task<IEnumerable<DiaLaboralDTO>> GetDiasLaborables()
+        {
+            var diasLaborables = await diaLaboralRepository.QueryAsync(x => x.RestauranteId == this.unitOfWork.RestauranteId);
+            return diasLaborables.Select(x => new DiaLaboralDTO
+            {
+                Id = x.Id,
+                Dia = (DiasDeLaSemana)x.DiaDelaSemana,
+                HoraInicio = x.HoraInicio,
+                HoraFin = x.HoraFin,
+                RestauranteId = x.RestauranteId
             });
         }
     }

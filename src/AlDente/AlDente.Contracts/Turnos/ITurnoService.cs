@@ -10,5 +10,7 @@ namespace AlDente.Contracts.Turnos
         Task Delete(int id);
         Task Create(TurnoDTO turnoDTO);
         Task Update(TurnoDTO turnoDTO);
+
+        Task<IEnumerable<TurnoDTO>> GetTurnosDelDia(int diaLaboralId);
     }
 }

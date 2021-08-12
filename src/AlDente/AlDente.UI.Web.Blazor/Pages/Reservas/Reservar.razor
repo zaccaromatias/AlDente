@@ -7,11 +7,13 @@
 @using Contracts.Turnos
 @using Contracts.Mesas
 @using Contracts.Reservas
+@using Contracts.DiasLaborables
 @using Syncfusion.Blazor.Popups
 @page "/Reservar"
-@inject IRestauranteService _restauranteService
+@inject IDiaLaboralService _diaLaboralService
 @inject IMesaService _mesaService
 @inject IReservaService _reservaService
+@inject ITurnoService _turnoService
 @inject NavigationManager NavigationManager
 @attribute [Authorize]
 <MyCard Header="Reservar Ahora">
@@ -116,7 +118,7 @@
 
     protected async override Task OnInitializedAsync()
     {
-        this.Reserva = await ReservaViewModel.Create(_restauranteService, _mesaService, _reservaService);
+        this.Reserva = await ReservaViewModel.Create(_turnoService, _diaLaboralService, _mesaService, _reservaService);
         await base.OnInitializedAsync();
     }
     private async Task BuscarCombinaciones()

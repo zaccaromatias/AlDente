@@ -2,10 +2,14 @@
 @attribute [Authorize]
 @using Syncfusion.Blazor.Grids
 @using AlDente.Contracts.Turnos
+@using AlDente.Contracts.DiasLaborables
 @using AlDente.Globalization
 @using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.DropDowns
 
 @inject ITurnoService _turnoService
+@inject IDiaLaboralService _diaLaboralService
+
 @inject IToastService Toast
 
 <MyCard Header="Turnos">
@@ -25,6 +29,13 @@
                             @{
 
                                 var turno = (context as TurnoDTO);
+                                <div class="form-group">
+                                    <DisplayName For="@(() => turno.DiaLaboralId)" InputFor="@nameof(TurnoDTO.DiaLaboralId)" />
+                                    <SfDropDownList TItem="DiaLaboralDTO" TValue="int" PopupHeight="230px" Placeholder="[Seleccione Un Día]" @bind-Value="@turno.DiaLaboralId" DataSource="@DiasDeLaSemana">
+                                        <DropDownListFieldSettings Text="DiaName" Value="Id"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                    <ValidationMessage For="@(() => turno.DiaLaboralId)" />
+                                </div>
                                 <div class="form-group">
                                     <DisplayName For="@(()=>turno.HoraInicio)" InputFor="@nameof(TurnoDTO.HoraInicio)" />
                                     <SfTimePicker TValue="TimeSpan" Placeholder="Ingrese Hora" class="form-control" Format="@("hh\\:mm")" @bind-Value="turno.HoraInicio" ID="@nameof(TurnoDTO.HoraInicio)"></SfTimePicker>
@@ -62,6 +73,7 @@
 </MyCard>
 @code {
     public static List<TurnoDTO> TodosLosTurnos { get; set; }
+    public static List<DiaLaboralDTO> DiasDeLaSemana { get; set; }
     private FluentValidationValidator fluentValidationValidator;
     private string error;
 
@@ -69,6 +81,7 @@
     {
 
         TodosLosTurnos = (await _turnoService.GetAll()).ToList();
+        DiasDeLaSemana = (await _diaLaboralService.GetDiasLaborables()).ToList();
     }
 
     public async Task ActionBeginHandler(ActionEventArgs<TurnoDTO> args)

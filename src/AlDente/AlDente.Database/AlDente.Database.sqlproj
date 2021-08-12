@@ -88,7 +88,7 @@
     <Build Include="Tables\DiaLaboral.sql" />
     <Build Include="StoredProcedures\GetMesasDisponibles.sql" />
     <None Include="Scripts\Post\CargarEstadosReserva.sql" />
-    
+    <PreDeploy Include="Scripts\PreDeployment.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AlDente.Database.publish.xml" />

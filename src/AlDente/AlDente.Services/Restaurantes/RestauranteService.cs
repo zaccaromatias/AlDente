@@ -1,10 +1,8 @@
 ﻿using AlDente.Contracts.Restaurantes;
-using AlDente.Contracts.Turnos;
 using AlDente.DataAccess.Core;
 using AlDente.DataAccess.Restaurantes;
 using AlDente.Entities.Restaurantes;
 using AlDente.Services.Core;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -75,56 +73,6 @@ namespace AlDente.Services.Restaurantes
             return await Try(async () =>
             {
                 return (await this.restauranteRepository.GetByIdAsync(this.unitOfWork.RestauranteId)).UrlMenu;
-            });
-        }
-
-        public async Task<IEnumerable<DiaLaborableDTO>> GetDiasLaborables()
-        {
-            //TODO:CAMBIAR POR DATA REAL
-            return await this.Try(async () =>
-            {
-                var jueves = new DiaLaborableDTO
-                {
-                    DiaDeLaSemana = 4,
-                    HoraInicio = TimeSpan.FromHours(20),
-                    HoraFin = TimeSpan.FromHours(0),
-                };
-
-                jueves.Turnos.Add(new TurnoDTO
-                {
-                    Id = 1,
-                    HoraInicio = TimeSpan.FromHours(20),
-                    HoraFin = TimeSpan.FromHours(22),
-                });
-                jueves.Turnos.Add(new TurnoDTO
-                {
-                    Id = 2,
-                    HoraInicio = TimeSpan.FromHours(22),
-                    HoraFin = TimeSpan.FromHours(0),
-                });
-                var viernes = new DiaLaborableDTO
-                {
-                    DiaDeLaSemana = 5,
-                    HoraInicio = TimeSpan.FromHours(20),
-                    HoraFin = TimeSpan.FromHours(2),
-                };
-                viernes.Turnos.Add(new TurnoDTO
-                {
-                    Id = 1,
-                    HoraInicio = TimeSpan.FromHours(20),
-                    HoraFin = TimeSpan.FromHours(22),
-                });
-                viernes.Turnos.Add(new TurnoDTO
-                {
-                    Id = 2,
-                    HoraInicio = TimeSpan.FromHours(22),
-                    HoraFin = TimeSpan.FromHours(0),
-                });
-                var dias = new List<DiaLaborableDTO>()
-                {
-                    jueves,viernes
-                };
-                return await Task.FromResult(dias);
             });
         }
     }

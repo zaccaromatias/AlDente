@@ -1,6 +1,6 @@
-﻿using AlDente.Contracts.Mesas;
+﻿using AlDente.Contracts.DiasLaborables;
+using AlDente.Contracts.Mesas;
 using AlDente.Contracts.Reservas;
-using AlDente.Contracts.Restaurantes;
 using AlDente.Contracts.Turnos;
 using AlDente.Globalization;
 using AlDente.UI.Web.Blazor.Services;
@@ -14,7 +14,9 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
 {
     public class ReservaViewModel
     {
-        public IRestauranteService RestauranteService { get; private set; }
+        #region Properties
+        public ITurnoService TurnoService { get; private set; }
+        public IDiaLaboralService DiaLaboralService { get; private set; }
         public IMesaService MesaService { get; private set; }
         public IReservaService ReservaService { get; private set; }
 
@@ -32,38 +34,45 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
 
         public List<CombinacionDTO> Combinaciones { get; set; }
 
-        public List<DiaLaborableDTO> DiasLaborables { get; private set; }
+        public List<DiaLaboralDTO> DiasLaborables { get; private set; }
 
         public Guid?[] Combinacion { get; set; }
 
         public string MensajeDeErrorAlBuscar { get; private set; }
         public string MensajeDeErrorAlReservar { get; private set; }
-        private ReservaViewModel(IRestauranteService restauranteService, IMesaService mesaService, IReservaService reservaService)
+        #endregion
+
+        #region Constructors
+        private ReservaViewModel(ITurnoService turnoService, IDiaLaboralService diaLaboralService, IMesaService mesaService, IReservaService reservaService)
         {
-            RestauranteService = restauranteService;
+            TurnoService = turnoService;
+            DiaLaboralService = diaLaboralService;
             MesaService = mesaService;
-            this.Turnos = new List<TurnoDTO>();
-            this.DiasLaborables = new List<DiaLaborableDTO>();
-            this.Combinaciones = new List<CombinacionDTO>();
-            this.Combinacion = new Guid?[] { };
+            Turnos = new List<TurnoDTO>();
+            DiasLaborables = new List<DiaLaboralDTO>();
+            Combinaciones = new List<CombinacionDTO>();
+            Combinacion = new Guid?[] { };
             ReservaService = reservaService;
         }
 
-        public static async Task<ReservaViewModel> Create(IRestauranteService restauranteService, IMesaService mesaService, IReservaService reservaService)
+        public static async Task<ReservaViewModel> Create(ITurnoService turnoService, IDiaLaboralService diaLaboralService, IMesaService mesaService, IReservaService reservaService)
         {
-            var reservaModel = new ReservaViewModel(restauranteService, mesaService, reservaService);
+            var reservaModel = new ReservaViewModel(turnoService, diaLaboralService, mesaService, reservaService);
             await reservaModel.LoadDiasLaborables();
             return reservaModel;
         }
+        #endregion
+
+        #region Public Methods
         public async Task LoadDiasLaborables()
         {
             this.DiasLaborables.Clear();
-            var results = await RestauranteService.GetDiasLaborables();
+            var results = await DiaLaboralService.GetDiasLaborables();
             this.DiasLaborables.AddRange(results);
         }
         public bool EsLaborableElDia(int diaDeLaSemana)
         {
-            return this.DiasLaborables.Any(x => x.DiaDeLaSemana == diaDeLaSemana);
+            return this.DiasLaborables.Any(x => x.Dia == (DiasDeLaSemana)diaDeLaSemana);
         }
 
         public async Task<IEnumerable<TurnoDTO>> LoadTurnos(DateTime? dateTime)
@@ -74,8 +83,11 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
             if (dateTime.HasValue)
             {
                 var diaDeLaSemana = (int)dateTime.Value.DayOfWeek;
-                var diaLaborable = this.DiasLaborables.FirstOrDefault(x => x.DiaDeLaSemana == diaDeLaSemana);
-                this.Turnos.AddRange(diaLaborable?.Turnos);
+                var diaLaborable = this.DiasLaborables.First(x => x.Dia == (DiasDeLaSemana)diaDeLaSemana);
+                var turnos = await TurnoService.GetTurnosDelDia(diaLaborable.Id);
+                this.Turnos = new List<TurnoDTO>(turnos);
+                if (!this.Turnos.Any())
+                    this.MensajeDeErrorAlBuscar = "No hay turnos caragdos para este dia";
             }
             return await Task.FromResult(this.Turnos);
         }
@@ -134,5 +146,6 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
                 return null;
             }
         }
+        #endregion
     }
 }

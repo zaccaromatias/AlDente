@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AlDente.Contracts.DiasLaborables
@@ -11,5 +9,7 @@ namespace AlDente.Contracts.DiasLaborables
         Task Delete(int id);
         Task Create(DiaLaboralDTO mesaDto);
         Task Update(DiaLaboralDTO mesaDto);
+
+        Task<IEnumerable<DiaLaboralDTO>> GetDiasLaborables();
     }
 }

@@ -10,6 +10,7 @@ namespace AlDente.Entities.Turnos
         public TimeSpan HoraInicio { get; set; }
         [SystemSqlServerTypeMap(SqlDbType.Time)]
         public TimeSpan HoraFin { get; set; }
-        public int RestauranteId { get; set; }
+
+        public int DiaLaboralId { get; set; }
     }
 }

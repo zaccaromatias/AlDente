@@ -29,7 +29,7 @@ namespace AlDente.Services.Turnos
                 Id = x.Id,
                 HoraInicio = x.HoraInicio,
                 HoraFin = x.HoraFin,
-                RestauranteId = x.RestauranteId
+                DiaLaboralId = x.DiaLaboralId
             });
         }
 
@@ -41,7 +41,7 @@ namespace AlDente.Services.Turnos
                 {
                     HoraInicio = turnoDTO.HoraInicio,
                     HoraFin = turnoDTO.HoraFin,
-                    RestauranteId = this.unitOfWork.RestauranteId
+                    DiaLaboralId = turnoDTO.DiaLaboralId
 
                 });
             });
@@ -61,8 +61,20 @@ namespace AlDente.Services.Turnos
                     Id = turnoDTO.Id,
                     HoraInicio = turnoDTO.HoraInicio,
                     HoraFin = turnoDTO.HoraFin,
-                    RestauranteId = turnoDTO.RestauranteId
+                    DiaLaboralId = turnoDTO.DiaLaboralId
                 });
+            });
+        }
+
+        public async Task<IEnumerable<TurnoDTO>> GetTurnosDelDia(int diaLaboralId)
+        {
+            var results = await turnoRepository.QueryAsync(x => x.DiaLaboralId == diaLaboralId);
+            return results.Select(x => new TurnoDTO
+            {
+                Id = x.Id,
+                HoraInicio = x.HoraInicio,
+                HoraFin = x.HoraFin,
+                DiaLaboralId = x.DiaLaboralId
             });
         }
     }
