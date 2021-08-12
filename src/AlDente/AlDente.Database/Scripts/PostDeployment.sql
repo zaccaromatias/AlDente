@@ -12,6 +12,7 @@ Post-Deployment Script Template
 :r .\Post\InsertarRestaurante.sql
 :r .\Post\CargarEstadosEmpleados.sql
 :r .\Post\CargarEstadosClientes.sql
+:r .\Post\CargarEstadosReserva.sql
 :r .\Post\InsertarClienteTest.sql
 
 

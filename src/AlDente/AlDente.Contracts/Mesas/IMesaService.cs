@@ -10,5 +10,7 @@ namespace AlDente.Contracts.Mesas
         Task Delete(int id);
         Task Create(MesaDTO mesaDto);
         Task Update(MesaDTO mesaDto);
+
+        Task<IEnumerable<CombinacionDTO>> GetMesasDisponibles(ReservaParamDTO parameter);
     }
 }

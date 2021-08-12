@@ -9,7 +9,14 @@ namespace AlDente.Contracts.Turnos
         public int Id { get; set; }
         public TimeSpan HoraInicio { get; set; }
         public TimeSpan HoraFin { get; set; }
+
+        public string Text => $"De {HoraInicio.ToString("hh\\:mm")}Hs a {HoraFin.ToString("hh\\:mm")}Hs";
         public int RestauranteId { get; set; }
+
+        public override string ToString()
+        {
+            return this.Text;
+        }
     }
     public class TurnoDTOValidator : AbstractValidator<TurnoDTO>
     {

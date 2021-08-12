@@ -2,6 +2,7 @@
 using System;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace AlDente.DataAccess.Core
 {
@@ -23,6 +24,22 @@ namespace AlDente.DataAccess.Core
         public UnitOfWork(IOptions<AppSettings> settings)
         {
             this.settings = settings.Value;
+        }
+
+        public async Task<TResult> TryWithTransact<TResult>(Func<Task<TResult>> action)
+        {
+            try
+            {
+                this.Begin();
+                var result = await action();
+                this.Commit();
+                return result;
+            }
+            catch (System.Exception ex)
+            {
+                this.Rollback();
+                throw ex;
+            }
         }
 
         public void Begin()

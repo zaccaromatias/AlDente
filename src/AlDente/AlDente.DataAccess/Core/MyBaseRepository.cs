@@ -38,6 +38,11 @@ namespace AlDente.DataAccess.Core
             return InsertAll(entities, transaction: transaction);
         }
 
+        public async Task<int> AddAllAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
+        {
+            return await base.InsertAllAsync(entities, transaction: transaction, cancellationToken: cancellationToken);
+        }
+
         public void Attach(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;

@@ -63,3 +63,17 @@ header {
 .e-dialog {
     max-height:98% !important;
 }
+
+.reservaSuccessDialog {
+    background-color: #BC3434;
+    color: #ffffff;
+    text-align:center;
+}
+.reservaSuccessDialogContent {
+    background-color: #BC3434;
+    color: #ffffff;
+    text-align: center;
+}
+.reservaSuccessDialogFooter {
+    text-align:center;
+}

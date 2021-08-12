@@ -1,5 +1,7 @@
-﻿using System.Data.Common;
+﻿using System;
+using System.Data.Common;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace AlDente.DataAccess.Core
 {
@@ -10,6 +12,8 @@ namespace AlDente.DataAccess.Core
         void Begin();
         void Rollback();
         void Commit();
+
+        Task<TResult> TryWithTransact<TResult>(Func<Task<TResult>> action);
     }
 
     public interface IUnitOfWork : IUnitOfWork<SqlConnection>

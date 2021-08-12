@@ -173,7 +173,7 @@ app {
     }*/
 
     .navbar-toggler {
-        display: none;
+        /*display: none;*/
     }
 
     .sidebar .collapse {

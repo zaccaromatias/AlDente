@@ -3,84 +3,122 @@
 @using Syncfusion.Blazor.Calendars
 @using Syncfusion.Blazor.Inputs
 @using Syncfusion.Blazor.Buttons
+@using Contracts.Restaurantes
+@using Contracts.Turnos
+@using Contracts.Mesas
+@using Contracts.Reservas
+@using Syncfusion.Blazor.Popups
 @page "/Reservar"
+@inject IRestauranteService _restauranteService
+@inject IMesaService _mesaService
+@inject IReservaService _reservaService
+@inject NavigationManager NavigationManager
 @attribute [Authorize]
 <MyCard Header="Reservar Ahora">
-    <EditForm Model="@Reserva" OnValidSubmit="@OnSubmint">
-        <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
-        <div class="form-row">
-            <div class="form-group col-md-3">
-                <DisplayName For="@(()=>Reserva.Comensales)" InputFor="@nameof(Reserva.Comensales)" />
-                <SfNumericTextBox TValue="int?" @bind-Value="Reserva.Comensales" Min="2" Max="8" ID="@nameof(Reserva.Comensales)" OnChange="@Clear"></SfNumericTextBox>
-                <ValidationMessage For="@(() => Reserva.Comensales)" />
-            </div>
-            <div class="form-group col-md-3">
-                <DisplayName For="@(()=>Reserva.Date)" InputFor="@nameof(Reserva.Date)" />
-                <SfDatePicker TValue="DateTime?" Placeholder="Choose a Date" @bind-Value="Reserva.Date" ID="@nameof(Reserva.Date)">
-                    <DatePickerEvents TValue="DateTime?" ValueChange="Clear" />
-                </SfDatePicker>
+    @if (this.Reserva == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <EditForm Model="@Reserva" OnValidSubmit="@OnSubmint">
+            <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <DisplayName For="@(() => Reserva.Comensales)" InputFor="@nameof(Reserva.Comensales)" />
+                    <SfNumericTextBox TValue="int?" @bind-Value="Reserva.Comensales" Min="2" Max="8" ID="@nameof(Reserva.Comensales)" OnChange="@Clear"></SfNumericTextBox>
+                    <ValidationMessage For="@(() => Reserva.Comensales)" />
+                </div>
+                <div class="form-group col-md-3">
+                    <DisplayName For="@(() => Reserva.Fecha)" InputFor="@nameof(Reserva.Fecha)" />
+                    <SfDatePicker TValue="DateTime?" Placeholder="Choose a Date" @bind-Value="Reserva.Fecha" ID="@nameof(Reserva.Fecha)" @ref="@DatePickerObj" AllowEdit="false">
+                        <DatePickerEvents TValue="DateTime?" ValueChange="@DateHasChanged" OnRenderDayCell="@EsDiaLaborable" />
+                    </SfDatePicker>
+                    <ValidationMessage For="@(() => Reserva.Fecha)" />
+                </div>
+                <div class="form-group col-md-3">
+                    <DisplayName For="@(() => Reserva.Turno)" InputFor="@nameof(Reserva.Turno)" />
+                    <SfDropDownList TItem="TurnoDTO" TValue="TurnoDTO" Placeholder="[Seleccione Un Turno]" @bind-Value="@Reserva.Turno" DataSource="@Reserva.Turnos" ID="@nameof(Reserva.Turno)" @ref="@ComboTurno">
+                        <DropDownListEvents TItem="TurnoDTO" TValue="TurnoDTO" OnValueSelect="TurnoHasChanged"></DropDownListEvents>
+                        <DropDownListFieldSettings Text="@nameof(TurnoDTO.Text)"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                    <ValidationMessage For="@(() => Reserva.Turno)" />
 
-
-                <ValidationMessage For="@(() => Reserva.Date)" />
+                </div>
+                <div class="col-md-3 align-self-center text-center">
+                    <ButtonProgress CssClass="e-info" OnClick="@BuscarCombinaciones">[Buscar]</ButtonProgress>
+                </div>
             </div>
-            <div class="form-group col-md-3">
-                <DisplayName For="@(()=>Reserva.Turno)" InputFor="@nameof(Reserva.Turno)" />
-                <SfDropDownList TItem="TurnoDTO" TValue="TurnoDTO" Placeholder="[Seleccione Un Turno]" @bind-Value="@Reserva.Turno" DataSource="@Reserva.Turnos" ID="@nameof(Reserva.Turno)">
-                    <DropDownListEvents TItem="TurnoDTO" TValue="TurnoDTO" OnValueSelect="TurnoHasChanged"></DropDownListEvents>
-                    <DropDownListFieldSettings Text="Text"></DropDownListFieldSettings>
-                </SfDropDownList>
-                <ValidationMessage For="@(() => Reserva.Turno)" />
+            @if (!string.IsNullOrEmpty(Reserva.MensajeDeErrorAlBuscar))
+            {
+                <div class="form-group">
+                    <div class="alert alert-danger mt-3 mb-0">@Reserva.MensajeDeErrorAlBuscar</div>
+                </div>
+            }
+            @if (Reserva.Combinaciones.Any())
+            {
+                <div class="form-group">
+                    <SfListBox CssClass="e-template-listbox" TValue="Guid?[]" DataSource="@Reserva.Combinaciones" TItem="CombinacionDTO" @bind-Value="@Reserva.Combinacion">
+                        <ListBoxFieldSettings Text="Description" Value="Key"></ListBoxFieldSettings>
+                        <ListBoxTemplates TItem="CombinacionDTO">
+                            <ItemTemplate Context="combinacion">
+                                <div class="list-wrapper">
+                                    <span class="description">@(combinacion.Description)</span>
+                                </div>
+                            </ItemTemplate>
+                        </ListBoxTemplates>
+                    </SfListBox>
 
-            </div>
-            <div class="col-md-3 align-self-center text-center">
-                <ButtonProgress CssClass="e-info" OnClick="BuscarCombinaciones">[Buscar]</ButtonProgress>
-            </div>
-        </div>
-        @if (!string.IsNullOrEmpty(Reserva.MensajeDeErrorAlBuscar))
-        {
-            <div class="form-group">
-                <div class="alert alert-danger mt-3 mb-0">@Reserva.MensajeDeErrorAlBuscar</div>
-            </div>
-        }
-        @if (Reserva.Combinaciones.Any())
-        {
-            <div class="form-group">
-                <SfListBox CssClass="e-template-listbox" TValue="Guid?[]" DataSource="@Reserva.Combinaciones" TItem="CombinacionDTO" @bind-Value="@Reserva.Combinacion">
-                    <ListBoxFieldSettings Text="Description" Value="Key"></ListBoxFieldSettings>
-                    <ListBoxTemplates TItem="CombinacionDTO">
-                        <ItemTemplate Context="combinacion">
-                            <div class="list-wrapper">
-                                <span class="description">@(combinacion.Description)</span>
-                            </div>
-                        </ItemTemplate>
-                    </ListBoxTemplates>
-                </SfListBox>
+                </div>
+            }
 
-            </div>
-        }
+            @if (!string.IsNullOrEmpty(Reserva.MensajeDeErrorAlReservar))
+            {
+                <div class="form-group">
+                    <div class="alert alert-danger mt-3 mb-0">@((MarkupString)Reserva.MensajeDeErrorAlReservar)</div>
+                </div>
+            }
 
-        @if (!string.IsNullOrEmpty(Reserva.MensajeDeErrorAlReservar))
-        {
-            <div class="form-group">
-                <div class="alert alert-danger mt-3 mb-0">@Reserva.MensajeDeErrorAlReservar</div>
-            </div>
-        }
+            @if (Reserva.EsValidoParaReservar)
+            {
+                <ButtonProgress CssClass="e-success" OnClick="@RealizarReserva">[Reservar]</ButtonProgress>
+            }
 
-        @if (Reserva.EsValidoParaReservar)
-        {
-            <SfButton CssClass="e-success" ID="Reservar" OnClick="@RealizarReserva">[Reservar]</SfButton>
-        }
+        </EditForm>
+        <SfDialog AllowDragging="true" @bind-Visible="@dialogVisible" IsModal="true" Width="285px" ShowCloseIcon="false" CssClass="reservaSuccessDialog">
+            <DialogTemplates>
+                <Content>
+                    <div class="reservaSuccessDialogContent">
+                        <img src="/images/check.png" width="200" />
+                        <h2>¡Tu Reserva ha sido realizada!</h2>
+                        <p>Codigo de Reserva: <strong>@codigoReserva</strong></p>
+                    </div>
+                </Content>
+                <FooterTemplate>
+                    <div class="reservaSuccessDialogFooter">
+                        <a href="/" title="Home">Ir al Home</a>
+                    </div>
 
-    </EditForm>
+                </FooterTemplate>
+            </DialogTemplates>
+            <DialogAnimationSettings Effect="DialogEffect.Zoom"></DialogAnimationSettings>
+        </SfDialog>
+    }
 </MyCard>
 @code {
-
+    bool dialogVisible { get; set; } = false;
+    string codigoReserva { get; set; }
+    private SfDatePicker<DateTime?> DatePickerObj { get; set; }
+    private SfDropDownList<TurnoDTO, TurnoDTO> ComboTurno { get; set; }
     private FluentValidationValidator fluentValidationValidator;
-    private ReservaViewModel Reserva { get; set; } = new ReservaViewModel();
-
-
+    private ReservaViewModel Reserva { get; set; }
     private Guid? combinacionDTO { get; set; }
 
+    protected async override Task OnInitializedAsync()
+    {
+        this.Reserva = await ReservaViewModel.Create(_restauranteService, _mesaService, _reservaService);
+        await base.OnInitializedAsync();
+    }
     private async Task BuscarCombinaciones()
     {
         await this.Reserva.CargarCombinaciones();
@@ -88,9 +126,15 @@
 
     }
 
-    private void RealizarReserva()
+    private async Task RealizarReserva()
     {
-        this.Reserva.Reservar();
+        IReservaResult result = await this.Reserva.Reservar();
+        if (result != null && result.State == ReservaResultState.Success)
+        {
+            this.codigoReserva = result.Codigo;
+            this.dialogVisible = true;
+        }
+        this.StateHasChanged();
     }
 
     private void Clear()
@@ -98,7 +142,18 @@
         this.Reserva.ClearCombinaciones();
     }
 
-
+    private void EsDiaLaborable(RenderDayCellEventArgs args)
+    {
+        var view = DatePickerObj.CurrentView();
+        if (view == "Month" && !this.Reserva.EsLaborableElDia((int)args.Date.DayOfWeek))
+        {
+            args.IsDisabled = true;
+        }
+    }
+    private async Task DateHasChanged(Syncfusion.Blazor.Calendars.ChangedEventArgs<DateTime?> args)
+    {
+        await this.Reserva.LoadTurnos(args.Value);
+    }
     private void TurnoHasChanged()
     {
         this.Reserva.ClearCombinaciones();
@@ -108,4 +163,24 @@
     {
     }
 
+    private void IrAlHome()
+    {
+        this.dialogVisible = false;
+        NavigationManager.NavigateTo("/");
+    }
+
 }
+<style>
+    .e-dlg-content {
+        background-color: #BC3434 !important;
+    }
+
+    .e-dialog {
+        background-color: #BC3434 !important
+    }
+
+        .e-dialog .e-footer-content {
+            border-bottom-left-radius: 3px;
+            border-bottom-right-radius: 3px;
+        }
+</style>

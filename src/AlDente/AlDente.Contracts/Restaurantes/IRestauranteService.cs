@@ -14,5 +14,7 @@ namespace AlDente.Contracts.Restaurantes
         Task Delete(int id);
 
         Task<string> GetUrlMenu();
+
+        Task<IEnumerable<DiaLaborableDTO>> GetDiasLaborables();
     }
 }

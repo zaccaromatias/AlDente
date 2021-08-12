@@ -4,7 +4,7 @@
     [Codigo] NVARCHAR(50)   NOT NULL,
     [FechaCreacion] DATETIME NOT NULL, 
     [FechaReserva] DATETIME NOT NULL, 
-    [FechaAsistencia] DATETIME NOT NULL, 
+    [FechaAsistencia] DATETIME NULL, 
     [FechaCancelacion] DATETIME NULL,
     [MotivoCancelacion] NVARCHAR(200) NULL,    
     [CantidadComensales] INT NOT NULL,

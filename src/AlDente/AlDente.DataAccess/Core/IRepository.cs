@@ -12,6 +12,7 @@ namespace AlDente.DataAccess.Core
         int Add(TEntity entity);
         Task<int> AddAsync(TEntity entity, CancellationToken cancellationToken = default);
         int AddAll(IEnumerable<TEntity> entities);
+        Task<int> AddAllAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
         int Delete(object id);
         Task<int> DeleteAsync(object id, CancellationToken cancellationToken = default);
         int Delete(TEntity entity);

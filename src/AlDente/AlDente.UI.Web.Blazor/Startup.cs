@@ -3,6 +3,7 @@ using AlDente.Contracts.DiasLaborables;
 using AlDente.Contracts.Empleados;
 using AlDente.Contracts.EstadosClientes;
 using AlDente.Contracts.Mesas;
+using AlDente.Contracts.Reservas;
 using AlDente.Contracts.Restaurantes;
 using AlDente.Contracts.Turnos;
 using AlDente.DataAccess.Clientes;
@@ -11,6 +12,7 @@ using AlDente.DataAccess.DiasLaborables;
 using AlDente.DataAccess.Empleados;
 using AlDente.DataAccess.EstadosClientes;
 using AlDente.DataAccess.Mesas;
+using AlDente.DataAccess.Reservas;
 using AlDente.DataAccess.Restaurantes;
 using AlDente.DataAccess.Turnos;
 using AlDente.Services.Clientes;
@@ -18,6 +20,7 @@ using AlDente.Services.DiasLaborables;
 using AlDente.Services.Empleados;
 using AlDente.Services.EstadosClientes;
 using AlDente.Services.Mesas;
+using AlDente.Services.Reservas;
 using AlDente.Services.Restaurantes;
 using AlDente.Services.Turnos;
 using AlDente.UI.Web.Blazor.Data;
@@ -74,6 +77,9 @@ namespace AlDente.UI.Web.Blazor
             services.AddScoped<IDiaLaboralRepository, DiaLaboralRepository>();
             services.AddScoped<IDiaLaboralService, DiaLaboralService>();
 
+            services.AddScoped<IReservaRepository, ReservaRepository>();
+            services.AddScoped<IReservaMesaRepository, ReservaMesaRepository>();
+            services.AddScoped<IReservaService, ReservaService>();
 
             services.AddBlazorBrowserStorage();
             services.AddHttpContextAccessor();

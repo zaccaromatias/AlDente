@@ -29,6 +29,21 @@ namespace AlDente.Services.Core
             }
         }
 
+        public async Task<TResult> TryWithTransaction<TResult>(Func<Task<TResult>> func)
+        {
+            try
+            {
+                unitOfWork.Begin();
+                var result = await func();
+                return result;
+            }
+            catch (System.Exception ex)
+            {
+                unitOfWork.Rollback();
+                throw Handle(ex);
+            }
+        }
+
         public async Task Try(Func<Task> func)
         {
             try

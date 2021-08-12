@@ -86,6 +86,9 @@
     <None Include="Scripts\Post\InsertarRestaurante.sql" />
     <None Include="Scripts\Post\CargarEstadosEmpleados.sql" />
     <Build Include="Tables\DiaLaboral.sql" />
+    <Build Include="StoredProcedures\GetMesasDisponibles.sql" />
+    <None Include="Scripts\Post\CargarEstadosReserva.sql" />
+    
   </ItemGroup>
   <ItemGroup>
     <None Include="AlDente.Database.publish.xml" />
