@@ -1,0 +1,127 @@
+﻿@page "/MisReservas"
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Inputs
+@using Models.Reservas
+@using Contracts.Reservas
+@using AlDente.Globalization
+
+@attribute [Authorize]
+
+@inject IReservaService _reservaService
+@inject IToastService Toast
+<MyCard Header="Mis Reservas">
+    @if (this.ViewModel == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <div class="col-lg-12 control-section">
+            <div class="content-wrapper">
+                <div class="row">
+                    <SfGrid DataSource="@ViewModel.Reservas" AllowPaging="true">
+                        <GridEditSettings AllowAdding="false" AllowDeleting="false" AllowEditing="false">
+                        </GridEditSettings>
+                        <GridColumns>
+                            <GridColumn Field=@nameof(ReservaBasicDTO.Fecha)></GridColumn>
+                            <GridColumn Field=@nameof(ReservaBasicDTO.Codigo)></GridColumn>
+                            <GridColumn Field=@nameof(ReservaBasicDTO.Comensales)></GridColumn>
+                            <GridColumn Field=@nameof(ReservaBasicDTO.EstadoName)></GridColumn>
+                            <GridColumn HeaderText="@Strings.Actions">
+                                <GridCommandColumns>
+                                    <GridCommandColumn Title="Cancel" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-cancel", CssClass = "e-danger" })"></GridCommandColumn>
+                                </GridCommandColumns>
+                            </GridColumn>
+                        </GridColumns>
+                        <GridEvents CommandClicked="OnCommandClicked" RowDataBound="RowBound" TValue="ReservaBasicDTO">
+
+                        </GridEvents>
+                    </SfGrid>
+                </div>
+            </div>
+        </div>
+        <SfDialog AllowDragging="true" @bind-Visible="@dialogVisible" IsModal="true" Width="285px" ShowCloseIcon="true">
+            <DialogTemplates>
+                <Header>Desea Cancelar la reserva?</Header>
+                <Content>
+                    @if (reservaACancelarDTO != null)
+                    {
+                        <EditForm Model="@reservaACancelarDTO" OnValidSubmit="@CancelarReserva">
+                            <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
+                            <div class="form-row">
+                                <div class="form-group col-md">
+                                    <DisplayName For="@(() => reservaACancelarDTO.Motivo)" InputFor="@nameof(reservaACancelarDTO.Motivo)" />
+                                    <SfTextBox TValue="string" @bind-Value="reservaACancelarDTO.Motivo" ID="@nameof(reservaACancelarDTO.Motivo)"></SfTextBox>
+                                    <ValidationMessage For="@(() => reservaACancelarDTO.Motivo)" />
+                                </div>
+                            </div>
+                            <div class="e-footer-content">
+                                <ButtonProgressBasic loading="loading" CssClass="e-primary" type="submit">Confirmar</ButtonProgressBasic>
+                            </div>
+                        </EditForm>
+                    }
+
+                </Content>
+            </DialogTemplates>
+            <DialogAnimationSettings Effect="DialogEffect.Zoom"></DialogAnimationSettings>
+        </SfDialog>
+    }
+</MyCard>
+<style>
+    .e-removecommand .e-unboundcell .e-unboundcelldiv button {
+        display: none;
+    }
+</style>
+@code {
+    private bool loading;
+    bool dialogVisible { get; set; } = false;
+    private FluentValidationValidator fluentValidationValidator;
+    private MisReservasViewModel ViewModel { get; set; }
+
+
+    private ReservaACancelarDTO reservaACancelarDTO => this.ViewModel.ReservaACancelar;
+
+    protected async override Task OnInitializedAsync()
+    {
+        this.ViewModel = await MisReservasViewModel.Create(_reservaService);
+        await base.OnInitializedAsync();
+    }
+    public void RowBound(RowDataBoundEventArgs<ReservaBasicDTO> args)
+    {
+        if (!args.Data.ShowCancelButton)
+        {
+            args.Row.AddClass(new string[] { "e-removecommand" });
+        }
+    }
+
+    public void OnCommandClicked(CommandClickEventArgs<ReservaBasicDTO> args)
+    {
+        this.ViewModel.SetReservaACancelar(args.RowData);
+        this.dialogVisible = true;
+    }
+    private async Task CancelarReserva()
+    {
+        loading = true;
+        var result = await this.ViewModel.CancelarReserva();
+        if (result.IsValid)
+        {
+            Toast.ShowMessage(MessageType.Success, result.MessageSuccsefully);
+            this.dialogVisible = false;
+            await OnInitializedAsync();
+        }
+        else
+        {
+            Toast.ShowMessage(MessageType.Error, result.AllErrors);
+        }
+        loading = false;
+    }
+
+    private void OcultarDialog(Object e)
+    {
+        this.dialogVisible = false;
+    }
+
+
+
+}

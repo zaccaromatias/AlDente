@@ -1,5 +1,5 @@
 ﻿@using Syncfusion.Blazor.Buttons
-<SfButton CssClass="e-info" ID="Buscar" OnClick="@Click" Disabled="loading" @attributes="AdditionalAttributes">
+<SfButton CssClass="@CssClass" ID="Buscar" OnClick="@Click" Disabled="@loading" @attributes="AdditionalAttributes">
     @if (loading)
     {
         <span class="spinner-border spinner-border-sm mr-1"></span>
@@ -26,7 +26,8 @@
         try
         {
             loading = true;
-            await OnClick?.Invoke();
+            if (OnClick != null)
+                await OnClick?.Invoke();
         }
         finally
         {

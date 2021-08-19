@@ -1,14 +1,12 @@
-﻿@using AlDente.UI.Web.Blazor.Models.Reservas
+﻿@using Models.Reservas
 @using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Calendars
 @using Syncfusion.Blazor.Inputs
-@using Syncfusion.Blazor.Buttons
-@using Contracts.Restaurantes
+@using Syncfusion.Blazor.Popups
 @using Contracts.Turnos
 @using Contracts.Mesas
 @using Contracts.Reservas
 @using Contracts.DiasLaborables
-@using Syncfusion.Blazor.Popups
 @page "/Reservar"
 @inject IDiaLaboralService _diaLaboralService
 @inject IMesaService _mesaService
@@ -147,7 +145,7 @@
     private void EsDiaLaborable(RenderDayCellEventArgs args)
     {
         var view = DatePickerObj.CurrentView();
-        if (view == "Month" && !this.Reserva.EsLaborableElDia((int)args.Date.DayOfWeek))
+        if (view == "Month" && !this.Reserva.EsLaborableElDia(args.Date))
         {
             args.IsDisabled = true;
         }

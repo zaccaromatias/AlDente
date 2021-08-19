@@ -48,9 +48,9 @@
             <InputText @bind-Value="model.RepeatPassword" type="password" class="form-control" id="@nameof(RegisterModel.RepeatPassword)" />
             <ValidationMessage For="@(() => model.RepeatPassword)" />
         </div>
-        <ButtonWithSppiner loading="@loading" class="btn btn-primary">
+        <ButtonProgressBasic loading="@loading" CssClass="e-primary">
             @AlDente.Globalization.Strings.SignIn
-        </ButtonWithSppiner>
+        </ButtonProgressBasic>
         @if (!string.IsNullOrEmpty(error))
         {
             <div class="alert alert-danger mt-3 mb-0">@error</div>

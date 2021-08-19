@@ -111,6 +111,7 @@ namespace AlDente.UI.Web.Blazor
             services.AddTransient<IValidator<RestauranteDTO>, RestauranteDTOValidator>();
             services.AddTransient<IValidator<TurnoDTO>, TurnoDTOValidator>();
             services.AddTransient<IValidator<DiaLaboralDTO>, DiaLaboralDTOValidator>();
+            services.AddTransient<IValidator<ReservaACancelarDTO>, ReservaACancelarDTOValidator>();
             services.AddSyncfusionBlazor();
             services.AddSingleton<IToastService, ToastService>();
         }
