@@ -53,10 +53,10 @@
                     </GridEditSettings>
                     <GridEvents TValue="DiaLaboralDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
                     <GridColumns>
-                        <GridColumn Field=@nameof(DiaLaboralDTO.Id) Width="140" IsPrimaryKey="true"></GridColumn>
-                        <GridColumn Field=@nameof(DiaLaboralDTO.Dia)></GridColumn>
-                        <GridColumn Field=@nameof(DiaLaboralDTO.HoraInicio)></GridColumn>
-                        <GridColumn Field=@nameof(DiaLaboralDTO.HoraFin)></GridColumn>
+                        <GridColumn Field=@nameof(DiaLaboralDTO.Id) Width="140" IsPrimaryKey="true" Visible="false"></GridColumn>
+                        <GridColumn Field=@nameof(DiaLaboralDTO.Dia) HeaderText="@Messages.Day"></GridColumn>
+                        <GridColumn Field=@nameof(DiaLaboralDTO.HoraInicio) HeaderText="@Messages.StartTime"></GridColumn>
+                        <GridColumn Field=@nameof(DiaLaboralDTO.HoraFin) HeaderText="@Messages.EndTime"></GridColumn>
 
                         <GridColumn HeaderText="@Strings.Actions" Width="150">
                             <GridCommandColumns>
@@ -95,14 +95,14 @@
     }
 
     public static List<DiaDeLaSemana> Dias { get; set; } = new List<DiaDeLaSemana>
-    {
-        new DiaDeLaSemana(DiasDeLaSemana.Lunes,"[Lunes]"),
-        new DiaDeLaSemana(DiasDeLaSemana.Martes,"[Martes]"),
-        new DiaDeLaSemana(DiasDeLaSemana.Miercoles,"[Miercoles]"),
-        new DiaDeLaSemana(DiasDeLaSemana.Jueves,"[Jueves]"),
-        new DiaDeLaSemana(DiasDeLaSemana.Viernes,"[Viernes]"),
-        new DiaDeLaSemana(DiasDeLaSemana.Sabado,"[Sabado]"),
-        new DiaDeLaSemana(DiasDeLaSemana.Domingo,"[Domingo]"),
+{
+        new DiaDeLaSemana(DiasDeLaSemana.Lunes,Messages.Monday),
+        new DiaDeLaSemana(DiasDeLaSemana.Martes,Messages.Tuesday),
+        new DiaDeLaSemana(DiasDeLaSemana.Miercoles,Messages.Wednesday),
+        new DiaDeLaSemana(DiasDeLaSemana.Jueves,Messages.Thursday),
+        new DiaDeLaSemana(DiasDeLaSemana.Viernes,Messages.Friday),
+        new DiaDeLaSemana(DiasDeLaSemana.Sabado,Messages.Saturday),
+        new DiaDeLaSemana(DiasDeLaSemana.Domingo,Messages.Sunday),
 
     };
 
@@ -115,24 +115,24 @@
                 if (args.Action == "Add")
                 {
                     await servDiaLaboral.Create(args.Data);
-                    Toast.ShowMessage(MessageType.Success, "[Create Success!!!]", "[Se creo con exito]");
+                    Toast.ShowMessage(MessageType.Success, Messages.CreateSuccess, Messages.CreateSuccessMessage);
                 }
                 else
                 {
                     await servDiaLaboral.Update(args.Data);
-                    Toast.ShowMessage(MessageType.Success, "[Updated Success!!!]", "[Se actualizo con exito]");
+                    Toast.ShowMessage(MessageType.Success, Messages.UpdatedSuccess, Messages.UpdatedSuccessMessage);
 
                 }
             }
             if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete))
             {
                 await servDiaLaboral.Delete(args.Data.Id);
-                Toast.ShowMessage(MessageType.Success, "[Delete Success!!!]", "[Se Removio con exito]");
+                Toast.ShowMessage(MessageType.Success, Messages.DeleteSuccess, Messages.DeleteSuccessMessage);
             }
         }
         catch (Exception ex)
         {
-            Toast.ShowMessage(MessageType.Error, "Error", ex.Message);
+            Toast.ShowMessage(MessageType.Error, Messages.Error, ex.Message);
             //error = ex.Message;
             args.Cancel = true;
             //StateHasChanged();

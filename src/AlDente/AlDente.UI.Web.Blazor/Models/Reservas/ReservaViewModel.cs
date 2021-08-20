@@ -1,4 +1,5 @@
-﻿using AlDente.Contracts.DiasLaborables;
+﻿using AlDente.Contracts.Core;
+using AlDente.Contracts.DiasLaborables;
 using AlDente.Contracts.Mesas;
 using AlDente.Contracts.Reservas;
 using AlDente.Contracts.Turnos;
@@ -119,7 +120,7 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
             this.Combinacion = new Guid?[] { };
             this.Combinaciones.Clear();
         }
-        public async Task<IReservaResult> Reservar()
+        public async Task<BasicResultDTO<string>> Reservar()
         {
             if (!this.EsValidoParaReservar)
             {
@@ -137,7 +138,7 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
                     ClienteId = UserSession.Data.User.Id
 
                 });
-                this.MensajeDeErrorAlReservar = result.Error;
+                this.MensajeDeErrorAlReservar = result.AllErrors;
                 return result;
             }
             catch (Exception ex)

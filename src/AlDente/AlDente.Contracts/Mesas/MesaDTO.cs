@@ -1,8 +1,5 @@
 ﻿using AlDente.Globalization;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AlDente.Contracts.Mesas
 {
@@ -19,8 +16,8 @@ namespace AlDente.Contracts.Mesas
         {
             RuleFor(x => x.Capacidad)
                .NotEmpty()
-                .WithMessage(Strings.XIsRequired("Capacidad"))
-                .WithName("Capacidad");
+                .WithMessage(Strings.XIsRequired(Messages.Capacity))
+                .WithName(Messages.Capacity);
 
         }
     }

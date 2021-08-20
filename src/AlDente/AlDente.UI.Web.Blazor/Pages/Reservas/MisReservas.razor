@@ -2,6 +2,7 @@
 @using Syncfusion.Blazor.Grids
 @using Syncfusion.Blazor.Popups
 @using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.BarcodeGenerator
 @using Models.Reservas
 @using Contracts.Reservas
 @using AlDente.Globalization
@@ -20,16 +21,24 @@
         <div class="col-lg-12 control-section">
             <div class="content-wrapper">
                 <div class="row">
-                    <SfGrid DataSource="@ViewModel.Reservas" AllowPaging="true">
-                        <GridEditSettings AllowAdding="false" AllowDeleting="false" AllowEditing="false">
-                        </GridEditSettings>
+                    <SfGrid DataSource="@ViewModel.Reservas" AllowPaging="true" AllowGrouping="true" AllowSorting="true">
+                        <GridGroupSettings Columns="@GroupedColumns" ShowDropArea="false" ShowUngroupButton="false"></GridGroupSettings>
+                        <GridSortSettings>
+                            <GridSortColumns>
+                                <GridSortColumn Field="@nameof(ReservaBasicDTO.EstadoName)" Direction="SortDirection.Descending"></GridSortColumn>
+                            </GridSortColumns>
+                        </GridSortSettings>
                         <GridColumns>
-                            <GridColumn Field=@nameof(ReservaBasicDTO.Fecha)></GridColumn>
-                            <GridColumn Field=@nameof(ReservaBasicDTO.Codigo)></GridColumn>
-                            <GridColumn Field=@nameof(ReservaBasicDTO.Comensales)></GridColumn>
-                            <GridColumn Field=@nameof(ReservaBasicDTO.EstadoName)></GridColumn>
+                            <GridColumn Field=@nameof(ReservaBasicDTO.Fecha) Format="dd/MM/yyyy" HeaderText="@Messages.Date"></GridColumn>
+                            <GridColumn Field=@nameof(ReservaBasicDTO.Turno) HeaderText="@Messages.Turno"></GridColumn>
+                            <GridColumn Field=@nameof(ReservaBasicDTO.Codigo) HeaderText="@Messages.Code"></GridColumn>
+                            <GridColumn Field=@nameof(ReservaBasicDTO.Comensales) HeaderText="@Messages.Comensales"></GridColumn>
+                            <GridColumn Field=@nameof(ReservaBasicDTO.EstadoName) HeaderText="@Messages.State">
+
+                            </GridColumn>
                             <GridColumn HeaderText="@Strings.Actions">
                                 <GridCommandColumns>
+                                    <GridCommandColumn Title="QR" ButtonOption="@(new CommandButtonOptions() { IconCss = "fa fa-qrcode", CssClass = "e-info" })"></GridCommandColumn>
                                     <GridCommandColumn Title="Cancel" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-cancel", CssClass = "e-danger" })"></GridCommandColumn>
                                 </GridCommandColumns>
                             </GridColumn>
@@ -66,6 +75,18 @@
             </DialogTemplates>
             <DialogAnimationSettings Effect="DialogEffect.Zoom"></DialogAnimationSettings>
         </SfDialog>
+        <SfDialog AllowDragging="true" @bind-Visible="@showQR" IsModal="true" Width="500px" ShowCloseIcon="true">
+            <DialogTemplates>
+                <Content>
+                    <div class="text-center">
+                        <SfQRCodeGenerator Width="500px" Height="500px" Value="@codigoReserva">
+                            <QRCodeGeneratorDisplayText Visibility="true"></QRCodeGeneratorDisplayText>
+                        </SfQRCodeGenerator>
+                    </div>
+                </Content>
+            </DialogTemplates>
+            <DialogAnimationSettings Effect="DialogEffect.Zoom"></DialogAnimationSettings>
+        </SfDialog>
     }
 </MyCard>
 <style>
@@ -74,8 +95,12 @@
     }
 </style>
 @code {
+
+    public string[] GroupedColumns = new string[] { nameof(ReservaBasicDTO.EstadoName) };
     private bool loading;
     bool dialogVisible { get; set; } = false;
+    bool showQR { get; set; } = false;
+    string codigoReserva { get; set; } = "";
     private FluentValidationValidator fluentValidationValidator;
     private MisReservasViewModel ViewModel { get; set; }
 
@@ -97,8 +122,16 @@
 
     public void OnCommandClicked(CommandClickEventArgs<ReservaBasicDTO> args)
     {
-        this.ViewModel.SetReservaACancelar(args.RowData);
-        this.dialogVisible = true;
+        if (args.CommandColumn.Title == "QR")
+        {
+            this.codigoReserva = args.RowData.Codigo;
+            this.showQR = true;
+        }
+        else if (args.CommandColumn.Title == "Cancel")
+        {
+            this.ViewModel.SetReservaACancelar(args.RowData);
+            this.dialogVisible = true;
+        }
     }
     private async Task CancelarReserva()
     {

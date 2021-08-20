@@ -120,6 +120,12 @@
   <data name="Actions" xml:space="preserve">
     <value>Acciones</value>
   </data>
+  <data name="Active" xml:space="preserve">
+    <value>Activo</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Dirección</value>
+  </data>
   <data name="AK_Cliente_DNI" xml:space="preserve">
     <value>Ya existe un cliente registrado con el mismo Id</value>
   </data>
@@ -129,8 +135,20 @@
   <data name="AK_EstadoCliente_Codigo" xml:space="preserve">
     <value>Ya existe un estado registrado con el mismo código</value>
   </data>
+  <data name="Assisted" xml:space="preserve">
+    <value>Asistida</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Cancelled" xml:space="preserve">
+    <value>Cacelada</value>
+  </data>
+  <data name="Capacity" xml:space="preserve">
+    <value>Capacidad</value>
+  </data>
   <data name="Code" xml:space="preserve">
-    <value>Codigo</value>
+    <value>Código</value>
   </data>
   <data name="Comensales" xml:space="preserve">
     <value>Comensales</value>
@@ -138,11 +156,29 @@
   <data name="Create" xml:space="preserve">
     <value>Crear</value>
   </data>
+  <data name="CreatedDate" xml:space="preserve">
+    <value>Fecha De Creación</value>
+  </data>
+  <data name="CreateSuccess" xml:space="preserve">
+    <value>Se creo correctamente!!!</value>
+  </data>
+  <data name="CreateSuccessMessage" xml:space="preserve">
+    <value>Se creo con éxito</value>
+  </data>
   <data name="Date" xml:space="preserve">
     <value>Fecha</value>
   </data>
+  <data name="Day" xml:space="preserve">
+    <value>Día</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Eliminar</value>
+  </data>
+  <data name="DeleteSuccess" xml:space="preserve">
+    <value>Se elimino correctamente!!!</value>
+  </data>
+  <data name="DeleteSuccessMessage" xml:space="preserve">
+    <value>Se Elimino con éxito</value>
   </data>
   <data name="Description" xml:space="preserve">
     <value>Descripción</value>
@@ -156,8 +192,20 @@
   <data name="EmailOrPasswordWasNotCorrect" xml:space="preserve">
     <value>Email o contraseña incorrecta.</value>
   </data>
+  <data name="EndTime" xml:space="preserve">
+    <value>Hora Final</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Viernes</value>
+  </data>
   <data name="Id" xml:space="preserve">
     <value>Id</value>
+  </data>
+  <data name="Inactive" xml:space="preserve">
+    <value>Inactivo</value>
   </data>
   <data name="LastName" xml:space="preserve">
     <value>Apellido</value>
@@ -174,17 +222,35 @@
   <data name="LogOut" xml:space="preserve">
     <value>Cerrar Sesión</value>
   </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Lunes</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Nombre</value>
   </data>
+  <data name="New" xml:space="preserve">
+    <value>Nuevo</value>
+  </data>
+  <data name="NotAssisted" xml:space="preserve">
+    <value>No Asistida</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Contraseña</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Pendiente</value>
   </data>
   <data name="Phone" xml:space="preserve">
     <value>Teléfono</value>
   </data>
   <data name="PK_EstadoCliente_Id" xml:space="preserve">
     <value>Ya existe un estado registrado con el mismo Id.</value>
+  </data>
+  <data name="PositionDescription" xml:space="preserve">
+    <value>Descripción Del Puesto</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>Motivo</value>
   </data>
   <data name="Register" xml:space="preserve">
     <value>Registrarse</value>
@@ -193,7 +259,7 @@
     <value>Gracias por formar parte de &lt;b&gt; AlDente &lt;/b&gt;, reserva tu lugar y ven a disfrutar de nuestros platos.</value>
   </data>
   <data name="RegisterSuccessTitle" xml:space="preserve">
-    <value>Se ha registrado con exito</value>
+    <value>Se ha registrado con éxito</value>
   </data>
   <data name="RepeatEmail" xml:space="preserve">
     <value>Repita el correo electrónico</value>
@@ -201,20 +267,59 @@
   <data name="RepeatPassword" xml:space="preserve">
     <value>Repita la Contraseña</value>
   </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>Sabado</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Guardar</value>
   </data>
   <data name="SignIn" xml:space="preserve">
     <value>Registrarse</value>
   </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Hora Inicial</value>
+  </data>
+  <data name="State" xml:space="preserve">
+    <value>Estado</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Domingo</value>
+  </data>
+  <data name="Suspended" xml:space="preserve">
+    <value>Suspendido</value>
+  </data>
+  <data name="TheEndTimemMustBeGreaterThanTheStartTime" xml:space="preserve">
+    <value>La hora de Fin debe ser mayor a la de Inicio.</value>
+  </data>
   <data name="TheFieldsXAndYMustBeTheSame" xml:space="preserve">
     <value>Los campos {0} y {1} deben ser iguales.</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>Jueves</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Martes</value>
   </data>
   <data name="Turno" xml:space="preserve">
     <value>Turno</value>
   </data>
   <data name="Update" xml:space="preserve">
     <value>Actualizar</value>
+  </data>
+  <data name="UpdatedSuccess" xml:space="preserve">
+    <value>Se actualizo correctamente</value>
+  </data>
+  <data name="UpdatedSuccessMessage" xml:space="preserve">
+    <value>Se actualizo con éxito</value>
+  </data>
+  <data name="Url" xml:space="preserve">
+    <value>Url</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>Nombre De Usuario</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Miércoles</value>
   </data>
   <data name="XIsNotAValidEmailAddress" xml:space="preserve">
     <value>'{0}' no es una dirección de correo electrónico válida.</value>

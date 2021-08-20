@@ -23,6 +23,10 @@ namespace AlDente.Contracts.Core
         {
             return _result.ConcatErrors(separator);
         }
+        public static BasicResultDTO<T> Failled(string error)
+        {
+            return new BasicResultDTO<T>(default, BasicResultDTO.Failled(error));
+        }
         public static BasicResultDTO<T> Failled(T data, string error)
         {
             return new BasicResultDTO<T>(data, BasicResultDTO.Failled(error));

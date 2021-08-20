@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AlDente.Globalization;
+using System;
 
 namespace AlDente.Contracts.Reservas
 {
@@ -19,18 +20,40 @@ namespace AlDente.Contracts.Reservas
 
         public int LimiteDeHora { get; set; }
 
+        public int OrderByState => GetOrderByState();
+
+        public string Turno { get; set; }
+
+        private int GetOrderByState()
+        {
+            switch ((EstadosDeUnaReserva)this.EstadoId)
+            {
+                case EstadosDeUnaReserva.Asistida:
+                    return 1;
+                case EstadosDeUnaReserva.NoAsistida:
+                    return 2;
+                case EstadosDeUnaReserva.Pendiente:
+                    return 0;
+                case EstadosDeUnaReserva.Cancelada:
+                    return 300;
+                default:
+                    return 4;
+
+            }
+        }
+
         private string GetEstadoName()
         {
             switch ((EstadosDeUnaReserva)this.EstadoId)
             {
                 case EstadosDeUnaReserva.Asistida:
-                    return "Asistida";
+                    return Messages.Assisted;
                 case EstadosDeUnaReserva.NoAsistida:
-                    return "No Asistida";
+                    return Messages.NotAssisted;
                 case EstadosDeUnaReserva.Pendiente:
-                    return "Pendiente";
+                    return Messages.Pending;
                 case EstadosDeUnaReserva.Cancelada:
-                    return "Cancelada";
+                    return Messages.Cancelled;
                 default:
                     return "";
 

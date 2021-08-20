@@ -37,8 +37,8 @@
                     </GridEditSettings>
                     <GridEvents TValue="MesaDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
                     <GridColumns>
-                        <GridColumn Field=@nameof(MesaDTO.Id) Width="140" IsPrimaryKey="true"></GridColumn>
-                        <GridColumn Field=@nameof(MesaDTO.Capacidad)></GridColumn>
+                        <GridColumn Field=@nameof(MesaDTO.Id) Width="140" IsPrimaryKey="true" Visible="false"></GridColumn>
+                        <GridColumn Field=@nameof(MesaDTO.Capacidad) HeaderText="@Messages.Capacity"></GridColumn>
                         <GridColumn HeaderText="@Strings.Actions" Width="150">
                             <GridCommandColumns>
                                 <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-primary" })"></GridCommandColumn>
@@ -72,24 +72,24 @@
                 if (args.Action == "Add")
                 {
                     await servMesa.Create(args.Data);
-                    Toast.ShowMessage(MessageType.Success, "[Create Success!!!]", "[Se creo con exito]");
+                    Toast.ShowMessage(MessageType.Success, Messages.CreateSuccess, Messages.CreateSuccessMessage);
                 }
                 else
                 {
                     await servMesa.Update(args.Data);
-                    Toast.ShowMessage(MessageType.Success, "[Updated Success!!!]", "[Se actualizo con exito]");
+                    Toast.ShowMessage(MessageType.Success, Messages.UpdatedSuccess, Messages.UpdatedSuccessMessage);
 
                 }
             }
             if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete))
             {
                 await servMesa.Delete(args.Data.Id);
-                Toast.ShowMessage(MessageType.Success, "[Delete Success!!!]", "[Se Removio con exito]");
+                Toast.ShowMessage(MessageType.Success, Messages.DeleteSuccess, Messages.DeleteSuccessMessage);
             }
         }
         catch (Exception ex)
         {
-            Toast.ShowMessage(MessageType.Error, "Error", ex.Message);
+            Toast.ShowMessage(MessageType.Error, Messages.Error, ex.Message);
             //error = ex.Message;
             args.Cancel = true;
             //StateHasChanged();

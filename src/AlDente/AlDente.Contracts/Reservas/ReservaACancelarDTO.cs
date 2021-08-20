@@ -16,8 +16,8 @@ namespace AlDente.Contracts.Reservas
         {
             RuleFor(x => x.Motivo)
                 .NotEmpty()
-                .WithMessage(Strings.XIsRequired("[Motivo]"))
-                .WithName("[Motivo]");
+                .WithMessage(Strings.XIsRequired(Messages.Reason))
+                .WithName(Messages.Reason);
 
         }
     }

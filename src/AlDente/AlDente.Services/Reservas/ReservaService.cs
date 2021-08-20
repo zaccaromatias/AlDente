@@ -5,6 +5,7 @@ using AlDente.DataAccess.Core;
 using AlDente.DataAccess.Mesas;
 using AlDente.DataAccess.Reservas;
 using AlDente.DataAccess.Turnos;
+using AlDente.Entities.Reservas;
 using AlDente.Services.Core;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace AlDente.Services.Reservas
             _mesaRepository.Attach(unitOfWork);
         }
 
-        public async Task<IReservaResult> Create(ReservaDTO reservaDTO)
+        public async Task<BasicResultDTO<string>> Create(ReservaDTO reservaDTO)
         {
             return await this.Try(async () =>
             {
@@ -49,7 +50,7 @@ namespace AlDente.Services.Reservas
                 .SetReserva(reservaDTO)
                 .ValidationsAsync();
 
-                IReservaResult reserva = await reservaForSave.SaveAsync();
+                BasicResultDTO<string> reserva = await reservaForSave.SaveAsync();
                 return reserva;
             });
         }
@@ -57,7 +58,13 @@ namespace AlDente.Services.Reservas
         public async Task<IEnumerable<ReservaBasicDTO>> GetReservasDeUnCliente(int clienteId)
         {
             var result = await _reservaRepository.QueryAsync(x => x.ClienteId == clienteId);
-            return result.OrderBy(x => x.FechaReserva).Select(x => new ReservaBasicDTO
+            var tasks = await Task.WhenAll(result.OrderBy(x => x.FechaReserva).Select(async x => await MapToBasicDTO(x)));
+            return tasks.OrderBy(x => x.OrderByState).ThenBy(x => x.Fecha);
+        }
+
+        public async Task<ReservaBasicDTO> MapToBasicDTO(Reserva x)
+        {
+            var dto = new ReservaBasicDTO
             {
                 Id = x.Id,
                 Codigo = x.Codigo,
@@ -66,7 +73,15 @@ namespace AlDente.Services.Reservas
                 Fecha = x.FechaReserva,
                 FechaDeCreacion = x.FechaCreacion,
                 LimiteDeHora = LIMITE_DE_HORAS_DONDE_NO_SE_PUEDE_CANCELAR
-            });
+            };
+            dto.Turno = await GetTurno(x.TurnoId);
+            return dto;
+        }
+
+        private async Task<string> GetTurno(int turnoId)
+        {
+            var result = await _turnoRepository.GetByIdAsync(turnoId);
+            return result.Text;
         }
 
         const int LIMITE_DE_HORAS_DONDE_NO_SE_PUEDE_CANCELAR = 2;

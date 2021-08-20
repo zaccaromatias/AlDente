@@ -77,3 +77,9 @@ header {
 .reservaSuccessDialogFooter {
     text-align:center;
 }
+.e-search:before {
+    content: '\e993';
+}
+.e-expand:before {
+    content: '\e777';
+}

@@ -20,7 +20,7 @@
     <div class="col-lg-12 control-section">
         <div class="content-wrapper">
             <div class="row">
-                <SfGrid DataSource="@TodosLosTurnos" Toolbar="@(new List<string>() { "Add", "Edit", "Delete" })" AllowPaging="true">
+                <SfGrid DataSource="@TodosLosTurnos" Toolbar="@(new List<string>() { "Add", "Edit", "Delete" })" AllowPaging="true" AllowGrouping="true">
                     <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" Mode="EditMode.Dialog" NewRowPosition="NewRowPosition.Bottom" ShowDeleteConfirmDialog="true" ShowConfirmDialog="true">
                         <Validator>
                             <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
@@ -55,11 +55,20 @@
                         </Template>
                     </GridEditSettings>
                     <GridEvents TValue="TurnoDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
+                    <GridGroupSettings Columns="@GroupedColumns" ShowUngroupButton="false" ShowDropArea="false">
+                        <CaptionTemplate>
+                            @{
+                                var caption = context as CaptionTemplateContext;
+                                @caption.Key;
+                            }
+                        </CaptionTemplate>
+                    </GridGroupSettings>
                     <GridColumns>
-                        <GridColumn Field=@nameof(TurnoDTO.Id) Width="140" IsPrimaryKey="true"></GridColumn>
-                        <GridColumn Field=@nameof(TurnoDTO.HoraInicio)></GridColumn>
-                        <GridColumn Field=@nameof(TurnoDTO.HoraFin)></GridColumn>
-                        <GridColumn HeaderText="@Strings.Actions" Width="150">
+                        <GridColumn Field=@nameof(TurnoDTO.Id) IsPrimaryKey="true" Visible="false"></GridColumn>
+                        <GridColumn Field="@nameof(TurnoDTO.Dia)" HeaderText="@Messages.Day"></GridColumn>
+                        <GridColumn Field=@nameof(TurnoDTO.HoraInicio) HeaderText="@Messages.StartTime"></GridColumn>
+                        <GridColumn Field=@nameof(TurnoDTO.HoraFin) HeaderText="@Messages.EndTime"></GridColumn>
+                        <GridColumn HeaderText="@Strings.Actions">
                             <GridCommandColumns>
                                 <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-primary" })"></GridCommandColumn>
                                 <GridCommandColumn Type="CommandButtonType.Delete" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-delete", CssClass = "e-danger" })"></GridCommandColumn>
@@ -72,6 +81,7 @@
     </div>
 </MyCard>
 @code {
+    public string[] GroupedColumns = new string[] { nameof(TurnoDTO.Dia) };
     public static List<TurnoDTO> TodosLosTurnos { get; set; }
     public static List<DiaLaboralDTO> DiasDeLaSemana { get; set; }
     private FluentValidationValidator fluentValidationValidator;
@@ -92,13 +102,25 @@
             {
                 if (args.Action == "Add")
                 {
-                    await _turnoService.Create(args.Data);
-                    Toast.ShowMessage(MessageType.Success, "[Create Success!!!]", "[Se creo con exito]");
+                    var result = await _turnoService.Create(args.Data);
+                    if (result.IsValid)
+                        Toast.ShowMessage(MessageType.Success, "[Create Success!!!]", "[Se creo con exito]");
+                    else
+                    {
+                        Toast.ShowMessage(MessageType.Error, "Error", result.AllErrors);
+                        args.Cancel = true;
+                    }
                 }
                 else
                 {
-                    await _turnoService.Update(args.Data);
-                    Toast.ShowMessage(MessageType.Success, "[Updated Success!!!]", "[Se actualizo con exito]");
+                    var result = await _turnoService.Update(args.Data);
+                    if (result.IsValid)
+                        Toast.ShowMessage(MessageType.Success, "[Updated Success!!!]", "[Se actualizo con exito]");
+                    else
+                    {
+                        Toast.ShowMessage(MessageType.Error, "Error", result.AllErrors);
+                        args.Cancel = true;
+                    }
 
                 }
             }

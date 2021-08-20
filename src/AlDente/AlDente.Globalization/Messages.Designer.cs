@@ -70,6 +70,24 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Activo.
+        /// </summary>
+        public static string Active {
+            get {
+                return ResourceManager.GetString("Active", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dirección.
+        /// </summary>
+        public static string Address {
+            get {
+                return ResourceManager.GetString("Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ya existe un cliente registrado con el mismo Id.
         /// </summary>
         public static string AK_Cliente_DNI {
@@ -97,7 +115,43 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Codigo.
+        ///   Looks up a localized string similar to Asistida.
+        /// </summary>
+        public static string Assisted {
+            get {
+                return ResourceManager.GetString("Assisted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancelar.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cacelada.
+        /// </summary>
+        public static string Cancelled {
+            get {
+                return ResourceManager.GetString("Cancelled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Capacidad.
+        /// </summary>
+        public static string Capacity {
+            get {
+                return ResourceManager.GetString("Capacity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Código.
         /// </summary>
         public static string Code {
             get {
@@ -124,6 +178,33 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fecha De Creación.
+        /// </summary>
+        public static string CreatedDate {
+            get {
+                return ResourceManager.GetString("CreatedDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Se creo correctamente!!!.
+        /// </summary>
+        public static string CreateSuccess {
+            get {
+                return ResourceManager.GetString("CreateSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Se creo con éxito.
+        /// </summary>
+        public static string CreateSuccessMessage {
+            get {
+                return ResourceManager.GetString("CreateSuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fecha.
         /// </summary>
         public static string Date {
@@ -133,11 +214,38 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Día.
+        /// </summary>
+        public static string Day {
+            get {
+                return ResourceManager.GetString("Day", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Eliminar.
         /// </summary>
         public static string Delete {
             get {
                 return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Se elimino correctamente!!!.
+        /// </summary>
+        public static string DeleteSuccess {
+            get {
+                return ResourceManager.GetString("DeleteSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Se Elimino con éxito.
+        /// </summary>
+        public static string DeleteSuccessMessage {
+            get {
+                return ResourceManager.GetString("DeleteSuccessMessage", resourceCulture);
             }
         }
         
@@ -178,11 +286,47 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hora Final.
+        /// </summary>
+        public static string EndTime {
+            get {
+                return ResourceManager.GetString("EndTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        public static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Viernes.
+        /// </summary>
+        public static string Friday {
+            get {
+                return ResourceManager.GetString("Friday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Id.
         /// </summary>
         public static string Id {
             get {
                 return ResourceManager.GetString("Id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inactivo.
+        /// </summary>
+        public static string Inactive {
+            get {
+                return ResourceManager.GetString("Inactive", resourceCulture);
             }
         }
         
@@ -232,6 +376,15 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lunes.
+        /// </summary>
+        public static string Monday {
+            get {
+                return ResourceManager.GetString("Monday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nombre.
         /// </summary>
         public static string Name {
@@ -241,11 +394,38 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nuevo.
+        /// </summary>
+        public static string New {
+            get {
+                return ResourceManager.GetString("New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Asistida.
+        /// </summary>
+        public static string NotAssisted {
+            get {
+                return ResourceManager.GetString("NotAssisted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contraseña.
         /// </summary>
         public static string Password {
             get {
                 return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pendiente.
+        /// </summary>
+        public static string Pending {
+            get {
+                return ResourceManager.GetString("Pending", resourceCulture);
             }
         }
         
@@ -268,6 +448,24 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Descripción Del Puesto.
+        /// </summary>
+        public static string PositionDescription {
+            get {
+                return ResourceManager.GetString("PositionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Motivo.
+        /// </summary>
+        public static string Reason {
+            get {
+                return ResourceManager.GetString("Reason", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Registrarse.
         /// </summary>
         public static string Register {
@@ -286,7 +484,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Se ha registrado con exito.
+        ///   Looks up a localized string similar to Se ha registrado con éxito.
         /// </summary>
         public static string RegisterSuccessTitle {
             get {
@@ -313,6 +511,15 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sabado.
+        /// </summary>
+        public static string Saturday {
+            get {
+                return ResourceManager.GetString("Saturday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Guardar.
         /// </summary>
         public static string Save {
@@ -331,11 +538,74 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hora Inicial.
+        /// </summary>
+        public static string StartTime {
+            get {
+                return ResourceManager.GetString("StartTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Estado.
+        /// </summary>
+        public static string State {
+            get {
+                return ResourceManager.GetString("State", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Domingo.
+        /// </summary>
+        public static string Sunday {
+            get {
+                return ResourceManager.GetString("Sunday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Suspendido.
+        /// </summary>
+        public static string Suspended {
+            get {
+                return ResourceManager.GetString("Suspended", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to La hora de Fin debe ser mayor a la de Inicio..
+        /// </summary>
+        public static string TheEndTimemMustBeGreaterThanTheStartTime {
+            get {
+                return ResourceManager.GetString("TheEndTimemMustBeGreaterThanTheStartTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Los campos {0} y {1} deben ser iguales..
         /// </summary>
         public static string TheFieldsXAndYMustBeTheSame {
             get {
                 return ResourceManager.GetString("TheFieldsXAndYMustBeTheSame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jueves.
+        /// </summary>
+        public static string Thursday {
+            get {
+                return ResourceManager.GetString("Thursday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Martes.
+        /// </summary>
+        public static string Tuesday {
+            get {
+                return ResourceManager.GetString("Tuesday", resourceCulture);
             }
         }
         
@@ -354,6 +624,51 @@ namespace AlDente.Globalization {
         public static string Update {
             get {
                 return ResourceManager.GetString("Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Se actualizo correctamente.
+        /// </summary>
+        public static string UpdatedSuccess {
+            get {
+                return ResourceManager.GetString("UpdatedSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Se actualizo con éxito.
+        /// </summary>
+        public static string UpdatedSuccessMessage {
+            get {
+                return ResourceManager.GetString("UpdatedSuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Url.
+        /// </summary>
+        public static string Url {
+            get {
+                return ResourceManager.GetString("Url", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nombre De Usuario.
+        /// </summary>
+        public static string UserName {
+            get {
+                return ResourceManager.GetString("UserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Miércoles.
+        /// </summary>
+        public static string Wednesday {
+            get {
+                return ResourceManager.GetString("Wednesday", resourceCulture);
             }
         }
         

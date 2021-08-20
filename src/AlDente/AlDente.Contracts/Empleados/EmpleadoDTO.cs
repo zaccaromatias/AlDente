@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AlDente.Globalization;
+﻿using AlDente.Globalization;
 using FluentValidation;
+using System;
 
 namespace AlDente.Contracts.Empleados
 {
@@ -38,10 +36,10 @@ namespace AlDente.Contracts.Empleados
 
             RuleFor(x => x.DescripcionPuesto)
                 .NotEmpty()
-                .WithMessage(Strings.XIsRequired("Debe ingresar Descripción"))
-                .WithName("Descripcion")
+                .WithMessage(Strings.XIsRequired(Messages.Description))
+                .WithName(Messages.Description)
                 .MaximumLength(200)
-                .WithMessage(Strings.XMustBeLessThanYCharacters("Descripcion", 200)); ;
+                .WithMessage(Strings.XMustBeLessThanYCharacters(Messages.Description, 200)); ;
 
             RuleFor(x => x.Nombre)
                 .NotEmpty()
@@ -59,8 +57,8 @@ namespace AlDente.Contracts.Empleados
 
             RuleFor(x => x.Estado)
                 .NotEmpty()
-                .WithMessage(Strings.XIsRequired("Debe ingresar Estado"))
-                .WithName("Estado");
+                .WithMessage(Strings.XIsRequired(Messages.State))
+                .WithName(Messages.State);
 
         }
     }

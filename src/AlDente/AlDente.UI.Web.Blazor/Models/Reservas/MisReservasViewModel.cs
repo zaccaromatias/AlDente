@@ -13,6 +13,7 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
 
         public ReservaACancelarDTO ReservaACancelar { get; private set; }
 
+
         public void SetReservaACancelar(ReservaBasicDTO reserva)
         {
             ReservaACancelar = new ReservaACancelarDTO

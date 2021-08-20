@@ -20,19 +20,19 @@ namespace AlDente.Contracts.DiasLaborables
             switch (Dia)
             {
                 case DiasDeLaSemana.Lunes:
-                    return "Lunes";
+                    return Messages.Monday;
                 case DiasDeLaSemana.Martes:
-                    return "Martes";
+                    return Messages.Tuesday;
                 case DiasDeLaSemana.Miercoles:
-                    return "Miercoles";
+                    return Messages.Wednesday;
                 case DiasDeLaSemana.Jueves:
-                    return "Jueves";
+                    return Messages.Thursday;
                 case DiasDeLaSemana.Viernes:
-                    return "Viernes";
+                    return Messages.Friday;
                 case DiasDeLaSemana.Sabado:
-                    return "Sabado";
+                    return Messages.Saturday;
                 case DiasDeLaSemana.Domingo:
-                    return "Domingo";
+                    return Messages.Sunday;
                 default:
                     return "";
             }
@@ -48,20 +48,27 @@ namespace AlDente.Contracts.DiasLaborables
         public DiaLaboralDTOValidator()
         {
             RuleFor(x => x.HoraInicio)
-               .NotEmpty()
-                .WithMessage(Strings.XIsRequired("Hora Inicio"))
-                .WithName("Hora Inicio");
+               .NotNull()
+                .WithMessage(Strings.XIsRequired(Messages.StartTime))
+                .WithName(Messages.StartTime);
 
             RuleFor(x => x.HoraFin)
-               .NotEmpty()
-               .WithMessage(Strings.XIsRequired("Hora Fin"))
-               .WithName("Hora Fin");
-
+               .NotNull()
+               .WithMessage(Strings.XIsRequired(Messages.EndTime))
+               .WithName(Messages.EndTime);
 
             RuleFor(x => x.Dia)
               .NotEmpty()
-               .WithMessage(Strings.XIsRequired("Dia de la Semana"))
-               .WithName("Dia de la Semana");
+               .WithMessage(Strings.XIsRequired(Messages.Day))
+               .WithName(Messages.Day);
+
+            When(x => (x.HoraInicio < TimeSpan.FromHours(12) && x.HoraFin < TimeSpan.FromHours(12))
+                || (x.HoraInicio >= TimeSpan.FromHours(12) && x.HoraFin >= TimeSpan.FromHours(12)), () =>
+                {
+                    RuleFor(x => x.HoraFin).GreaterThan(x => x.HoraInicio)
+                .WithMessage(Messages.TheEndTimemMustBeGreaterThanTheStartTime);
+                });
+
         }
     }
 }

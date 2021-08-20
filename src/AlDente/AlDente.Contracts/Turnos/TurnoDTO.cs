@@ -1,4 +1,5 @@
-﻿using AlDente.Globalization;
+﻿using AlDente.Contracts.DiasLaborables;
+using AlDente.Globalization;
 using FluentValidation;
 using System;
 
@@ -8,11 +9,18 @@ namespace AlDente.Contracts.Turnos
     {
         public int Id { get; set; }
         public TimeSpan HoraInicio { get; set; }
+
         public TimeSpan HoraFin { get; set; }
 
         public int DiaLaboralId { get; set; }
 
+        public DiaLaboralDTO DiaLaboral { get; set; }
+
+        public string Dia => this.DiaLaboral?.DiaName ?? "";
+
         public string Text => $"De {HoraInicio.ToString("hh\\:mm")}Hs a {HoraFin.ToString("hh\\:mm")}Hs";
+
+
 
         public override string ToString()
         {
@@ -23,16 +31,28 @@ namespace AlDente.Contracts.Turnos
     {
         public TurnoDTOValidator()
         {
-            RuleFor(x => x.HoraInicio)
+
+            RuleFor(x => x.DiaLaboralId)
                .NotEmpty()
-                .WithMessage(Strings.XIsRequired("Hora Inicio"))
-                .WithName("Hora Inicio");
+               .WithMessage(Strings.XIsRequired(Messages.Day))
+               .WithName(Messages.Day);
+
+            RuleFor(x => x.HoraInicio)
+               .NotNull()
+               .WithMessage(Strings.XIsRequired(Messages.StartTime))
+               .WithName(Messages.StartTime);
             RuleFor(x => x.HoraFin)
-              .NotEmpty()
-               .WithMessage(Strings.XIsRequired("Hora Fin"))
-               .WithName("Hora Fin");
-            RuleFor(x => x.HoraFin).LessThanOrEqualTo(x => x.HoraInicio)
-               .WithMessage("La hora de inicio debe ser menor a la de fin");
+              .NotNull()
+              .WithMessage(Strings.XIsRequired(Messages.EndTime))
+              .WithName(Messages.EndTime);
+
+            When(x => (x.HoraInicio < TimeSpan.FromHours(12) && x.HoraFin < TimeSpan.FromHours(12))
+            || (x.HoraInicio >= TimeSpan.FromHours(12) && x.HoraFin >= TimeSpan.FromHours(12)), () =>
+             {
+                 RuleFor(x => x.HoraFin).GreaterThan(x => x.HoraInicio)
+                 .WithMessage(Messages.TheEndTimemMustBeGreaterThanTheStartTime);
+             });
+
         }
     }
 }

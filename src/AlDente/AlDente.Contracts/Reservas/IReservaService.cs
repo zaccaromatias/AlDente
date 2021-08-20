@@ -6,7 +6,7 @@ namespace AlDente.Contracts.Reservas
 {
     public interface IReservaService
     {
-        Task<IReservaResult> Create(ReservaDTO reservaDTO);
+        Task<BasicResultDTO<string>> Create(ReservaDTO reservaDTO);
 
         Task<IEnumerable<ReservaBasicDTO>> GetReservasDeUnCliente(int clienteId);
 

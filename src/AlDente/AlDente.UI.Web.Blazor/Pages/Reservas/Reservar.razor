@@ -6,6 +6,7 @@
 @using Contracts.Turnos
 @using Contracts.Mesas
 @using Contracts.Reservas
+@using Contracts.Core
 @using Contracts.DiasLaborables
 @page "/Reservar"
 @inject IDiaLaboralService _diaLaboralService
@@ -103,6 +104,7 @@
             </DialogTemplates>
             <DialogAnimationSettings Effect="DialogEffect.Zoom"></DialogAnimationSettings>
         </SfDialog>
+
     }
 </MyCard>
 @code {
@@ -128,10 +130,10 @@
 
     private async Task RealizarReserva()
     {
-        IReservaResult result = await this.Reserva.Reservar();
-        if (result != null && result.State == ReservaResultState.Success)
+        BasicResultDTO<string> result = await this.Reserva.Reservar();
+        if (result != null && result.IsValid)
         {
-            this.codigoReserva = result.Codigo;
+            this.codigoReserva = result.Data;
             this.dialogVisible = true;
         }
         this.StateHasChanged();
