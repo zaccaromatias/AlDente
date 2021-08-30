@@ -1,14 +1,13 @@
-﻿@using AlDente.UI.Web.Blazor.Models.Reservas
+﻿@using Models.Reservas
 @using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Calendars
 @using Syncfusion.Blazor.Inputs
-@using Syncfusion.Blazor.Buttons
-@using Contracts.Restaurantes
+@using Syncfusion.Blazor.Popups
 @using Contracts.Turnos
 @using Contracts.Mesas
 @using Contracts.Reservas
+@using Contracts.Core
 @using Contracts.DiasLaborables
-@using Syncfusion.Blazor.Popups
 @page "/Reservar"
 @inject IDiaLaboralService _diaLaboralService
 @inject IMesaService _mesaService
@@ -105,6 +104,7 @@
             </DialogTemplates>
             <DialogAnimationSettings Effect="DialogEffect.Zoom"></DialogAnimationSettings>
         </SfDialog>
+
     }
 </MyCard>
 @code {
@@ -130,10 +130,10 @@
 
     private async Task RealizarReserva()
     {
-        IReservaResult result = await this.Reserva.Reservar();
-        if (result != null && result.State == ReservaResultState.Success)
+        BasicResultDTO<string> result = await this.Reserva.Reservar();
+        if (result != null && result.IsValid)
         {
-            this.codigoReserva = result.Codigo;
+            this.codigoReserva = result.Data;
             this.dialogVisible = true;
         }
         this.StateHasChanged();
@@ -147,7 +147,7 @@
     private void EsDiaLaborable(RenderDayCellEventArgs args)
     {
         var view = DatePickerObj.CurrentView();
-        if (view == "Month" && !this.Reserva.EsLaborableElDia((int)args.Date.DayOfWeek))
+        if (view == "Month" && !this.Reserva.EsLaborableElDia(args.Date))
         {
             args.IsDisabled = true;
         }

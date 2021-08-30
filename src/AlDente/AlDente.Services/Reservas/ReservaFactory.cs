@@ -1,4 +1,5 @@
-﻿using AlDente.Contracts.Mesas;
+﻿using AlDente.Contracts.Core;
+using AlDente.Contracts.Mesas;
 using AlDente.Contracts.Reservas;
 using AlDente.DataAccess.Clientes;
 using AlDente.DataAccess.Core;
@@ -69,17 +70,17 @@ namespace AlDente.Services.Reservas
             return await (await this.ValidateClient()).ValidateTurno();
         }
 
-        public async Task<IReservaResult> SaveAsync()
+        public async Task<BasicResultDTO<string>> SaveAsync()
         {
             if (this._errors.Any())
-                return ReservaResult.Failled(string.Join("<br/>", this._errors));
-            return await _unitOfWork.TryWithTransact<IReservaResult>(async () =>
+                return BasicResultDTO<string>.Failled(string.Join("<br/>", this._errors));
+            return await _unitOfWork.TryWithTransact<BasicResultDTO<string>>(async () =>
             {
                 var reservaId = await _reservaRepository.AddAsync(_reserva);
                 _reserva.Id = reservaId;
                 _reserva.Mesas.ForEach(mesa => mesa.ReservaId = reservaId);
                 await _reservaMesaRepository.AddAllAsync(_reserva.Mesas);
-                return ReservaResult.Success(_reserva.Codigo);
+                return BasicResultDTO<string>.Success(_reserva.Codigo);
             });
         }
 
@@ -212,7 +213,7 @@ namespace AlDente.Services.Reservas
 
     public interface ISaveReserva
     {
-        Task<IReservaResult> SaveAsync();
+        Task<BasicResultDTO<string>> SaveAsync();
     }
 
     public interface IReservable

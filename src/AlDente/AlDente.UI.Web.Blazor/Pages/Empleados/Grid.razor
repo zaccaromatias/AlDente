@@ -70,14 +70,14 @@
                     </GridEditSettings>
                     <GridEvents TValue="EmpleadoDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
                     <GridColumns>
-                        <GridColumn Field=@nameof(EmpleadoDTO.Id) Width="140" IsPrimaryKey="true"></GridColumn>
-                        <GridColumn Field=@nameof(EmpleadoDTO.DNI)></GridColumn>
-                        <GridColumn Field=@nameof(EmpleadoDTO.Nombre)></GridColumn>
-                        <GridColumn Field=@nameof(EmpleadoDTO.Apellido)></GridColumn>
-                        <GridColumn Field=@nameof(EmpleadoDTO.DescripcionPuesto)></GridColumn>
-                        <GridColumn Field=@nameof(EmpleadoDTO.Email)></GridColumn>
-                        <GridColumn Field=@nameof(EmpleadoDTO.FechaCreacion)></GridColumn>
-                        <GridColumn Field=@nameof(EmpleadoDTO.Estado)></GridColumn>
+                        <GridColumn Field=@nameof(EmpleadoDTO.Id) Width="140" IsPrimaryKey="true" Visible="false"></GridColumn>
+                        <GridColumn Field=@nameof(EmpleadoDTO.DNI) HeaderText="@Messages.DNI"></GridColumn>
+                        <GridColumn Field=@nameof(EmpleadoDTO.Nombre) HeaderText="@Messages.Name"></GridColumn>
+                        <GridColumn Field=@nameof(EmpleadoDTO.Apellido) HeaderText="@Messages.LastName"></GridColumn>
+                        <GridColumn Field=@nameof(EmpleadoDTO.DescripcionPuesto) HeaderText="@Messages.PositionDescription"></GridColumn>
+                        <GridColumn Field=@nameof(EmpleadoDTO.Email) HeaderText="@Messages.Email"></GridColumn>
+                        <GridColumn Field=@nameof(EmpleadoDTO.FechaCreacion) HeaderText="@Messages.CreatedDate"></GridColumn>
+                        <GridColumn Field=@nameof(EmpleadoDTO.Estado) HeaderText="@Messages.State"></GridColumn>
 
                         <GridColumn HeaderText="@Strings.Actions" Width="150">
                             <GridCommandColumns>
@@ -111,8 +111,8 @@
 
     public static List<EstadoEmpleado> Estados { get; set; } = new List<EstadoEmpleado>
 {
-        new EstadoEmpleado(EstadosDeUnEmpleado.Activo,"[Activo]"),
-        new EstadoEmpleado(EstadosDeUnEmpleado.Inactivo,"[Inactivo]")
+        new EstadoEmpleado(EstadosDeUnEmpleado.Activo,Messages.Active),
+        new EstadoEmpleado(EstadosDeUnEmpleado.Inactivo,Messages.Inactive)
     };
 
     protected override async Task OnInitializedAsync()
@@ -130,23 +130,23 @@
                 if (args.Action == "Add")
                 {
                     await servEmpleado.Create(args.Data);
-                    Toast.ShowMessage(MessageType.Success, "[Create Success!!!]", "[Se creo con exito]");
+                    Toast.ShowMessage(MessageType.Success, Messages.CreateSuccess, Messages.CreateSuccessMessage);
                 }
                 else
                 {
                     await servEmpleado.Update(args.Data);
-                    Toast.ShowMessage(MessageType.Success, "[Updated Success!!!]", "[Se actualizo con exito]");
+                    Toast.ShowMessage(MessageType.Success, Messages.UpdatedSuccess, Messages.UpdatedSuccessMessage);
                 }
             }
             if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete))
             {
                 await servEmpleado.Delete(args.Data.Id);
-                Toast.ShowMessage(MessageType.Success, "[Delete Success!!!]", "[Se Removio con exito]");
+                Toast.ShowMessage(MessageType.Success, Messages.DeleteSuccess, Messages.DeleteSuccessMessage);
             }
         }
         catch (Exception ex)
         {
-            Toast.ShowMessage(MessageType.Error, "Error", ex.Message);
+            Toast.ShowMessage(MessageType.Error, Messages.Error, ex.Message);
             //error = ex.Message;
             args.Cancel = true;
             //StateHasChanged();

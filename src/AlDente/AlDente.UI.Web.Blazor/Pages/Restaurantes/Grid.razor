@@ -53,11 +53,11 @@
                     </GridEditSettings>
                     <GridEvents TValue="RestauranteDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
                     <GridColumns>
-                        <GridColumn Field=@nameof(RestauranteDTO.Id) Width="140" IsPrimaryKey="true"></GridColumn>
-                        <GridColumn Field=@nameof(RestauranteDTO.Descripcion)></GridColumn>
-                        <GridColumn Field=@nameof(RestauranteDTO.Direccion)></GridColumn>
-                        <GridColumn Field=@nameof(RestauranteDTO.Telefono)></GridColumn>
-                        <GridColumn Field=@nameof(RestauranteDTO.UrlMenu)>
+                        <GridColumn Field=@nameof(RestauranteDTO.Id) Width="140" IsPrimaryKey="true" Visible="false"></GridColumn>
+                        <GridColumn Field=@nameof(RestauranteDTO.Descripcion) HeaderText="@Messages.Description"></GridColumn>
+                        <GridColumn Field=@nameof(RestauranteDTO.Direccion) HeaderText="@Messages.Address"></GridColumn>
+                        <GridColumn Field=@nameof(RestauranteDTO.Telefono) HeaderText="@Messages.Phone"></GridColumn>
+                        <GridColumn Field=@nameof(RestauranteDTO.UrlMenu) HeaderText="@Messages.Url">
                             <Template>
                                 @{
                                     var restaurante = (context as RestauranteDTO);
@@ -97,14 +97,14 @@
                 if (args.Action != "Add")
                 {
                     await servRestaurante.Update(args.Data);
-                    Toast.ShowMessage(MessageType.Success, "[Updated Success!!!]", "[Se actualizo con exito]");
+                    Toast.ShowMessage(MessageType.Success, Messages.UpdatedSuccess, Messages.UpdatedSuccessMessage);
 
                 }
             }
         }
         catch (Exception ex)
         {
-            Toast.ShowMessage(MessageType.Error, "Error", ex.Message);
+            Toast.ShowMessage(MessageType.Error, Messages.Error, ex.Message);
             args.Cancel = true;
         }
     }

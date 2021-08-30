@@ -30,9 +30,9 @@
             <InputText @bind-Value="model.Password" type="password" class="form-control" id="@nameof(LoginViewModel.Password)" />
             <ValidationMessage For="@(() => model.Password)" />
         </div>
-        <ButtonWithSppiner loading="@loading" class="btn btn-primary">
+        <ButtonProgressBasic loading="@loading" CssClass="e-primary">
             @AlDente.Globalization.Strings.Login
-        </ButtonWithSppiner>
+        </ButtonProgressBasic>
         @if (!string.IsNullOrEmpty(error))
         {
             <div class="alert alert-danger mt-3 mb-0">@error</div>

@@ -70,7 +70,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Ya existe un cliente registrado con el mismo Id.
+        ///   Looks up a localized string similar to Ya existe un cliente registrado con el mismo Id.
         /// </summary>
         public static string AK_Cliente_DNI {
             get {
@@ -97,7 +97,16 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Código.
+        ///   Looks up a localized string similar to Codigo.
+        /// </summary>
+        public static string Capacity {
+            get {
+                return ResourceManager.GetString("Capacity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Código.
         /// </summary>
         public static string Code {
             get {
@@ -124,7 +133,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Fecha.
+        ///   Looks up a localized string similar to Fecha.
         /// </summary>
         public static string Date {
             get {
@@ -133,7 +142,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Eliminar.
+        ///   Looks up a localized string similar to Eliminar.
         /// </summary>
         public static string Delete {
             get {
@@ -142,7 +151,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Descripción.
+        ///   Looks up a localized string similar to Descripción.
         /// </summary>
         public static string Description {
             get {
@@ -178,6 +187,33 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hora Final.
+        /// </summary>
+        public static string EndTime {
+            get {
+                return ResourceManager.GetString("EndTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        public static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Viernes.
+        /// </summary>
+        public static string Friday {
+            get {
+                return ResourceManager.GetString("Friday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Hora inicio.
         /// </summary>
         public static string HoraInicio {
@@ -196,7 +232,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Apellido.
+        ///   Looks up a localized string similar to Apellido.
         /// </summary>
         public static string LastName {
             get {
@@ -241,7 +277,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Nombre.
+        ///   Looks up a localized string similar to Nombre.
         /// </summary>
         public static string Name {
             get {
@@ -250,7 +286,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Contraseña.
+        ///   Looks up a localized string similar to Contraseña.
         /// </summary>
         public static string Password {
             get {
@@ -259,7 +295,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Teléfono.
+        ///   Looks up a localized string similar to Teléfono.
         /// </summary>
         public static string Phone {
             get {
@@ -277,7 +313,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Registrarse.
+        ///   Looks up a localized string similar to Registrarse.
         /// </summary>
         public static string Register {
             get {
@@ -295,7 +331,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Se ha registrado con exito.
+        ///   Looks up a localized string similar to Se ha registrado con exito.
         /// </summary>
         public static string RegisterSuccessTitle {
             get {
@@ -322,7 +358,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Guardar.
+        ///   Looks up a localized string similar to Guardar.
         /// </summary>
         public static string Save {
             get {
@@ -340,7 +376,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Los campos {0} y {1} deben ser iguales..
+        ///   Looks up a localized string similar to Los campos {0} y {1} deben ser iguales..
         /// </summary>
         public static string TheFieldsXAndYMustBeTheSame {
             get {
@@ -349,7 +385,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Turno.
+        ///   Looks up a localized string similar to Turno.
         /// </summary>
         public static string Turno {
             get {
@@ -367,7 +403,7 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a &apos;{0}&apos; no es una dirección de correo electrónico válida..
+        ///   Looks up a localized string similar to &apos;{0}&apos; no es una dirección de correo electrónico válida..
         /// </summary>
         public static string XIsNotAValidEmailAddress {
             get {

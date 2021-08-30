@@ -1,8 +1,5 @@
 ﻿using AlDente.Globalization;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AlDente.Contracts.Restaurantes
 {
@@ -21,17 +18,17 @@ namespace AlDente.Contracts.Restaurantes
         {
             RuleFor(x => x.Descripcion)
                .NotEmpty()
-                .WithMessage(Strings.XIsRequired("Descripcion"))
-                .WithName("Descripcion")
+                .WithMessage(Strings.XIsRequired(Messages.Description))
+                .WithName(Messages.Description)
                 .MaximumLength(500)
-                .WithMessage(Strings.XMustBeLessThanYCharacters("Descripcion", 500));
-            
+                .WithMessage(Strings.XMustBeLessThanYCharacters(Messages.Description, 500));
+
             RuleFor(x => x.Direccion)
                 .NotEmpty()
-                .WithMessage(Strings.XIsRequired("Direccion"))
-                .WithName("Direccion")
+                .WithMessage(Strings.XIsRequired(Messages.Address))
+                .WithName(Messages.Address)
                 .MaximumLength(500)
-                .WithMessage(Strings.XMustBeLessThanYCharacters("Direccion", 500));
+                .WithMessage(Strings.XMustBeLessThanYCharacters(Messages.Address, 500));
 
             RuleFor(x => x.Telefono)
                 .NotEmpty()
@@ -42,8 +39,8 @@ namespace AlDente.Contracts.Restaurantes
 
             RuleFor(x => x.UrlMenu)
                 .MaximumLength(2048)
-                .WithMessage(Strings.XMustBeLessThanYCharacters("Url Menu", 2048))
-                .WithName("Url Menu");
+                .WithMessage(Strings.XMustBeLessThanYCharacters(Messages.Url, 2048))
+                .WithName(Messages.Url);
 
 
         }

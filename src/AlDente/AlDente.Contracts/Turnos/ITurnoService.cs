@@ -1,4 +1,5 @@
 ﻿
+using AlDente.Contracts.Core;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,8 +9,8 @@ namespace AlDente.Contracts.Turnos
     {
         Task<IEnumerable<TurnoDTO>> GetAll();
         Task Delete(int id);
-        Task Create(TurnoDTO turnoDTO);
-        Task Update(TurnoDTO turnoDTO);
+        Task<BasicResultDTO> Create(TurnoDTO turnoDTO);
+        Task<BasicResultDTO> Update(TurnoDTO turnoDTO);
 
         Task<IEnumerable<TurnoDTO>> GetTurnosDelDia(int diaLaboralId);
     }

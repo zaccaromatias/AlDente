@@ -1,13 +1,11 @@
 ﻿using AlDente.Contracts.DiasLaborables;
-using AlDente.Contracts.Core;
-using AlDente.DataAccess.DiasLaborables;
 using AlDente.DataAccess.Core;
-using AlDente.Globalization;
+using AlDente.DataAccess.DiasLaborables;
+using AlDente.Entities.DiasLaborables;
 using AlDente.Services.Core;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AlDente.Entities.DiasLaborables;
 
 namespace AlDente.Services.DiasLaborables
 {
@@ -30,11 +28,11 @@ namespace AlDente.Services.DiasLaborables
             return diasLaborables.Select(x => new DiaLaboralDTO
             {
                 Id = x.Id,
-                Dia = (DiasDeLaSemana)x.DiaDelaSemana,
+                Dia = (Contracts.DiasLaborables.DiasDeLaSemana)x.DiaDelaSemana,
                 HoraInicio = x.HoraInicio,
                 HoraFin = x.HoraFin,
                 RestauranteId = x.RestauranteId
-            });
+            }).OrderBy(x => x.Dia);
         }
 
         public async Task Create(DiaLaboralDTO diaLaboralDto)
@@ -77,11 +75,11 @@ namespace AlDente.Services.DiasLaborables
             return diasLaborables.Select(x => new DiaLaboralDTO
             {
                 Id = x.Id,
-                Dia = (DiasDeLaSemana)x.DiaDelaSemana,
+                Dia = (Contracts.DiasLaborables.DiasDeLaSemana)x.DiaDelaSemana,
                 HoraInicio = x.HoraInicio,
                 HoraFin = x.HoraFin,
                 RestauranteId = x.RestauranteId
-            });
+            }).OrderBy(x => x.Dia);
         }
     }
 }

@@ -72,13 +72,13 @@
                     <GridEvents TValue="ClienteDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
                     @*Agrega las columnas en la Grid*@
                     <GridColumns>
-                        <GridColumn Field=@nameof(ClienteDTO.Id) Width="140" IsPrimaryKey="true"></GridColumn>
-                        <GridColumn Field=@nameof(ClienteDTO.Email)></GridColumn>
-                        <GridColumn Field=@nameof(ClienteDTO.Nombre)></GridColumn>
-                        <GridColumn Field=@nameof(ClienteDTO.Apellido)></GridColumn>
-                        <GridColumn Field=@nameof(ClienteDTO.DNI)></GridColumn>
-                        <GridColumn Field=@nameof(ClienteDTO.Telefono)></GridColumn>
-                        <GridColumn Field=@nameof(ClienteDTO.NombreUsuario)></GridColumn>
+                        <GridColumn Field=@nameof(ClienteDTO.Id) Width="140" IsPrimaryKey="true" Visible="false"></GridColumn>
+                        <GridColumn Field=@nameof(ClienteDTO.Email) HeaderText="@Messages.Email"></GridColumn>
+                        <GridColumn Field=@nameof(ClienteDTO.Nombre) HeaderText="@Messages.Name"></GridColumn>
+                        <GridColumn Field=@nameof(ClienteDTO.Apellido) HeaderText="@Messages.LastName"></GridColumn>
+                        <GridColumn Field=@nameof(ClienteDTO.DNI) HeaderText="@Messages.DNI"></GridColumn>
+                        <GridColumn Field=@nameof(ClienteDTO.Telefono) HeaderText="@Messages.Phone"></GridColumn>
+                        <GridColumn Field=@nameof(ClienteDTO.NombreUsuario) HeaderText="@Messages.UserName"></GridColumn>
                         <GridColumn HeaderText="@Strings.Actions" Width="150">
                             <GridCommandColumns>
                                 <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-primary" })"></GridCommandColumn>
@@ -111,10 +111,10 @@
 
     public static List<EstadoCliente> Estados { get; set; } = new List<EstadoCliente>
 {
-        new EstadoCliente(EstadosDeUnCliente.Activo,"[Activo]"),
-        new EstadoCliente(EstadosDeUnCliente.Inactivo,"[Inactivo]"),
-        new EstadoCliente(EstadosDeUnCliente.Nuevo,"[Nuevo]"),
-        new EstadoCliente(EstadosDeUnCliente.Suspendido,"[Suspendido]")
+        new EstadoCliente(EstadosDeUnCliente.Activo,Messages.Active),
+        new EstadoCliente(EstadosDeUnCliente.Inactivo,Messages.Inactive),
+        new EstadoCliente(EstadosDeUnCliente.Nuevo,Messages.New),
+        new EstadoCliente(EstadosDeUnCliente.Suspendido,Messages.Suspended)
     };
 
     protected override async Task OnInitializedAsync()
@@ -132,18 +132,18 @@
                 if (args.Action == "Add")
                 {
                     await ClienteRestaurant.Create(args.Data);
-                    Toast.ShowMessage(MessageType.Success, "[Create Success!!!]", "[Se creo con exito]");
+                    Toast.ShowMessage(MessageType.Success, Messages.CreateSuccess, Messages.CreateSuccessMessage);
                 }
                 else
                 {
                     await ClienteRestaurant.Update(args.Data);
-                    Toast.ShowMessage(MessageType.Success, "[Updated Success!!!]", "[Se actualizo con exito]");
+                    Toast.ShowMessage(MessageType.Success, Messages.UpdatedSuccess, Messages.UpdatedSuccessMessage);
                 }
             }
             if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete))
             {
                 await ClienteRestaurant.Delete(args.Data.Id);
-                Toast.ShowMessage(MessageType.Success, "[Delete Success!!!]", "[Se Removio con exito]");
+                Toast.ShowMessage(MessageType.Success, Messages.Delete, Messages.DeleteSuccessMessage);
             }
         }
         catch (Exception ex)
