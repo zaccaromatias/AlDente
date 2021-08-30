@@ -130,7 +130,7 @@
     <value>Ya existe un estado registrado con el mismo código</value>
   </data>
   <data name="Code" xml:space="preserve">
-    <value>Codigo</value>
+    <value>Código</value>
   </data>
   <data name="Comensales" xml:space="preserve">
     <value>Comensales</value>
@@ -156,6 +156,9 @@
   <data name="EmailOrPasswordWasNotCorrect" xml:space="preserve">
     <value>Email o contraseña incorrecta.</value>
   </data>
+  <data name="HoraInicio" xml:space="preserve">
+    <value>Hora inicio</value>
+  </data>
   <data name="Id" xml:space="preserve">
     <value>Id</value>
   </data>
@@ -163,7 +166,7 @@
     <value>Apellido</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Iniciar Session</value>
+    <value>Iniciar Sesión</value>
   </data>
   <data name="LoginSuccessContent" xml:space="preserve">
     <value>Gracias por regresar</value>
