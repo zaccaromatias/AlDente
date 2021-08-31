@@ -24,6 +24,8 @@ namespace AlDente.Contracts.Reservas
 
         public string Turno { get; set; }
 
+        public string NombreUsuario { get; set; }
+
         private int GetOrderByState()
         {
             switch ((EstadosDeUnaReserva)this.EstadoId)

@@ -192,6 +192,15 @@
   <data name="EmailOrPasswordWasNotCorrect" xml:space="preserve">
     <value>Email o contraseña incorrecta.</value>
   </data>
+  <data name="EndTime" xml:space="preserve">
+    <value>Tiempo final</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Viernes</value>
+  </data>
   <data name="Id" xml:space="preserve">
     <value>Id</value>
   </data>
@@ -221,6 +230,9 @@
   </data>
   <data name="New" xml:space="preserve">
     <value>Nuevo</value>
+  </data>
+  <data name="NombreUsuario" xml:space="preserve">
+    <value>Usuario</value>
   </data>
   <data name="NotAssisted" xml:space="preserve">
     <value>No Asistida</value>
