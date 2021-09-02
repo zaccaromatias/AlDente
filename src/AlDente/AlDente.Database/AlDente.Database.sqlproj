@@ -63,10 +63,10 @@
     <Folder Include="Functions" />
     <Folder Include="Scripts" />
     <Folder Include="Scripts\Post" />
+    <Folder Include="Scripts\Pre" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Tables\EstadoCliente.sql" />
-    <Build Include="Tables\Cliente.sql" />
+    <Build Include="Tables\EstadoUsuario.sql" />
     <Build Include="Tables\Reserva.sql" />
     <Build Include="Tables\Restaurante.sql" />
     <Build Include="Tables\Mesa.sql" />
@@ -76,24 +76,24 @@
     <Build Include="Tables\EstadoReserva.sql" />
     <Build Include="Tables\Turno.sql" />
     <Build Include="Tables\Opinion.sql" />
-    <Build Include="Tables\Empleado.sql" />
-    <Build Include="Tables\EstadoEmpleado.sql" />
     <Build Include="Tables\ReservaMesa.sql" />
     <Build Include="Tables\PoliticaBeneficio.sql" />
     <Build Include="Tables\TipoBeneficio.sql" />
     <Build Include="Tables\Beneficio.sql" />
-    <None Include="Scripts\Post\InsertarClienteTest.sql" />
+    <None Include="Scripts\Post\InsertarUsuarioTest.sql" />
     <None Include="Scripts\Post\InsertarRestaurante.sql" />
-    <None Include="Scripts\Post\CargarEstadosEmpleados.sql" />
     <Build Include="Tables\DiaLaboral.sql" />
     <Build Include="StoredProcedures\GetMesasDisponibles.sql" />
     <None Include="Scripts\Post\CargarEstadosReserva.sql" />
     <PreDeploy Include="Scripts\PreDeployment.sql" />
     <Build Include="Tables\Usuario.sql" />
+    <Build Include="Tables\TipoUsuario.sql" />
+    <None Include="Scripts\Post\CargarTipoUsuario.sql" />
+    <None Include="Scripts\Pre\DeleteObjects.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AlDente.Database.publish.xml" />
-    <None Include="Scripts\Post\CargarEstadosClientes.sql" />
+    <None Include="Scripts\Post\CargarEstadosUsuario.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="AlDente.Database.refactorlog" />

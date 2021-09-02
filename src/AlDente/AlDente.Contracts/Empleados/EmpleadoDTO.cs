@@ -1,4 +1,5 @@
-﻿using AlDente.Globalization;
+﻿using AlDente.Contracts.Core;
+using AlDente.Globalization;
 using FluentValidation;
 using System;
 
@@ -8,14 +9,14 @@ namespace AlDente.Contracts.Empleados
     {
         public int Id { get; set; }
         public int DNI { get; set; }
-        public string DescripcionPuesto { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public DateTime FechaCreacion { get; set; }
-        public EstadosDeUnEmpleado Estado { get; set; }
-        public int RestauranteId { get; set; }
+        public EstadosDeUnUsuario Estado { get; set; }
+        public string Telefono { get; set; }
+
     }
 
     public class EmpleadoDTOValidator : AbstractValidator<EmpleadoDTO>
@@ -34,12 +35,11 @@ namespace AlDente.Contracts.Empleados
                 .WithName(Messages.Email);
 
 
-            RuleFor(x => x.DescripcionPuesto)
+            RuleFor(x => x.Telefono)
                 .NotEmpty()
-                .WithMessage(Strings.XIsRequired(Messages.Description))
-                .WithName(Messages.Description)
-                .MaximumLength(200)
-                .WithMessage(Strings.XMustBeLessThanYCharacters(Messages.Description, 200)); ;
+                .WithMessage(Strings.XIsRequired(Messages.Phone))
+                .WithName(Messages.Phone)
+                .MaximumLength(200);
 
             RuleFor(x => x.Nombre)
                 .NotEmpty()

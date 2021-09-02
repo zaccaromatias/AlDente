@@ -1,7 +1,8 @@
-﻿using AlDente.Contracts.Empleados;
+﻿using AlDente.Contracts.Core;
+using AlDente.Contracts.Empleados;
 using AlDente.DataAccess.Core;
-using AlDente.DataAccess.Empleados;
-using AlDente.Entities.Empleados;
+using AlDente.DataAccess.Usuarios;
+using AlDente.Entities.Usuarios;
 using AlDente.Services.Core;
 using System;
 using System.Collections.Generic;
@@ -12,31 +13,30 @@ namespace AlDente.Services.Empleados
 {
     public class EmpleadoService : BaseService, IEmpleadoService
     {
-        private IEmpleadoRepository empleadoRepository;
+        private IUsuarioRepository usuarioRepository;
 
-        public EmpleadoService(IUnitOfWork unitOfWork, IEmpleadoRepository empleadoRepository)
+        public EmpleadoService(IUnitOfWork unitOfWork, IUsuarioRepository usuarioRepository)
             : base(unitOfWork)
         {
-            empleadoRepository.Attach(this.unitOfWork);
-            this.empleadoRepository = empleadoRepository;
+            usuarioRepository.Attach(this.unitOfWork);
+            this.usuarioRepository = usuarioRepository;
             this.CustomValidations.Add("AK_Empleado_Email", "Ya existe un empleado con ese Email");
             this.CustomValidations.Add("AK_Empleado_DNI", "Ya existe un empleado con ese DNI");
         }
         public async Task<IEnumerable<EmpleadoDTO>> GetAll()
         {
-            var empleados = await empleadoRepository.GetAllAsync();
+            var empleados = await usuarioRepository.QueryAsync(x => x.TipoUsuarioId == (int)TipoDeUsuarios.Empleado);
             return empleados.Select(x => new EmpleadoDTO
             {
                 Id = x.Id,
                 DNI = x.DNI,
-                DescripcionPuesto = x.DescripcionPuesto,
                 Nombre = x.Nombre,
                 Apellido = x.Apellido,
                 Email = x.Email,
                 Password = x.Password,
                 FechaCreacion = x.FechaCreacion,
-                Estado = (EstadosDeUnEmpleado)x.EstadoEmpleadoId,
-                RestauranteId = x.RestauranteId
+                Estado = (EstadosDeUnUsuario)x.EstadoId
+
 
             });
         }
@@ -44,42 +44,42 @@ namespace AlDente.Services.Empleados
         {
             await Try(async () =>
             {
-                await empleadoRepository.AddAsync(new Empleado
+                await usuarioRepository.AddAsync(new Usuario
                 {
                     DNI = empleadoDTO.DNI,
-                    DescripcionPuesto = empleadoDTO.DescripcionPuesto,
+                    TipoUsuarioId = (int)TipoDeUsuarios.Empleado,
                     Nombre = empleadoDTO.Nombre,
                     Apellido = empleadoDTO.Apellido,
                     Email = empleadoDTO.Email,
                     Password = empleadoDTO.Password,
                     FechaCreacion = DateTime.Now,
-                    EstadoEmpleadoId = (int)empleadoDTO.Estado,
-                    RestauranteId = this.unitOfWork.RestauranteId
-                }); ;
+                    EstadoId = (int)empleadoDTO.Estado,
+                    Telefono = empleadoDTO.Telefono
+                });
             });
         }
 
         public async Task Delete(int id)
         {
-            await empleadoRepository.DeleteAsync(id);
+            await usuarioRepository.DeleteAsync(id);
         }
 
         public async Task Update(EmpleadoDTO empleadoDTO)
         {
             await Try(async () =>
             {
-                await empleadoRepository.UpdateAsync(new Empleado
+                await usuarioRepository.UpdateAsync(new Usuario
                 {
                     Id = empleadoDTO.Id,
                     DNI = empleadoDTO.DNI,
-                    DescripcionPuesto = empleadoDTO.DescripcionPuesto,
                     Nombre = empleadoDTO.Nombre,
                     Apellido = empleadoDTO.Apellido,
                     Email = empleadoDTO.Email,
                     Password = empleadoDTO.Password,
-                    EstadoEmpleadoId = (int)empleadoDTO.Estado,
+                    EstadoId = (int)empleadoDTO.Estado,
                     FechaCreacion = empleadoDTO.FechaCreacion,
-                    RestauranteId = empleadoDTO.RestauranteId
+                    Telefono = empleadoDTO.Telefono,
+                    TipoUsuarioId = (int)TipoDeUsuarios.Empleado
                 });
             });
         }

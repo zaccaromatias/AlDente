@@ -19,7 +19,7 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "AlDente.Database", "AlDente
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlDente.Globalization", "AlDente.Globalization\AlDente.Globalization.csproj", "{9E2AE007-61A5-4E97-A375-007CD67C2D39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlDente.Cross", "AlDente.Cross\AlDente.Cross.csproj", "{D6955DBE-8E4B-4F74-A454-A8B9BFD86784}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlDente.Cross", "AlDente.Cross\AlDente.Cross.csproj", "{D6955DBE-8E4B-4F74-A454-A8B9BFD86784}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

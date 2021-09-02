@@ -2,25 +2,25 @@ using AlDente.Contracts.Clientes;
 using AlDente.Contracts.Core;
 using AlDente.Contracts.DiasLaborables;
 using AlDente.Contracts.Empleados;
-using AlDente.Contracts.EstadosClientes;
+
 using AlDente.Contracts.Mesas;
 using AlDente.Contracts.Reservas;
 using AlDente.Contracts.Restaurantes;
 using AlDente.Contracts.Turnos;
-using AlDente.DataAccess.Clientes;
 using AlDente.DataAccess.Core;
+
 using AlDente.DataAccess.DiasLaborables;
-using AlDente.DataAccess.Empleados;
-using AlDente.DataAccess.EstadosClientes;
+
 using AlDente.DataAccess.Mesas;
 using AlDente.DataAccess.Reservas;
 using AlDente.DataAccess.Restaurantes;
 using AlDente.DataAccess.Turnos;
+using AlDente.DataAccess.Usuarios;
 using AlDente.Services.Clientes;
 using AlDente.Services.Core;
 using AlDente.Services.DiasLaborables;
 using AlDente.Services.Empleados;
-using AlDente.Services.EstadosClientes;
+
 using AlDente.Services.Mesas;
 using AlDente.Services.Reservas;
 using AlDente.Services.Restaurantes;
@@ -82,7 +82,6 @@ namespace AlDente.UI.Web.Blazor
         {
             services.AddTransient<IValidator<LoginViewModel>, LoginViewModelValidator>();
             services.AddTransient<IValidator<RegisterModel>, RegisterModelValidator>();
-            services.AddTransient<IValidator<EstadoClienteDTO>, EstadoClienteDTOValidator>();
             services.AddTransient<IValidator<MesaDTO>, MesaDTOValidator>();
             services.AddTransient<IValidator<EmpleadoDTO>, EmpleadoDTOValidator>();
             services.AddTransient<IValidator<RestauranteDTO>, RestauranteDTOValidator>();
@@ -93,11 +92,10 @@ namespace AlDente.UI.Web.Blazor
 
         private void AddRepositories(IServiceCollection services)
         {
-            services.AddScoped<IEstadoClienteRepository, EstadoClienteRepository>();
-            services.AddScoped<IClienteRepository, ClienteRepository>();
+
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IMesaRepository, MesaRepository>();
             services.AddScoped<ITurnoRepository, TurnoRepository>();
-            services.AddScoped<IEmpleadoRepository, EmpleadoRepository>();
             services.AddScoped<IRestauranteRepository, RestauranteRepository>();
             services.AddScoped<IDiaLaboralRepository, DiaLaboralRepository>();
             services.AddScoped<IReservaMesaRepository, ReservaMesaRepository>();
@@ -115,7 +113,6 @@ namespace AlDente.UI.Web.Blazor
 
             });
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IEstadoClienteService, EstadoClienteService>();
             services.AddScoped<IClienteService, ClienteService>();
             services.AddScoped<IMesaService, MesaService>();
             services.AddScoped<ITurnoService, TurnoService>();

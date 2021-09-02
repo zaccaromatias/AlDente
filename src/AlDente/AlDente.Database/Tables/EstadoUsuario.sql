@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[EstadoCliente]
+﻿CREATE TABLE [dbo].[EstadoUsuario]
 (
 	[Id] INT NOT NULL, 
     [Codigo] NVARCHAR(50) NOT NULL, 

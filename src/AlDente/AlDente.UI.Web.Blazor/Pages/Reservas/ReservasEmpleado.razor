@@ -6,11 +6,13 @@
 @using Models.Reservas
 @using Contracts.Reservas
 @using AlDente.Globalization
+@using Data
 
 @attribute [Authorize]
 
 @inject IReservaService _reservaService
 @inject IToastService Toast
+@inject SessionData _sessionData
 <MyCard Header="Reservas">
     @if (this.ViewModel == null)
     {
@@ -110,7 +112,7 @@
 
     protected async override Task OnInitializedAsync()
     {
-        this.ViewModel = await MisReservasViewModel.Create(_reservaService);
+        this.ViewModel = await MisReservasViewModel.Create(_reservaService, _sessionData);
         await base.OnInitializedAsync();
     }
     public void RowBound(RowDataBoundEventArgs<ReservaBasicDTO> args)

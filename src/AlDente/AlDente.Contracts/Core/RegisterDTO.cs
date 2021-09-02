@@ -1,11 +1,6 @@
-﻿namespace AlDente.Contracts.Clientes
+﻿namespace AlDente.Contracts.Core
 {
-    public class LoginDTO
-    {
-        public string Email { get; set; }
-        public string Password { get; set; }
-    }
-    public class ClienteRegisterDTO
+    public class RegisterDTO
     {
 
         public string Email { get; set; }
@@ -29,7 +24,8 @@
 
         public int DNI { get; set; }
 
-        public int? EmpleadoId { get; set; }
+        public int? UsuarioCreadorId { get; set; }
+        public int TipoUsuarioId { get; set; }
     }
 
 }

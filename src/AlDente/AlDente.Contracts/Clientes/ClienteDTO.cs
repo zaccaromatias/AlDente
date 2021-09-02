@@ -1,4 +1,6 @@
-﻿namespace AlDente.Contracts.Clientes
+﻿using AlDente.Contracts.Core;
+
+namespace AlDente.Contracts.Clientes
 {
     public class ClienteDTO
     {
@@ -10,7 +12,7 @@
         public string Password { get; set; }
         public string Telefono { get; set; }
         public string NombreUsuario { get; set; }
-        public EstadosDeUnCliente Estado { get; set; }
+        public EstadosDeUnUsuario Estado { get; set; }
     }
 }
 

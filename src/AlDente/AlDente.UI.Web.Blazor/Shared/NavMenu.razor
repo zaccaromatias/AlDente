@@ -9,9 +9,9 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
         </ul>
-        <AuthorizeView>
+        <AuthorizeView Roles="Cliente">
             <Authorized>
-                <MenuForAuthorized context="@context" />
+                <MenuForClient context="@context" />
             </Authorized>
             <NotAuthorized>
                 <MenuForAnonimus />

@@ -15,8 +15,8 @@
     [TurnoId]           INT NOT NULL
     CONSTRAINT [AK_Reserva_Codigo] UNIQUE ([Codigo]),
     CONSTRAINT [FK_Reserva_EstadoReserva] FOREIGN KEY ([EstadoReservaId]) REFERENCES [dbo].[EstadoReserva]([Id]), 
-    CONSTRAINT [FK_Reserva_ClienteId] FOREIGN KEY ([ClienteId]) REFERENCES [dbo].[Cliente]([Id]),
+    CONSTRAINT [FK_Reserva_ClienteId] FOREIGN KEY ([ClienteId]) REFERENCES [dbo].[Usuario]([Id]),
     CONSTRAINT [FK_Reserva_RestauranteId] FOREIGN KEY ([RestauranteId]) REFERENCES [dbo].[Restaurante]([Id]),
-    CONSTRAINT [FK_Reserva_EmpleadoId] FOREIGN KEY ([EmpleadoId]) REFERENCES [dbo].[Empleado]([Id]),
+    CONSTRAINT [FK_Reserva_EmpleadoId] FOREIGN KEY ([EmpleadoId]) REFERENCES [dbo].[Usuario]([Id]),
     CONSTRAINT [FK_Reserva_TurnoId] FOREIGN KEY ([TurnoId]) REFERENCES [dbo].[Turno]([Id]),
 )

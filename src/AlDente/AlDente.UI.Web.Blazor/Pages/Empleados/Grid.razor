@@ -3,6 +3,7 @@
 
 @using Syncfusion.Blazor.Grids
 @using AlDente.Contracts.Empleados
+@using AlDente.Contracts.Core
 @using AlDente.Globalization
 @using Syncfusion.Blazor.DropDowns
 
@@ -43,20 +44,15 @@
                                     <InputText @bind-Value="empleado.Apellido" class="form-control" id="@nameof(EmpleadoDTO.Apellido)" />
                                     <ValidationMessage For="@(() => empleado.Apellido)" />
                                 </div>
-                                <div class="form-group">
-                                    <DisplayName For="@(()=>empleado.DescripcionPuesto)" InputFor="@nameof(EmpleadoDTO.DescripcionPuesto)" />
-                                    <InputText @bind-Value="empleado.DescripcionPuesto" class="form-control" id="@nameof(EmpleadoDTO.DescripcionPuesto)" />
-                                    <ValidationMessage For="@(() => empleado.DescripcionPuesto)" />
-                                </div>
+
                                 <div class="form-group">
                                     <DisplayName For="@(()=>empleado.Email)" InputFor="@nameof(EmpleadoDTO.Email)" />
                                     <InputText @bind-Value="empleado.Email" class="form-control" id="@nameof(EmpleadoDTO.Email)" />
                                     <ValidationMessage For="@(() => empleado.Email)" />
                                 </div>
-
                                 <div class="form-group">
                                     <DisplayName For="@(()=>empleado.Estado)" InputFor="@nameof(EmpleadoDTO.Estado)" />
-                                    <SfDropDownList TItem="EstadoEmpleado" TValue="EstadosDeUnEmpleado" PopupHeight="230px" Placeholder="[Seleccione Un Estado]" @bind-Value="@empleado.Estado" DataSource="@Estados">
+                                    <SfDropDownList TItem="EstadoEmpleado" TValue="EstadosDeUnUsuario" PopupHeight="230px" Placeholder="[Seleccione Un Estado]" @bind-Value="@empleado.Estado" DataSource="@Estados">
                                         <DropDownListFieldSettings Text="Text" Value="Id"></DropDownListFieldSettings>
                                     </SfDropDownList>
                                     <ValidationMessage For="@(() => empleado.Estado)" />
@@ -74,7 +70,6 @@
                         <GridColumn Field=@nameof(EmpleadoDTO.DNI) HeaderText="@Messages.DNI"></GridColumn>
                         <GridColumn Field=@nameof(EmpleadoDTO.Nombre) HeaderText="@Messages.Name"></GridColumn>
                         <GridColumn Field=@nameof(EmpleadoDTO.Apellido) HeaderText="@Messages.LastName"></GridColumn>
-                        <GridColumn Field=@nameof(EmpleadoDTO.DescripcionPuesto) HeaderText="@Messages.PositionDescription"></GridColumn>
                         <GridColumn Field=@nameof(EmpleadoDTO.Email) HeaderText="@Messages.Email"></GridColumn>
                         <GridColumn Field=@nameof(EmpleadoDTO.FechaCreacion) HeaderText="@Messages.CreatedDate"></GridColumn>
                         <GridColumn Field=@nameof(EmpleadoDTO.Estado) HeaderText="@Messages.State"></GridColumn>
@@ -99,9 +94,9 @@
 
     public class EstadoEmpleado
     {
-        public EstadosDeUnEmpleado Id { get; set; }
+        public EstadosDeUnUsuario Id { get; set; }
         public string Text { get; set; }
-        public EstadoEmpleado(EstadosDeUnEmpleado id, string text)
+        public EstadoEmpleado(EstadosDeUnUsuario id, string text)
         {
             this.Id = id;
             this.Text = text;
@@ -111,8 +106,8 @@
 
     public static List<EstadoEmpleado> Estados { get; set; } = new List<EstadoEmpleado>
 {
-        new EstadoEmpleado(EstadosDeUnEmpleado.Activo,Messages.Active),
-        new EstadoEmpleado(EstadosDeUnEmpleado.Inactivo,Messages.Inactive)
+        new EstadoEmpleado(EstadosDeUnUsuario.Activo,Messages.Active),
+        new EstadoEmpleado(EstadosDeUnUsuario.Inactivo,Messages.Inactive)
     };
 
     protected override async Task OnInitializedAsync()

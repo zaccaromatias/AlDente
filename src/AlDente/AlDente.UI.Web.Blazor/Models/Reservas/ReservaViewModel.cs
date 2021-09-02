@@ -137,7 +137,7 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
                     Fecha = this.Fecha.Value,
                     Turno = this.Turno,
                     Combinacion = this.Combinaciones.First(x => x.Key == this.Combinacion.First().Value),
-                    ClienteId = SessionData.User.ClienteId.Value
+                    ClienteId = SessionData.User.Id
 
                 });
                 this.MensajeDeErrorAlReservar = result.AllErrors;

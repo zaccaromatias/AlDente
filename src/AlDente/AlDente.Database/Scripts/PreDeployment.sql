@@ -9,9 +9,6 @@
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
-IF NOT EXISTS (SELECT 1 FROM sys.columns c  INNER JOIN sys.tables t ON t.object_id = c.object_id WHERE c.name= 'DiaLaboralId' AND t.name='Turno')
-BEGIN
-	DELETE dbo.ReservaMesa;
-	DELETE dbo.Reserva;
-	DELETE dbo.Turno;
-END
+
+:r .\Pre\DeleteObjects.sql
+

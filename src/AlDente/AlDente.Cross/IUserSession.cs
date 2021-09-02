@@ -4,10 +4,12 @@ namespace AlDente.Cross
 {
     public interface IUserSession
     {
-        public int? ClienteId { get; set; }
-        public int? EmpleadoId { get; set; }
-        public string Email { get; set; }
+        public int Id { get; }
+        public int TipoUsuarioId { get; }
+        public string Email { get; }
 
-        public List<string> Roles { get; set; }
+        public int EstadoId { get; }
+
+        public List<string> Roles { get; }
     }
 }

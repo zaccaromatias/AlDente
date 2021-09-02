@@ -1,5 +1,4 @@
-﻿using AlDente.Contracts.Clientes;
-using AlDente.Contracts.Core;
+﻿using AlDente.Contracts.Core;
 using AlDente.UI.Web.Blazor.Helpers;
 using AlDente.UI.Web.Blazor.Models;
 using BlazorBrowserStorage;
@@ -57,7 +56,7 @@ namespace AlDente.UI.Web.Blazor.Services
 
         public async Task Register(RegisterModel registerModel)
         {
-            var user = await AuthorizationService.Register(new ClienteRegisterDTO
+            var user = await AuthorizationService.Register(new RegisterDTO
             {
                 Apellido = registerModel.Apellido,
                 DNI = registerModel.DNI,

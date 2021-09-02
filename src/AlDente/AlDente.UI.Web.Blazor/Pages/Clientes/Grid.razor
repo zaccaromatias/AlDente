@@ -5,6 +5,7 @@
 @using AlDente.Contracts.Clientes
 @using AlDente.Globalization
 @using Syncfusion.Blazor.DropDowns
+@using AlDente.Contracts.Core
 
 @inject IClienteService ClienteRestaurant
 @inject IToastService Toast
@@ -50,14 +51,10 @@
                                     <ValidationMessage For="@(() => cliente.Telefono)" />
                                 </div>
 
-                                <div class="form-group">
-                                    <DisplayName For="@(()=>cliente.NombreUsuario)" InputFor="@nameof(ClienteDTO.NombreUsuario)" />
-                                    <InputText @bind-Value="cliente.NombreUsuario" class="form-control" id="@nameof(ClienteDTO.NombreUsuario)" />
-                                    <ValidationMessage For="@(() => cliente.NombreUsuario)" />
-                                </div>
+
                                 <div class="form-group">
                                     <DisplayName For="@(()=>cliente.Estado)" InputFor="@nameof(ClienteDTO.Estado)" />
-                                    <SfDropDownList TItem="EstadoCliente" TValue="EstadosDeUnCliente" PopupHeight="230px" Placeholder="[Seleccione Un Estado]" @bind-Value="@cliente.Estado" DataSource="@Estados">
+                                    <SfDropDownList TItem="EstadoCliente" TValue="EstadosDeUnUsuario" PopupHeight="230px" Placeholder="[Seleccione Un Estado]" @bind-Value="@cliente.Estado" DataSource="@Estados">
                                         <DropDownListFieldSettings Text="Text" Value="Id"></DropDownListFieldSettings>
                                     </SfDropDownList>
                                     <ValidationMessage For="@(() => cliente.Estado)" />
@@ -78,7 +75,6 @@
                         <GridColumn Field=@nameof(ClienteDTO.Apellido) HeaderText="@Messages.LastName"></GridColumn>
                         <GridColumn Field=@nameof(ClienteDTO.DNI) HeaderText="@Messages.DNI"></GridColumn>
                         <GridColumn Field=@nameof(ClienteDTO.Telefono) HeaderText="@Messages.Phone"></GridColumn>
-                        <GridColumn Field=@nameof(ClienteDTO.NombreUsuario) HeaderText="@Messages.UserName"></GridColumn>
                         <GridColumn HeaderText="@Strings.Actions" Width="150">
                             <GridCommandColumns>
                                 <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-primary" })"></GridCommandColumn>
@@ -99,9 +95,9 @@
 
     public class EstadoCliente
     {
-        public EstadosDeUnCliente Id { get; set; }
+        public EstadosDeUnUsuario Id { get; set; }
         public string Text { get; set; }
-        public EstadoCliente(EstadosDeUnCliente id, string text)
+        public EstadoCliente(EstadosDeUnUsuario id, string text)
         {
             this.Id = id;
             this.Text = text;
@@ -111,10 +107,10 @@
 
     public static List<EstadoCliente> Estados { get; set; } = new List<EstadoCliente>
 {
-        new EstadoCliente(EstadosDeUnCliente.Activo,Messages.Active),
-        new EstadoCliente(EstadosDeUnCliente.Inactivo,Messages.Inactive),
-        new EstadoCliente(EstadosDeUnCliente.Nuevo,Messages.New),
-        new EstadoCliente(EstadosDeUnCliente.Suspendido,Messages.Suspended)
+        new EstadoCliente(EstadosDeUnUsuario.Activo,Messages.Active),
+        new EstadoCliente(EstadosDeUnUsuario.Inactivo,Messages.Inactive),
+        new EstadoCliente(EstadosDeUnUsuario.Nuevo,Messages.New),
+        new EstadoCliente(EstadosDeUnUsuario.Suspendido,Messages.Suspended)
     };
 
     protected override async Task OnInitializedAsync()

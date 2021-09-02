@@ -1,10 +1,10 @@
 ﻿using AlDente.Contracts.Core;
 using AlDente.Contracts.Reservas;
-using AlDente.DataAccess.Clientes;
 using AlDente.DataAccess.Core;
 using AlDente.DataAccess.Mesas;
 using AlDente.DataAccess.Reservas;
 using AlDente.DataAccess.Turnos;
+using AlDente.DataAccess.Usuarios;
 using AlDente.Entities.Reservas;
 using AlDente.Services.Core;
 using System;
@@ -18,20 +18,20 @@ namespace AlDente.Services.Reservas
     {
         private IReservaRepository _reservaRepository;
         private IReservaMesaRepository _reservaMesaRepository;
-        IClienteRepository _clienteRepository;
+        IUsuarioRepository _usuarioRepository;
         ITurnoRepository _turnoRepository;
         IMesaRepository _mesaRepository;
-        public ReservaService(IUnitOfWork unitOfWork, IReservaRepository reservaRepository, IClienteRepository clienteRepository, ITurnoRepository turnoRepository, IMesaRepository mesaRepository, IReservaMesaRepository reservaMesaRepository) : base(unitOfWork)
+        public ReservaService(IUnitOfWork unitOfWork, IReservaRepository reservaRepository, IUsuarioRepository usuarioRepository, ITurnoRepository turnoRepository, IMesaRepository mesaRepository, IReservaMesaRepository reservaMesaRepository) : base(unitOfWork)
         {
             _reservaRepository = reservaRepository;
             _reservaMesaRepository = reservaMesaRepository;
-            _clienteRepository = clienteRepository;
+            _usuarioRepository = usuarioRepository;
             _turnoRepository = turnoRepository;
             _mesaRepository = mesaRepository;
 
             _reservaRepository.Attach(unitOfWork);
             _reservaMesaRepository.Attach(unitOfWork);
-            _clienteRepository.Attach(unitOfWork);
+            _usuarioRepository.Attach(unitOfWork);
             _turnoRepository.Attach(unitOfWork);
             _mesaRepository.Attach(unitOfWork);
         }
@@ -44,7 +44,7 @@ namespace AlDente.Services.Reservas
                 .SetUnitofWork(unitOfWork)
                 .SetReservaRepository(_reservaRepository)
                 .SetReservaMesaRepository(_reservaMesaRepository)
-                .SetClienteRepository(_clienteRepository)
+                .SetClienteRepository(_usuarioRepository)
                 .SetTurnoRepository(_turnoRepository)
                 .SetMesaRepository(_mesaRepository)
                 .SetReserva(reservaDTO)

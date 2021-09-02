@@ -5,7 +5,7 @@
     [TipoBeneficioId] INT NOT NULL,
     [ClienteId] INT NOT NULL,
     [RestauranteId] INT NOT NULL,
-    CONSTRAINT [FK_Beneficio_Cliente] FOREIGN KEY ([ClienteId]) REFERENCES [dbo].[Cliente]([Id]), 
+    CONSTRAINT [FK_Beneficio_Cliente] FOREIGN KEY ([ClienteId]) REFERENCES [dbo].[Usuario]([Id]), 
     CONSTRAINT [FK_Beneficio_TipoSancion] FOREIGN KEY ([TipoBeneficioId]) REFERENCES [dbo].[TipoBeneficio]([Id]),
     CONSTRAINT [FK_Beneficio_RestauranteId] FOREIGN KEY ([RestauranteId]) REFERENCES [dbo].[Restaurante]([Id])
     

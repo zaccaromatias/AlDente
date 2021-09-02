@@ -1,6 +1,6 @@
-﻿namespace AlDente.Contracts.Clientes
+﻿namespace AlDente.Contracts.Core
 {
-    public enum EstadosDeUnCliente : int
+    public enum EstadosDeUnUsuario : int
     {
         Nuevo = 1,
         Activo = 2,

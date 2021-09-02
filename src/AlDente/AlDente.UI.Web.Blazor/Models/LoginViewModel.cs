@@ -17,7 +17,6 @@ namespace AlDente.UI.Web.Blazor.Models
         public string Apellido { get; set; }
         public int DNI { get; set; }
         public string Telefono { get; set; }
-        public string NombreUsuario { get; set; }
     }
     // Validador
     public class LoginViewModelValidator : AbstractValidator<LoginViewModel>
@@ -45,19 +44,17 @@ namespace AlDente.UI.Web.Blazor.Models
         {
             RuleFor(x => x.Nombre)
                 .NotEmpty()
-                .WithMessage("Debe ingresar nombre de cliente");
+                .WithMessage("Debe ingresar el nombre.");
             RuleFor(x => x.Apellido)
                 .NotEmpty()
-                .WithMessage("Debe ingresar apellido de cliente");
+                .WithMessage("Debe ingresar el apellido");
             RuleFor(x => x.DNI)
                 .NotEmpty()
                 .WithMessage("Debe ingresar DNI");
             RuleFor(x => x.Telefono)
                 .NotEmpty()
                 .WithMessage("Debe ingresar telefono");
-            RuleFor(x => x.NombreUsuario)
-                .NotEmpty()
-                .WithMessage("Debe ingresar nombre de usuario");
+
         }
     }
 

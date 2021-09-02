@@ -1,22 +1,24 @@
 ﻿using AlDente.Entities.Core;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace AlDente.Entities.Clientes
+namespace AlDente.Entities.Usuarios
 {
-    //public class Cliente : Core.EntityBase
-    public class Cliente : EntityBase
+    public class Usuario : EntityBase
     {
+        public int DNI { get; set; }
+        public int TipoUsuarioId { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
-        public string Password { get; set; }
-        public int DNI { get; set; }
-        public int EstadoClienteId { get; set; }
-        public string Telefono { get; set; }
         public string Email { get; set; }
-        public int? EmpleadoId { get; set; }
-        public string NombreUsuario { get; set; }
+        public string Password { get; set; }
+        public DateTime FechaCreacion { get; set; }
+        public int EstadoId { get; set; }
+        public int? UsuarioCreadorId { get; set; }
+
+        public string Telefono { get; set; }
 
         private enum Estados
         {
@@ -29,9 +31,9 @@ namespace AlDente.Entities.Clientes
         public PuedeReservarResult PuedeReservar()
         {
             List<string> motivos = new List<string>();
-            if (EstadoClienteId == (int)Estados.Inactivo)
+            if (EstadoId == (int)Estados.Inactivo)
                 motivos.Add("Te encuentras Inactivo por lo que no puedes reservar.");
-            else if (EstadoClienteId == (int)Estados.Suspendido)
+            else if (EstadoId == (int)Estados.Suspendido)
                 motivos.Add("Te encuentras suspendido por lo que no puedes reservar.");
             if (motivos.Any())
                 return PuedeReservarResult.Error(motivos);
@@ -68,6 +70,4 @@ namespace AlDente.Entities.Clientes
         }
 
     }
-
-
 }

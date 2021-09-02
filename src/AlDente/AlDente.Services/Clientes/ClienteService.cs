@@ -1,7 +1,8 @@
 ﻿using AlDente.Contracts.Clientes;
-using AlDente.DataAccess.Clientes;
+using AlDente.Contracts.Core;
 using AlDente.DataAccess.Core;
-using AlDente.Entities.Clientes;
+using AlDente.DataAccess.Usuarios;
+using AlDente.Entities.Usuarios;
 using AlDente.Globalization;
 using AlDente.Services.Core;
 using System.Collections.Generic;
@@ -12,13 +13,13 @@ namespace AlDente.Services.Clientes
 {
     public class ClienteService : BaseService, IClienteService
     {
-        private IClienteRepository clienteRepository;
+        private IUsuarioRepository usuarioRepository;
 
-        public ClienteService(IUnitOfWork unitOfWork, IClienteRepository clienteRepository)
+        public ClienteService(IUnitOfWork unitOfWork, IUsuarioRepository usuarioRepository)
             : base(unitOfWork)
         {
-            clienteRepository.Attach(this.unitOfWork);
-            this.clienteRepository = clienteRepository;
+            usuarioRepository.Attach(this.unitOfWork);
+            this.usuarioRepository = usuarioRepository;
             this.CustomValidations.Add("AK_Cliente_Email", Messages.AK_Cliente_Email);
             this.CustomValidations.Add("AK_Cliente_DNI", Messages.AK_Cliente_DNI);
         }
@@ -29,7 +30,7 @@ namespace AlDente.Services.Clientes
 
         public async Task<IEnumerable<ClienteDTO>> GetAll()
         {
-            var clientes = await clienteRepository.GetAllAsync();
+            var clientes = await usuarioRepository.QueryAsync(x => x.TipoUsuarioId == (int)TipoDeUsuarios.Cliente);
             return clientes.Select(x => new ClienteDTO
             {
                 // Datos del cliente
@@ -39,16 +40,16 @@ namespace AlDente.Services.Clientes
                 Apellido = x.Apellido,
                 DNI = x.DNI,
                 Password = x.Password,
-                Estado = (EstadosDeUnCliente)x.EstadoClienteId,
+                Estado = (EstadosDeUnUsuario)x.EstadoId,
                 Telefono = x.Telefono,
-                NombreUsuario = x.NombreUsuario
+
             });
         }
         public async Task Create(ClienteDTO clienteDTO)
         {
             await Try(async () =>
             {
-                await clienteRepository.AddAsync(new Cliente
+                await usuarioRepository.AddAsync(new Usuario
                 {
                     Id = 0,
                     Email = clienteDTO.Email,
@@ -56,23 +57,23 @@ namespace AlDente.Services.Clientes
                     Apellido = clienteDTO.Apellido,
                     DNI = clienteDTO.DNI,
                     Password = clienteDTO.Password,
-                    EstadoClienteId = (int)clienteDTO.Estado,
+                    EstadoId = (int)clienteDTO.Estado,
                     Telefono = clienteDTO.Telefono,
-                    NombreUsuario = clienteDTO.NombreUsuario
+                    TipoUsuarioId = (int)TipoDeUsuarios.Cliente
                 });
             });
         }
 
         public async Task Delete(int id)
         {
-            await clienteRepository.DeleteAsync(id);
+            await usuarioRepository.DeleteAsync(id);
         }
 
         public async Task Update(ClienteDTO clienteDTO)
         {
             await Try(async () =>
             {
-                await clienteRepository.UpdateAsync(new Cliente
+                await usuarioRepository.UpdateAsync(new Usuario
                 {
                     Id = clienteDTO.Id,
                     Email = clienteDTO.Email,
@@ -80,9 +81,9 @@ namespace AlDente.Services.Clientes
                     Apellido = clienteDTO.Apellido,
                     DNI = clienteDTO.DNI,
                     Password = clienteDTO.Password,
-                    EstadoClienteId = (int)clienteDTO.Estado,
+                    EstadoId = (int)clienteDTO.Estado,
                     Telefono = clienteDTO.Telefono,
-                    NombreUsuario = clienteDTO.NombreUsuario
+                    TipoUsuarioId = (int)TipoDeUsuarios.Cliente
                 });
             });
         }

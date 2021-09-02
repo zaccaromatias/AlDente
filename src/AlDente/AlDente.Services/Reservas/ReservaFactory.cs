@@ -1,13 +1,13 @@
 ﻿using AlDente.Contracts.Core;
 using AlDente.Contracts.Mesas;
 using AlDente.Contracts.Reservas;
-using AlDente.DataAccess.Clientes;
 using AlDente.DataAccess.Core;
 using AlDente.DataAccess.Mesas;
 using AlDente.DataAccess.Reservas;
 using AlDente.DataAccess.Turnos;
-using AlDente.Entities.Clientes;
+using AlDente.DataAccess.Usuarios;
 using AlDente.Entities.Reservas;
+using AlDente.Entities.Usuarios;
 using MlkPwgen;
 using System;
 using System.Collections.Generic;
@@ -23,7 +23,7 @@ namespace AlDente.Services.Reservas
         IUnitOfWork _unitOfWork;
         IReservaRepository _reservaRepository;
         IReservaMesaRepository _reservaMesaRepository;
-        IClienteRepository _clienteRepository;
+        IUsuarioRepository _usuarioRepository;
         ITurnoRepository _turnoRepository;
         IMesaRepository _mesaRepository;
         Reserva _reserva;
@@ -84,9 +84,9 @@ namespace AlDente.Services.Reservas
             });
         }
 
-        public INeedTurnoRepository SetClienteRepository(IClienteRepository clienteRepository)
+        public INeedTurnoRepository SetClienteRepository(IUsuarioRepository usuarioRepository)
         {
-            _clienteRepository = clienteRepository;
+            _usuarioRepository = usuarioRepository;
             return this;
         }
 
@@ -123,7 +123,7 @@ namespace AlDente.Services.Reservas
         public async Task<IVeryfyTurno> ValidateClient()
         {
             //Valida si el estado del cliente sigue siendo valido para crear una reserva
-            Cliente cliente = await _clienteRepository.GetByIdAsync(_reserva.ClienteId);
+            Usuario cliente = await _usuarioRepository.GetByIdAsync(_reserva.ClienteId);
             PuedeReservarResult result = cliente.PuedeReservar();
             if (!result.EsValido)
                 this._errors.AddRange(result.Motivos);
@@ -180,7 +180,7 @@ namespace AlDente.Services.Reservas
 
     public interface INeedClienteRepository
     {
-        INeedTurnoRepository SetClienteRepository(IClienteRepository clienteRepository);
+        INeedTurnoRepository SetClienteRepository(IUsuarioRepository clienteRepository);
     }
 
     public interface INeedTurnoRepository
