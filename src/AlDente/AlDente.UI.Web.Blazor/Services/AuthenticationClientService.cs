@@ -1,4 +1,5 @@
 ﻿using AlDente.Contracts.Clientes;
+using AlDente.Contracts.Core;
 using AlDente.UI.Web.Blazor.Helpers;
 using AlDente.UI.Web.Blazor.Models;
 using BlazorBrowserStorage;
@@ -9,24 +10,21 @@ namespace AlDente.UI.Web.Blazor.Services
 {
     public class AuthenticationClientService : IAuthenticationClientService
     {
+        private const string USER_KEY_STORAGE = "user";
         [Inject]
-        protected IClienteService ClienteService { get; set; }
-
-        [Inject]
-        private NavigationManager NavigationManager { get; set; }
-
+        protected IAuthorizationService AuthorizationService { get; set; }
 
         [Inject]
         private ILocalStorage LocalStorageService { get; set; }
 
+
         [Inject]
         private ClienteAuthenticationStateProvider ClienteAuthenticationStateProvider { get; set; }
-        public UserSession Session => UserSession.Data;
 
-        public AuthenticationClientService(IClienteService clienteService, NavigationManager navigationManager, ILocalStorage localStorage, ClienteAuthenticationStateProvider clienteAuthenticationStateProvider)
+
+        public AuthenticationClientService(IAuthorizationService authorizationService, NavigationManager navigationManager, ILocalStorage localStorage, ClienteAuthenticationStateProvider clienteAuthenticationStateProvider)
         {
-            ClienteService = clienteService;
-            NavigationManager = navigationManager;
+            AuthorizationService = authorizationService;
             LocalStorageService = localStorage;
             ClienteAuthenticationStateProvider = clienteAuthenticationStateProvider;
 
@@ -35,33 +33,31 @@ namespace AlDente.UI.Web.Blazor.Services
 
         public async Task Initialize()
         {
-            UserSession.LoadUser(await LocalStorageService.GetItem<ClienteBasicDTO>("user"));
             ClienteAuthenticationStateProvider.NotifyAuthenticationStateChanged();
         }
 
         public async Task Login(LoginViewModel model)
         {
-            var user = await ClienteService.Login(new LoginDTO
+            var user = await AuthorizationService.Login(new LoginDTO
             {
                 Email = model.Email,
                 Password = model.Password
             });
-            UserSession.LoadUser(user);
-            await LocalStorageService.SetItem("user", user);
+
+            await LocalStorageService.SetItem(USER_KEY_STORAGE, user);
             ClienteAuthenticationStateProvider.NotifyAuthenticationStateChanged();
 
         }
 
         public async Task Logout()
         {
-            UserSession.LoadUser(null);
-            await LocalStorageService.RemoveItem("user");
+            await LocalStorageService.RemoveItem(USER_KEY_STORAGE);
             ClienteAuthenticationStateProvider.NotifyAuthenticationStateChanged();
         }
 
         public async Task Register(RegisterModel registerModel)
         {
-            var user = await ClienteService.Register(new ClienteRegisterDTO
+            var user = await AuthorizationService.Register(new ClienteRegisterDTO
             {
                 Apellido = registerModel.Apellido,
                 DNI = registerModel.DNI,
@@ -70,8 +66,8 @@ namespace AlDente.UI.Web.Blazor.Services
                 Password = registerModel.Password,
                 Telefono = registerModel.Telefono
             });
-            UserSession.LoadUser(user);
-            await LocalStorageService.SetItem("user", user);
+
+            await LocalStorageService.SetItem(USER_KEY_STORAGE, user);
             ClienteAuthenticationStateProvider.NotifyAuthenticationStateChanged();
         }
     }

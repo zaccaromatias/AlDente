@@ -4,7 +4,7 @@ using AlDente.Contracts.Mesas;
 using AlDente.Contracts.Reservas;
 using AlDente.Contracts.Turnos;
 using AlDente.Globalization;
-using AlDente.UI.Web.Blazor.Services;
+using AlDente.UI.Web.Blazor.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -20,6 +20,7 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
         public IDiaLaboralService DiaLaboralService { get; private set; }
         public IMesaService MesaService { get; private set; }
         public IReservaService ReservaService { get; private set; }
+        public SessionData SessionData { get; private set; }
 
         [Display(Name = nameof(Messages.Comensales), ResourceType = typeof(Messages))]
         public int? Comensales { get; set; }
@@ -44,7 +45,7 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
         #endregion
 
         #region Constructors
-        private ReservaViewModel(ITurnoService turnoService, IDiaLaboralService diaLaboralService, IMesaService mesaService, IReservaService reservaService)
+        private ReservaViewModel(ITurnoService turnoService, IDiaLaboralService diaLaboralService, IMesaService mesaService, IReservaService reservaService, SessionData sessionData)
         {
             TurnoService = turnoService;
             DiaLaboralService = diaLaboralService;
@@ -54,11 +55,12 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
             Combinaciones = new List<CombinacionDTO>();
             Combinacion = new Guid?[] { };
             ReservaService = reservaService;
+            SessionData = sessionData;
         }
 
-        public static async Task<ReservaViewModel> Create(ITurnoService turnoService, IDiaLaboralService diaLaboralService, IMesaService mesaService, IReservaService reservaService)
+        public static async Task<ReservaViewModel> Create(ITurnoService turnoService, IDiaLaboralService diaLaboralService, IMesaService mesaService, IReservaService reservaService, SessionData sessionData)
         {
-            var reservaModel = new ReservaViewModel(turnoService, diaLaboralService, mesaService, reservaService);
+            var reservaModel = new ReservaViewModel(turnoService, diaLaboralService, mesaService, reservaService, sessionData);
             await reservaModel.LoadDiasLaborables();
             return reservaModel;
         }
@@ -135,7 +137,7 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
                     Fecha = this.Fecha.Value,
                     Turno = this.Turno,
                     Combinacion = this.Combinaciones.First(x => x.Key == this.Combinacion.First().Value),
-                    ClienteId = UserSession.Data.User.Id
+                    ClienteId = SessionData.User.ClienteId.Value
 
                 });
                 this.MensajeDeErrorAlReservar = result.AllErrors;

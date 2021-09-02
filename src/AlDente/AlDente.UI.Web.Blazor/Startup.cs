@@ -1,4 +1,5 @@
 using AlDente.Contracts.Clientes;
+using AlDente.Contracts.Core;
 using AlDente.Contracts.DiasLaborables;
 using AlDente.Contracts.Empleados;
 using AlDente.Contracts.EstadosClientes;
@@ -16,6 +17,7 @@ using AlDente.DataAccess.Reservas;
 using AlDente.DataAccess.Restaurantes;
 using AlDente.DataAccess.Turnos;
 using AlDente.Services.Clientes;
+using AlDente.Services.Core;
 using AlDente.Services.DiasLaborables;
 using AlDente.Services.Empleados;
 using AlDente.Services.EstadosClientes;
@@ -55,54 +57,29 @@ namespace AlDente.UI.Web.Blazor
         public void ConfigureServices(IServiceCollection services)
         {
             RepoDb.SqlServerBootstrap.Initialize();
-            //services.AddBlazoredLocalStorage();
             services.AddRazorPages();
             services.AddServerSideBlazor()
                 .AddHubOptions(o => { o.MaximumReceiveMessageSize = 102400000; });
             services.AddSingleton<WeatherForecastService>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IAuthenticationClientService, AuthenticationClientService>();
-            services.AddScoped<IEstadoClienteRepository, EstadoClienteRepository>();
-            services.AddScoped<IClienteRepository, ClienteRepository>();
-            services.AddScoped<IEstadoClienteService, EstadoClienteService>();
-            services.AddScoped<IClienteService, ClienteService>();
-            services.AddScoped<IMesaService, MesaService>();
-            services.AddScoped<IMesaRepository, MesaRepository>();
-            services.AddScoped<ITurnoService, TurnoService>();
-            services.AddScoped<ITurnoRepository, TurnoRepository>();
-            services.AddScoped<IEmpleadoService, EmpleadoService>();
-            services.AddScoped<IEmpleadoRepository, EmpleadoRepository>();
-            services.AddScoped<IRestauranteService, RestauranteService>();
-            services.AddScoped<IRestauranteRepository, RestauranteRepository>();
-            services.AddScoped<IDiaLaboralRepository, DiaLaboralRepository>();
-            services.AddScoped<IDiaLaboralService, DiaLaboralService>();
-
-            services.AddScoped<IReservaRepository, ReservaRepository>();
-            services.AddScoped<IReservaMesaRepository, ReservaMesaRepository>();
-            services.AddScoped<IReservaService, ReservaService>();
-
             services.AddBlazorBrowserStorage();
             services.AddHttpContextAccessor();
+            services.AddScoped<SessionData>();
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(20);
                 options.Cookie.IsEssential = true;
             });
 
-            services.Configure<AppSettings>(options =>
-            {
-                options.CacheItemExpiration = 0;
-                options.CommandTimeout = 0;
-                options.ConnectionString = Configuration.GetConnectionString("DefaultDataBase");
-                options.RestauranteId = Configuration.GetValue<int>("RestauranteId");
-
-            });
+            AddUIServices(services);
+            AddCustomServices(services);
+            AddRepositories(services);
+            AddValidators(services);
             services.AddAuthorizationCore();
-            services.AddSingleton<ClienteAuthenticationStateProvider>();
-            services.AddScoped<AuthenticationStateProvider>(provider => provider.GetRequiredService<ClienteAuthenticationStateProvider>());
-            services.AddSingleton<AppState>();
+            services.AddSyncfusionBlazor();
+        }
 
-            services.AddScoped<AuthenticationStateProvider>(provider => provider.GetRequiredService<ClienteAuthenticationStateProvider>());
+        private void AddValidators(IServiceCollection services)
+        {
             services.AddTransient<IValidator<LoginViewModel>, LoginViewModelValidator>();
             services.AddTransient<IValidator<RegisterModel>, RegisterModelValidator>();
             services.AddTransient<IValidator<EstadoClienteDTO>, EstadoClienteDTOValidator>();
@@ -112,8 +89,49 @@ namespace AlDente.UI.Web.Blazor
             services.AddTransient<IValidator<TurnoDTO>, TurnoDTOValidator>();
             services.AddTransient<IValidator<DiaLaboralDTO>, DiaLaboralDTOValidator>();
             services.AddTransient<IValidator<ReservaACancelarDTO>, ReservaACancelarDTOValidator>();
-            services.AddSyncfusionBlazor();
-            services.AddSingleton<IToastService, ToastService>();
+        }
+
+        private void AddRepositories(IServiceCollection services)
+        {
+            services.AddScoped<IEstadoClienteRepository, EstadoClienteRepository>();
+            services.AddScoped<IClienteRepository, ClienteRepository>();
+            services.AddScoped<IMesaRepository, MesaRepository>();
+            services.AddScoped<ITurnoRepository, TurnoRepository>();
+            services.AddScoped<IEmpleadoRepository, EmpleadoRepository>();
+            services.AddScoped<IRestauranteRepository, RestauranteRepository>();
+            services.AddScoped<IDiaLaboralRepository, DiaLaboralRepository>();
+            services.AddScoped<IReservaMesaRepository, ReservaMesaRepository>();
+        }
+
+        private void AddCustomServices(IServiceCollection services)
+        {
+            services.AddScoped<IAuthorizationService, AuthorizationService>();
+            services.Configure<AppSettings>(options =>
+            {
+                options.CacheItemExpiration = 0;
+                options.CommandTimeout = 0;
+                options.ConnectionString = Configuration.GetConnectionString("DefaultDataBase");
+                options.RestauranteId = Configuration.GetValue<int>("RestauranteId");
+
+            });
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IEstadoClienteService, EstadoClienteService>();
+            services.AddScoped<IClienteService, ClienteService>();
+            services.AddScoped<IMesaService, MesaService>();
+            services.AddScoped<ITurnoService, TurnoService>();
+            services.AddScoped<IEmpleadoService, EmpleadoService>();
+            services.AddScoped<IRestauranteService, RestauranteService>();
+            services.AddScoped<IDiaLaboralService, DiaLaboralService>();
+            services.AddScoped<IReservaRepository, ReservaRepository>();
+            services.AddScoped<IReservaService, ReservaService>();
+        }
+
+        private void AddUIServices(IServiceCollection services)
+        {
+            services.AddScoped<IAuthenticationClientService, AuthenticationClientService>();
+            services.AddScoped<ClienteAuthenticationStateProvider>();
+            services.AddScoped<AuthenticationStateProvider>(provider => provider.GetRequiredService<ClienteAuthenticationStateProvider>());
+            services.AddScoped<IToastService, ToastService>();
         }
 
 
@@ -145,11 +163,7 @@ namespace AlDente.UI.Web.Blazor
 
             });
 
-            //using (var scope = app.ApplicationServices.CreateScope())
-            //{
-            //    IAuthenticationClientService authenticationClientService = scope.ServiceProvider.GetRequiredService<IAuthenticationClientService>();
-            //    authenticationClientService.Initialize().Start();
-            //}
+
         }
     }
 }

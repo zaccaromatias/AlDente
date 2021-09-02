@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AlDente.Cross\AlDente.Cross.csproj" />
     <ProjectReference Include="..\AlDente.Globalization\AlDente.Globalization.csproj" />
   </ItemGroup>
 

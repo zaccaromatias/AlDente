@@ -3,9 +3,10 @@
 @using Microsoft.AspNetCore.Hosting
 @using Microsoft.Extensions.Hosting
 @inject IAuthenticationClientService AuthenticationService
+@inject ClienteAuthenticationStateProvider AuthProvider
 @inject NavigationManager NavigationManager
 @inject IWebHostEnvironment HostEnvironment
-@inject AppState AppState
+
 @inject IToastService toastService
 
 
@@ -50,10 +51,11 @@
     private string error;
 
     private string DisabledButton => loading ? "disabled" : "";
-    protected override void OnInitialized()
+    protected async override Task OnInitializedAsync()
     {
         // redirect to home if already logged in
-        if (AuthenticationService.Session.User != null)
+        var user = await AuthProvider.GetAuthenticationStateAsync();
+        if (user != null && user.User != null && user.User.Identity.IsAuthenticated)
         {
             NavigationManager.NavigateTo("");
         }
@@ -70,7 +72,7 @@
         try
         {
             await AuthenticationService.Login(model);
-            AppState.TriggerRefreshAction();
+
             var returnUrl = NavigationManager.QueryString("returnUrl") ?? "/";
             toastService.ShowMessage(MessageType.Success, Globalization.Strings.LoginSuccessTitle, Globalization.Strings.LoginSuccessContent);
             NavigationManager.NavigateTo(returnUrl);

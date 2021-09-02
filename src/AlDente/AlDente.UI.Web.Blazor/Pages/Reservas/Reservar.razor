@@ -7,6 +7,7 @@
 @using Contracts.Mesas
 @using Contracts.Reservas
 @using Contracts.Core
+@using Data
 @using Contracts.DiasLaborables
 @page "/Reservar"
 @inject IDiaLaboralService _diaLaboralService
@@ -14,6 +15,7 @@
 @inject IReservaService _reservaService
 @inject ITurnoService _turnoService
 @inject NavigationManager NavigationManager
+@inject SessionData _sessionData
 @attribute [Authorize]
 <MyCard Header="Reservar Ahora">
     @if (this.Reserva == null)
@@ -118,7 +120,7 @@
 
     protected async override Task OnInitializedAsync()
     {
-        this.Reserva = await ReservaViewModel.Create(_turnoService, _diaLaboralService, _mesaService, _reservaService);
+        this.Reserva = await ReservaViewModel.Create(_turnoService, _diaLaboralService, _mesaService, _reservaService, _sessionData);
         await base.OnInitializedAsync();
     }
     private async Task BuscarCombinaciones()

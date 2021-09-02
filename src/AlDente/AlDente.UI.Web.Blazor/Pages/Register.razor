@@ -1,9 +1,9 @@
 ﻿@page "/Register"
 @using Microsoft.AspNetCore.Hosting
 @inject IAuthenticationClientService AuthenticationService
+@inject ClienteAuthenticationStateProvider AuthProvider
 @inject NavigationManager NavigationManager
 @inject IWebHostEnvironment HostEnvironment
-@inject AppState AppState
 @inject IToastService toastService
 <MyCard Header="@AlDente.Globalization.Messages.SignIn">
     <EditForm Model="@model" OnValidSubmit="HandleValidSubmit">
@@ -65,10 +65,11 @@
     private bool loading;
     private string error;
 
-    protected override void OnInitialized()
+    protected async override Task OnInitializedAsync()
     {
         // redirect to home if already logged in
-        if (AuthenticationService.Session.User != null)
+        var user = await AuthProvider.GetAuthenticationStateAsync();
+        if (user != null && user.User != null && user.User.Identity.IsAuthenticated)
         {
             NavigationManager.NavigateTo("");
         }
@@ -80,7 +81,6 @@
         try
         {
             await AuthenticationService.Register(model);
-            AppState.TriggerRefreshAction();
             var returnUrl = NavigationManager.QueryString("returnUrl") ?? "/";
             toastService.ShowMessage(MessageType.Success, Globalization.Strings.RegisterSuccessTitle, Globalization.Strings.RegisterSuccessContent);
             NavigationManager.NavigateTo(returnUrl);

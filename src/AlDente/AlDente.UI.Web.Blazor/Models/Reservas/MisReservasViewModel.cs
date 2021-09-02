@@ -1,6 +1,6 @@
 ﻿using AlDente.Contracts.Core;
 using AlDente.Contracts.Reservas;
-using AlDente.UI.Web.Blazor.Services;
+using AlDente.UI.Web.Blazor.Data;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,6 +12,7 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
         public List<ReservaBasicDTO> Reservas { get; private set; }
 
         public ReservaACancelarDTO ReservaACancelar { get; private set; }
+        public SessionData SessionData { get; private set; }
 
 
         public void SetReservaACancelar(ReservaBasicDTO reserva)
@@ -30,16 +31,16 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
 
         public string MotivoCancelacion { get; set; }
 
-        private MisReservasViewModel(IReservaService reservaService)
+        private MisReservasViewModel(IReservaService reservaService, SessionData sessionData)
         {
             this.Reservas = new List<ReservaBasicDTO>();
             _reservaService = reservaService;
-
+            SessionData = sessionData;
         }
 
-        public async static Task<MisReservasViewModel> Create(IReservaService reservaService)
+        public async static Task<MisReservasViewModel> Create(IReservaService reservaService, SessionData sessionData)
         {
-            var model = new MisReservasViewModel(reservaService);
+            var model = new MisReservasViewModel(reservaService, sessionData);
             await model.LoadReservas();
             return model;
 
@@ -47,7 +48,7 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
 
         private async Task LoadReservas()
         {
-            var reservas = await _reservaService.GetReservasDeUnCliente(UserSession.Data.User.Id);
+            var reservas = await _reservaService.GetReservasDeUnCliente(SessionData.User.ClienteId.Value);
             this.Reservas = new List<ReservaBasicDTO>(reservas);
         }
     }

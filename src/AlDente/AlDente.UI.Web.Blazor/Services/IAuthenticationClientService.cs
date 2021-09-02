@@ -5,7 +5,7 @@ namespace AlDente.UI.Web.Blazor.Services
 {
     public interface IAuthenticationClientService
     {
-        UserSession Session { get; }
+       
         Task Initialize();
         Task Login(LoginViewModel model);
 
