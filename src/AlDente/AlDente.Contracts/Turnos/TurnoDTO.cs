@@ -2,11 +2,13 @@
 using AlDente.Globalization;
 using FluentValidation;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace AlDente.Contracts.Turnos
 {
     public class TurnoDTO
     {
+        [Display(Name = nameof(Messages.Email), ResourceType = typeof(Messages))]
         public int Id { get; set; }
         public TimeSpan HoraInicio { get; set; }
 

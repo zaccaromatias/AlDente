@@ -193,7 +193,7 @@
     <value>Email o contraseña incorrecta.</value>
   </data>
   <data name="EndTime" xml:space="preserve">
-    <value>Hora Final</value>
+    <value>Tiempo final</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Error</value>
@@ -211,7 +211,7 @@
     <value>Apellido</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Iniciar Session</value>
+    <value>Iniciar Sesión</value>
   </data>
   <data name="LoginSuccessContent" xml:space="preserve">
     <value>Gracias por regresar</value>
@@ -230,6 +230,9 @@
   </data>
   <data name="New" xml:space="preserve">
     <value>Nuevo</value>
+  </data>
+  <data name="NombreUsuario" xml:space="preserve">
+    <value>Usuario</value>
   </data>
   <data name="NotAssisted" xml:space="preserve">
     <value>No Asistida</value>
