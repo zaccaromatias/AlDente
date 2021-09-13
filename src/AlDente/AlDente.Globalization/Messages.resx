@@ -189,6 +189,9 @@
   <data name="Description" xml:space="preserve">
     <value>Descripción</value>
   </data>
+  <data name="Discount" xml:space="preserve">
+    <value>Descuento</value>
+  </data>
   <data name="DNI" xml:space="preserve">
     <value>DNI</value>
   </data>
@@ -243,6 +246,12 @@
   <data name="MisReservas" xml:space="preserve">
     <value>Mis Reservas</value>
   </data>
+  <data name="MaximumNumber" xml:space="preserve">
+    <value>Número Máximo</value>
+  </data>
+  <data name="MinimumNumber" xml:space="preserve">
+    <value>Número Mínimo</value>
+  </data>
   <data name="Monday" xml:space="preserve">
     <value>Lunes</value>
   </data>
@@ -266,6 +275,9 @@
   </data>
   <data name="Pending" xml:space="preserve">
     <value>Pendiente</value>
+  </data>
+  <data name="Period" xml:space="preserve">
+    <value>Período</value>
   </data>
   <data name="Phone" xml:space="preserve">
     <value>Teléfono</value>
@@ -320,6 +332,9 @@
   </data>
   <data name="Suspended" xml:space="preserve">
     <value>Suspendido</value>
+  </data>
+  <data name="SuspensionDays" xml:space="preserve">
+    <value>Días Suspensión</value>
   </data>
   <data name="Tables" xml:space="preserve">
     <value>Mesas</value>

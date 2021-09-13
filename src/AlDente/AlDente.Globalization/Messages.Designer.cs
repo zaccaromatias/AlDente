@@ -277,6 +277,15 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Descuento.
+        /// </summary>
+        public static string Discount {
+            get {
+                return ResourceManager.GetString("Discount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to DNI.
         /// </summary>
         public static string DNI {
@@ -438,6 +447,24 @@ namespace AlDente.Globalization {
             }
         }
         
+        /// <summary>        
+        ///   Looks up a localized string similar to Número Máximo.
+        /// </summary>
+        public static string MaximumNumber {
+            get {
+                return ResourceManager.GetString("MaximumNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Número Mínimo.
+        /// </summary>
+        public static string MinimumNumber {
+            get {
+                return ResourceManager.GetString("MinimumNumber", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Lunes.
         /// </summary>
@@ -507,6 +534,15 @@ namespace AlDente.Globalization {
         public static string Pending {
             get {
                 return ResourceManager.GetString("Pending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Período.
+        /// </summary>
+        public static string Period {
+            get {
+                return ResourceManager.GetString("Period", resourceCulture);
             }
         }
         
@@ -678,6 +714,15 @@ namespace AlDente.Globalization {
         public static string Tables {
             get {
                 return ResourceManager.GetString("Tables", resourceCulture);
+            }
+        }
+        
+        /// <summary>        
+        ///   Looks up a localized string similar to Días Suspensión.
+        /// </summary>
+        public static string SuspensionDays {
+            get {
+                return ResourceManager.GetString("SuspensionDays", resourceCulture);
             }
         }
         

@@ -71,7 +71,7 @@
     <Build Include="Tables\Restaurante.sql" />
     <Build Include="Tables\Mesa.sql" />
     <Build Include="Tables\Sancion.sql" />
-    <Build Include="Tables\TipoSansion.sql" />
+    <Build Include="Tables\TipoSancion.sql" />
     <Build Include="Tables\PoliticaSancion.sql" />
     <Build Include="Tables\EstadoReserva.sql" />
     <Build Include="Tables\Turno.sql" />
