@@ -45,7 +45,7 @@
                 </div>
             </ChildContent>
         </SfSidebar>
-        <div class="fixed-top"><button class="btn btn-dark" @onclick="@TogleeSideBar">Menu Empleado</button></div>
+        <div class="fixed-top text-center"><button class="btn btn-dark" @onclick="@TogleeSideBar">Menu Empleado</button></div>
     </Authorized>
 </AuthorizeView>
 @code {
@@ -84,47 +84,10 @@
     };
 }
 <style>
-    .content {
+    .content-area {
         text-align: center;
-        padding: 150px;
     }
 
-
-
-
-    .center {
-        text-align: center;
-        display: none;
-        font-size: 13px;
-        font-weight: 400;
-        margin-top: 20px;
-    }
-
-    .sb-content-tab .center {
-        display: block;
-    }
-
-    .col-lg-12.col-sm-12.col-md-12,
-    .control-section {
-        padding: 0;
-    }
-    /* custom code end */
-    /* end of main content area styles */
-    /* Header area styles */
-    #wrapper #head {
-        border: none;
-        background: #292961;
-        width: 100%;
-        height: 50px;
-        color: #fff;
-        padding: 0 30px;
-        position: relative;
-    }
-    /* custom code start */
-    body {
-        margin: 0;
-    }
-    /* custom code end */
     #hamburger.menu {
         font-size: 25px;
         cursor: pointer;
