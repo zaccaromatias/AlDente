@@ -138,6 +138,9 @@
   <data name="Assisted" xml:space="preserve">
     <value>Asistida</value>
   </data>
+  <data name="Bookings" xml:space="preserve">
+    <value>Reservas</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancelar</value>
   </data>
@@ -164,6 +167,9 @@
   </data>
   <data name="CreateSuccessMessage" xml:space="preserve">
     <value>Se creo con éxito</value>
+  </data>
+  <data name="Customers" xml:space="preserve">
+    <value>Clientes</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Fecha</value>
@@ -192,6 +198,12 @@
   <data name="EmailOrPasswordWasNotCorrect" xml:space="preserve">
     <value>Email o contraseña incorrecta.</value>
   </data>
+  <data name="EmployeMenu" xml:space="preserve">
+    <value>Menu Empleado</value>
+  </data>
+  <data name="Employess" xml:space="preserve">
+    <value>Empleados</value>
+  </data>
   <data name="EndTime" xml:space="preserve">
     <value>Tiempo final</value>
   </data>
@@ -206,6 +218,9 @@
   </data>
   <data name="Inactive" xml:space="preserve">
     <value>Inactivo</value>
+  </data>
+  <data name="LaborDay" xml:space="preserve">
+    <value>Dias Laborales</value>
   </data>
   <data name="LastName" xml:space="preserve">
     <value>Apellido</value>
@@ -222,6 +237,12 @@
   <data name="LogOut" xml:space="preserve">
     <value>Cerrar Sesión</value>
   </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="MisReservas" xml:space="preserve">
+    <value>Mis Reservas</value>
+  </data>
   <data name="Monday" xml:space="preserve">
     <value>Lunes</value>
   </data>
@@ -236,6 +257,9 @@
   </data>
   <data name="NotAssisted" xml:space="preserve">
     <value>No Asistida</value>
+  </data>
+  <data name="Opiniones" xml:space="preserve">
+    <value>Opiniones</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Contraseña</value>
@@ -270,6 +294,12 @@
   <data name="RepeatPassword" xml:space="preserve">
     <value>Repita la Contraseña</value>
   </data>
+  <data name="Reservar" xml:space="preserve">
+    <value>Reservar</value>
+  </data>
+  <data name="Restaurants" xml:space="preserve">
+    <value>Restaurantes</value>
+  </data>
   <data name="Saturday" xml:space="preserve">
     <value>Sabado</value>
   </data>
@@ -291,6 +321,9 @@
   <data name="Suspended" xml:space="preserve">
     <value>Suspendido</value>
   </data>
+  <data name="Tables" xml:space="preserve">
+    <value>Mesas</value>
+  </data>
   <data name="TheEndTimemMustBeGreaterThanTheStartTime" xml:space="preserve">
     <value>La hora de Fin debe ser mayor a la de Inicio.</value>
   </data>
@@ -305,6 +338,9 @@
   </data>
   <data name="Turno" xml:space="preserve">
     <value>Turno</value>
+  </data>
+  <data name="Turnos" xml:space="preserve">
+    <value>Turnos</value>
   </data>
   <data name="Update" xml:space="preserve">
     <value>Actualizar</value>

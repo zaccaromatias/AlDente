@@ -1,55 +1,43 @@
 ﻿<ul class="navbar-nav">
-
-    <AuthorizeView Roles="Empleado">
-        <li class="nav-item">
-            <a href="/Clientes" class="nav-link">[Clientes]</a>
-        </li>
-        <li class="nav-item">
-            <a href="/Mesas" class="nav-link">[Mesas]</a>
-        </li>
-        <li class="nav-item">
-            <a href="/Turnos" class="nav-link">[Turnos]</a>
-        </li>
-        <li class="nav-item">
-            <a href="/Empleados" class="nav-link">[Empleados]</a>
-        </li>
-        <li class="nav-item">
-            <a href="/Restaurantes" class="nav-link">[Restaurantes]</a>
-        </li>
-        <li class="nav-item">
-            <a href="/DiasLaborables" class="nav-link">[Dias Laborables]</a>
-        </li>
-        <li class="nav-item">
-            <a href="/ReservasEmpleado" class="nav-link">[Reservas (E)]</a>
-        </li>
-    </AuthorizeView>
     <AuthorizeView Roles="Cliente">
-        <li class="nav-item active">
-            <a href="/Reservar" class="nav-link">[Reservar]</a>
-            @*<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>*@
+        <li class="nav-item @GetActive("", NavLinkMatch.All)">
+            <NavLink class="nav-link" href="/Reservar" Match="NavLinkMatch.All">@Globalization.Messages.Reservar</NavLink>
         </li>
-        <li class="nav-item">
-            <a href="/Menu" class="nav-link">[Menu]</a>
+        <li class="nav-item @GetActive("", NavLinkMatch.All)">
+            <NavLink class="nav-link" href="/Menu" Match="NavLinkMatch.All">@Globalization.Messages.Menu</NavLink>
         </li>
-        <li class="nav-item">
-            <a href="/Opiniones" class="nav-link">[Opiniones]</a>
+        <li class="nav-item @GetActive("", NavLinkMatch.All)">
+            <NavLink class="nav-link" href="/Opiniones" Match="NavLinkMatch.All">@Globalization.Messages.Opiniones</NavLink>
+        </li>
+        <li class="nav-item @GetActive("", NavLinkMatch.All)">
+            <NavLink class="nav-link" href="/MisReservas" Match="NavLinkMatch.All">@Globalization.Messages.MisReservas</NavLink>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @context.User.Identity.Name
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/logout">@AlDente.Globalization.Strings.LogOut</a>
+            </div>
         </li>
     </AuthorizeView>
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            @context.User.Identity.Name
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <AuthorizeView Roles="Cliente">
-                <a class="dropdown-item" href="/MisReservas">[Mis Reservas]</a>
 
-            </AuthorizeView>
-            <a class="dropdown-item" href="/logout">@AlDente.Globalization.Strings.LogOut</a>
-        </div>
-    </li>
 </ul>
 @code{
 
     [Parameter]
     public AuthenticationState context { get; set; }
+
+    [Inject]
+    NavigationManager NavigationManager { get; set; }
+
+    protected override void OnInitialized() => NavigationManager.LocationChanged += (s, e) => StateHasChanged();
+
+    bool IsActive(string href, NavLinkMatch navLinkMatch = NavLinkMatch.Prefix)
+    {
+        var relativePath = NavigationManager.ToBaseRelativePath(NavigationManager.Uri).ToLower();
+        return navLinkMatch == NavLinkMatch.All ? relativePath == href.ToLower() : relativePath.StartsWith(href.ToLower());
+    }
+
+    string GetActive(string href, NavLinkMatch navLinkMatch = NavLinkMatch.Prefix) => IsActive(href, navLinkMatch) ? "active" : "";
 }

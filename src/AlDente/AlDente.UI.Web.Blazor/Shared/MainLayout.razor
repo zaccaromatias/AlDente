@@ -1,17 +1,48 @@
 ﻿@inherits LayoutComponentBase
+@using Syncfusion.Blazor.Navigations
 <ToastContainer></ToastContainer>
 
 <div class="main">
     <NavMenu />
-    @*<AuthorizeView Roles="Empleado">
-            <Authorized>
-                <PanelParaEmpleado />
-            </Authorized>
-        </AuthorizeView>*@
     <div class="content px-4 nopadding">
+        <PanelParaEmpleado />
         @Body
     </div>
 </div>
 
 
+@code {
 
+    SfSidebar Sidebar;
+    public SidebarType Type = SidebarType.Push;
+
+    public bool SidebarToggle = false;
+
+    [Inject]
+    NavigationManager NavigationManager { get; set; }
+
+    protected override void OnInitialized() => NavigationManager.LocationChanged += (s, e) => StateHasChanged();
+
+    bool IsActive(string href, NavLinkMatch navLinkMatch = NavLinkMatch.Prefix)
+    {
+        var relativePath = NavigationManager.ToBaseRelativePath(NavigationManager.Uri).ToLower();
+        return navLinkMatch == NavLinkMatch.All ? relativePath == href.ToLower() : relativePath.StartsWith(href.ToLower());
+    }
+
+    string GetActive(string href, NavLinkMatch navLinkMatch = NavLinkMatch.Prefix) => IsActive(href, navLinkMatch) ? "active" : "";
+
+
+    public void TogleeSideBar()
+    {
+        SidebarToggle = !SidebarToggle;
+    }
+    public void Close()
+    {
+        SidebarToggle = false;
+    }
+
+    Dictionary<string, object> HtmlAttribute = new Dictionary<string, object>()
+{
+        {"class", "sidebar-list" }
+    };
+}
