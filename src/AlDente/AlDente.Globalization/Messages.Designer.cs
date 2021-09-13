@@ -124,6 +124,15 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Políticas de Beneficios.
+        /// </summary>
+        public static string BenefitsPolicies {
+            get {
+                return ResourceManager.GetString("BenefitsPolicies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reservas.
         /// </summary>
         public static string Bookings {
@@ -430,24 +439,6 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Menu.
-        /// </summary>
-        public static string Menu {
-            get {
-                return ResourceManager.GetString("Menu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Mis Reservas.
-        /// </summary>
-        public static string MisReservas {
-            get {
-                return ResourceManager.GetString("MisReservas", resourceCulture);
-            }
-        }
-        
-        /// <summary>        
         ///   Looks up a localized string similar to Número Máximo.
         /// </summary>
         public static string MaximumNumber {
@@ -457,11 +448,29 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Menu.
+        /// </summary>
+        public static string Menu {
+            get {
+                return ResourceManager.GetString("Menu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Número Mínimo.
         /// </summary>
         public static string MinimumNumber {
             get {
                 return ResourceManager.GetString("MinimumNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mis Reservas.
+        /// </summary>
+        public static string MisReservas {
+            get {
+                return ResourceManager.GetString("MisReservas", resourceCulture);
             }
         }
         
@@ -646,6 +655,15 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Políticas de Sanciones.
+        /// </summary>
+        public static string SanctionsPolicies {
+            get {
+                return ResourceManager.GetString("SanctionsPolicies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sabado.
         /// </summary>
         public static string Saturday {
@@ -709,20 +727,20 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mesas.
-        /// </summary>
-        public static string Tables {
-            get {
-                return ResourceManager.GetString("Tables", resourceCulture);
-            }
-        }
-        
-        /// <summary>        
         ///   Looks up a localized string similar to Días Suspensión.
         /// </summary>
         public static string SuspensionDays {
             get {
                 return ResourceManager.GetString("SuspensionDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mesas.
+        /// </summary>
+        public static string Tables {
+            get {
+                return ResourceManager.GetString("Tables", resourceCulture);
             }
         }
         
@@ -777,6 +795,24 @@ namespace AlDente.Globalization {
         public static string Turnos {
             get {
                 return ResourceManager.GetString("Turnos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tipos de Beneficios.
+        /// </summary>
+        public static string TypesOfBenefits {
+            get {
+                return ResourceManager.GetString("TypesOfBenefits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tipos de Sanciones.
+        /// </summary>
+        public static string TypesOfSanctions {
+            get {
+                return ResourceManager.GetString("TypesOfSanctions", resourceCulture);
             }
         }
         

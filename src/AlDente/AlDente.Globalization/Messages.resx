@@ -384,4 +384,16 @@
   <data name="XMustBeLessThanYCharacters" xml:space="preserve">
     <value>"{0}" debe tener menos de {1} caracteres.</value>
   </data>
+  <data name="BenefitsPolicies" xml:space="preserve">
+    <value>Políticas de Beneficios</value>
+  </data>
+  <data name="SanctionsPolicies" xml:space="preserve">
+    <value>Políticas de Sanciones</value>
+  </data>
+  <data name="TypesOfBenefits" xml:space="preserve">
+    <value>Tipos de Beneficios</value>
+  </data>
+  <data name="TypesOfSanctions" xml:space="preserve">
+    <value>Tipos de Sanciones</value>
+  </data>
 </root>

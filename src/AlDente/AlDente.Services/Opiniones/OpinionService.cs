@@ -1,13 +1,11 @@
 ﻿using AlDente.Contracts.Opiniones;
-using AlDente.Contracts.Core;
-using AlDente.DataAccess.Opiniones;
 using AlDente.DataAccess.Core;
-using AlDente.Globalization;
+using AlDente.DataAccess.Opiniones;
+using AlDente.Entities.Opiniones;
 using AlDente.Services.Core;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AlDente.Entities.Opiniones;
 
 namespace AlDente.Services.Opiniones
 {
@@ -32,7 +30,7 @@ namespace AlDente.Services.Opiniones
                 Texto = x.Texto,
                 Calificacion = x.Calificacion,
                 RestauranteId = x.RestauranteId,
-                ClienteId= x.ClienteId
+                ClienteId = x.ClienteId
             });
         }
 
@@ -45,7 +43,7 @@ namespace AlDente.Services.Opiniones
                     Texto = opinionDto.Texto,
                     Calificacion = opinionDto.Calificacion,
                     RestauranteId = this.unitOfWork.RestauranteId,
-                    //ClienteId          = opinionDto.ClienteId
+                    ClienteId = opinionDto.ClienteId
                 });
             });
         }
