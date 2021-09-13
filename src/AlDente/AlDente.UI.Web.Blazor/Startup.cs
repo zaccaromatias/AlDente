@@ -2,29 +2,31 @@ using AlDente.Contracts.Clientes;
 using AlDente.Contracts.Core;
 using AlDente.Contracts.DiasLaborables;
 using AlDente.Contracts.Empleados;
-
 using AlDente.Contracts.Mesas;
 using AlDente.Contracts.Reservas;
 using AlDente.Contracts.Restaurantes;
 using AlDente.Contracts.Turnos;
+using AlDente.Contracts.Opiniones;
+
 using AlDente.DataAccess.Core;
-
 using AlDente.DataAccess.DiasLaborables;
-
 using AlDente.DataAccess.Mesas;
 using AlDente.DataAccess.Reservas;
 using AlDente.DataAccess.Restaurantes;
 using AlDente.DataAccess.Turnos;
 using AlDente.DataAccess.Usuarios;
+using AlDente.DataAccess.Opiniones;
+
 using AlDente.Services.Clientes;
 using AlDente.Services.Core;
 using AlDente.Services.DiasLaborables;
 using AlDente.Services.Empleados;
-
 using AlDente.Services.Mesas;
 using AlDente.Services.Reservas;
 using AlDente.Services.Restaurantes;
 using AlDente.Services.Turnos;
+using AlDente.Services.Opiniones;
+
 using AlDente.UI.Web.Blazor.Data;
 using AlDente.UI.Web.Blazor.Helpers;
 using AlDente.UI.Web.Blazor.Models;
@@ -87,7 +89,8 @@ namespace AlDente.UI.Web.Blazor
             services.AddTransient<IValidator<RestauranteDTO>, RestauranteDTOValidator>();
             services.AddTransient<IValidator<TurnoDTO>, TurnoDTOValidator>();
             services.AddTransient<IValidator<DiaLaboralDTO>, DiaLaboralDTOValidator>();
-            services.AddTransient<IValidator<ReservaACancelarDTO>, ReservaACancelarDTOValidator>();
+            services.AddTransient<IValidator<ReservaACancelarDTO>, ReservaACancelarDTOValidator>(); 
+            services.AddTransient<IValidator<OpinionDTO>, OpinionDTOValidator>();
         }
 
         private void AddRepositories(IServiceCollection services)
@@ -99,6 +102,8 @@ namespace AlDente.UI.Web.Blazor
             services.AddScoped<IRestauranteRepository, RestauranteRepository>();
             services.AddScoped<IDiaLaboralRepository, DiaLaboralRepository>();
             services.AddScoped<IReservaMesaRepository, ReservaMesaRepository>();
+            services.AddScoped<IOpinionRepository, OpinionRepository>();
+
         }
 
         private void AddCustomServices(IServiceCollection services)
@@ -121,6 +126,7 @@ namespace AlDente.UI.Web.Blazor
             services.AddScoped<IDiaLaboralService, DiaLaboralService>();
             services.AddScoped<IReservaRepository, ReservaRepository>();
             services.AddScoped<IReservaService, ReservaService>();
+            services.AddScoped<IOpinionService, OpinionService>();
         }
 
         private void AddUIServices(IServiceCollection services)

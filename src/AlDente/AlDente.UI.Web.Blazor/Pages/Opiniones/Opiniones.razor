@@ -1,0 +1,116 @@
+﻿@page "/Opiniones"
+@attribute [Authorize]
+@using Syncfusion.Blazor.Grids
+@using AlDente.Contracts.Opiniones
+@using AlDente.Globalization
+@using Models.Reservas 
+
+@inject IOpinionService  _opinionService
+@inject IToastService Toast
+<MyCard Header="Opiniones">
+    @if (TodasLasOpiniones == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+        <div class="col-lg-12 control-section">
+            <div class="content-wrapper">
+                <div class="row">
+                    <SfGrid DataSource="@TodasLasOpiniones" Toolbar="@(new List<string>() { "Add", "Edit", "Delete" })" AllowPaging="true">
+                        <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" Mode="EditMode.Dialog" NewRowPosition="NewRowPosition.Bottom" ShowDeleteConfirmDialog="true" ShowConfirmDialog="true">
+                            <Validator>
+                                <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
+                            </Validator>
+                            <Template>
+                                @{
+
+                                    var opiniones = (context as OpinionDTO);
+                                    <div class="form-group">
+                                        <DisplayName For="@(()=>opiniones.Calificacion)" InputFor="@nameof(OpinionDTO.Calificacion)" />
+                                        <InputNumber @bind-Value="opiniones.Calificacion" class="form-control" id="@nameof(OpinionDTO.Calificacion)" />
+                                        <ValidationMessage For="@(() => opiniones.Calificacion)" />
+                                    </div>
+                                    <div class="form-group">
+                                        <DisplayName For="@(()=>opiniones.Texto)" InputFor="@nameof(OpinionDTO.Texto)" />
+                                        <InputText @bind-Value="opiniones.Texto" class="form-control" id="@nameof(OpinionDTO.Texto)" />
+                                        <ValidationMessage For="@(() => opiniones.Texto)" />
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(error))
+                                    {
+                                        <div class="alert alert-danger mt-3 mb-0">@error</div>
+                                    }
+                                }
+                            </Template>
+                        </GridEditSettings>
+                        <GridEvents TValue="OpinionDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
+                        <GridColumns>
+                            <GridColumn Field=@nameof(OpinionDTO.Id) Width="140" IsPrimaryKey="true" Visible="false"></GridColumn>
+                            <GridColumn Field=@nameof(OpinionDTO.Calificacion) Width="140" HeaderText ="Calificación"></GridColumn>
+                            <GridColumn Field=@nameof(OpinionDTO.Texto) HeaderText="Opinión"></GridColumn>
+                            <GridColumn HeaderText="@Strings.Actions" Width="150">
+                                <GridCommandColumns>
+                                    <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-primary" })"></GridCommandColumn>
+                                    <GridCommandColumn Type="CommandButtonType.Delete" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-delete", CssClass = "e-danger" })"></GridCommandColumn>
+                                </GridCommandColumns>
+                            </GridColumn>
+                        </GridColumns>
+                    </SfGrid>
+                </div>
+            </div>
+        </div>
+</MyCard>
+<style>
+    .e-removecommand .e-unboundcell .e-unboundcelldiv button {
+        display: none;
+    }
+</style>
+@code {
+    public static List<OpinionDTO> TodasLasOpiniones { get; set; }
+    private FluentValidationValidator fluentValidationValidator;
+    private string error;
+
+    protected override async Task OnInitializedAsync()
+    {
+        TodasLasOpiniones = (await _opinionService.GetAll()).ToList();
+    }
+
+    public async Task ActionBeginHandler(ActionEventArgs<OpinionDTO> args)
+    {
+        try
+        {
+            if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Save))
+            {
+                if (args.Action == "Add")
+                {
+                    await _opinionService.Create(args.Data);
+                    Toast.ShowMessage(MessageType.Success, Messages.CreateSuccess, Messages.CreateSuccessMessage);
+                }
+                else
+                {
+                    await _opinionService.Update(args.Data);
+                    Toast.ShowMessage(MessageType.Success, Messages.UpdatedSuccess, Messages.UpdatedSuccessMessage);
+
+                }
+            }
+            if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete))
+            {
+                await _opinionService.Delete(args.Data.Id);
+                Toast.ShowMessage(MessageType.Success, Messages.DeleteSuccess, Messages.DeleteSuccessMessage);
+            }
+        }
+        catch (Exception ex)
+        {
+            Toast.ShowMessage(MessageType.Error, Messages.Error, ex.Message);
+            //error = ex.Message;
+            args.Cancel = true;
+            //StateHasChanged();
+        }
+    }
+    public async Task ActionCompleteHandler(ActionEventArgs<OpinionDTO> args)
+    {
+        if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete)
+            || args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Save))
+        {
+            await OnInitializedAsync();
+        }
+    }
+}
