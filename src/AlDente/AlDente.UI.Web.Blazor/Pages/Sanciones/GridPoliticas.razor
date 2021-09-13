@@ -1,0 +1,159 @@
+﻿@page "/PoliticasSancion"
+@attribute [Authorize]
+@using Syncfusion.Blazor.Grids
+@using AlDente.Contracts.Sanciones
+@using AlDente.Globalization
+@using AlDente.Contracts.Reservas
+@using Syncfusion.Blazor.DropDowns
+
+@inject IPoliticaSancionService servPoliticaSancion
+@inject IToastService Toast
+
+
+<MyCard Header="Políticas de Sanción">
+    @if (TodasLasPoliticas == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    <div class="col-lg-12 control-section">
+        <div class="content-wrapper">
+            <div class="row">
+                <SfGrid DataSource="@TodasLasPoliticas" Toolbar="@(new List<string>() { "Add", "Edit", "Delete" })" AllowPaging="true">
+                    <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" Mode="EditMode.Dialog" NewRowPosition="NewRowPosition.Bottom" ShowDeleteConfirmDialog="true" ShowConfirmDialog="true">
+                        <Validator>
+                            <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
+                        </Validator>
+                        <Template>
+                            @{
+
+                                var politicaSancion = (context as PoliticaSancionDTO);
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>politicaSancion.Descripcion)" InputFor="@nameof(PoliticaSancionDTO.Descripcion)" />
+                                    <InputText @bind-Value="politicaSancion.Descripcion" class="form-control" id="@nameof(PoliticaSancionDTO.Descripcion)" />
+                                    <ValidationMessage For="@(() => politicaSancion.Descripcion)" />
+                                </div>
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>politicaSancion.TipoSancionId)" InputFor="@nameof(PoliticaSancionDTO.TipoSancionId)" />
+                                    <InputNumber @bind-Value="politicaSancion.TipoSancionId" class="form-control" id="@nameof(PoliticaSancionDTO.TipoSancionId)" />
+                                    <ValidationMessage For="@(() => politicaSancion.TipoSancionId)" />
+                                </div>
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>politicaSancion.NumeroMaximo)" InputFor="@nameof(PoliticaSancionDTO.NumeroMaximo)" />
+                                    <InputNumber @bind-Value="politicaSancion.NumeroMaximo" class="form-control" id="@nameof(PoliticaSancionDTO.NumeroMaximo)" />
+                                    <ValidationMessage For="@(() => politicaSancion.NumeroMaximo)" />
+                                </div>
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>politicaSancion.Periodo)" InputFor="@nameof(PoliticaSancionDTO.Periodo)" />
+                                    <InputNumber @bind-Value="politicaSancion.Periodo" class="form-control" id="@nameof(PoliticaSancionDTO.Periodo)" />
+                                    <ValidationMessage For="@(() => politicaSancion.Periodo)" />
+                                </div>
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>politicaSancion.EstadoReservaId)" InputFor="@nameof(PoliticaSancionDTO.EstadoReservaId)" />
+                                    <SfDropDownList TItem="EstadoReserva" TValue="EstadosDeUnaReserva" PopupHeight="230px" Placeholder="[Seleccione Un Estado]" @bind-Value="@politicaSancion.EstadoReservaId" DataSource="@Estados">
+                                        <DropDownListFieldSettings Text="Text" Value="Id"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                    <ValidationMessage For="@(() => politicaSancion.EstadoReservaId)" />
+                                </div>
+
+
+                                @if (!string.IsNullOrEmpty(error))
+                                {
+                                    <div class="alert alert-danger mt-3 mb-0">@error</div>
+                                }
+                            }
+                        </Template>
+                    </GridEditSettings>
+                    <GridEvents TValue="PoliticaSancionDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
+                    <GridColumns>
+                        <GridColumn Field=@nameof(PoliticaSancionDTO.Id) Width="140" IsPrimaryKey="true" Visible="false"></GridColumn>
+                        <GridColumn Field=@nameof(PoliticaSancionDTO.Descripcion) HeaderText="@Messages.Code"></GridColumn>
+                        <GridColumn Field=@nameof(PoliticaSancionDTO.TipoSancionId) HeaderText="@Messages.Description"></GridColumn>
+                        <GridColumn Field=@nameof(PoliticaSancionDTO.NumeroMaximo) HeaderText="@Messages.MaximumNumber"></GridColumn>
+                        <GridColumn Field=@nameof(PoliticaSancionDTO.Periodo) HeaderText="@Messages.Period"></GridColumn>
+                        <GridColumn Field=@nameof(PoliticaSancionDTO.EstadoName) HeaderText="@Messages.State"></GridColumn>
+
+                        <GridColumn HeaderText="@Strings.Actions" Width="150">
+                            <GridCommandColumns>
+                                <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-primary" })"></GridCommandColumn>
+                                <GridCommandColumn Type="CommandButtonType.Delete" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-delete", CssClass = "e-danger" })"></GridCommandColumn>
+                            </GridCommandColumns>
+                        </GridColumn>
+                    </GridColumns>
+                </SfGrid>
+            </div>
+        </div>
+    </div>
+</MyCard>
+
+@code {
+    public static List<PoliticaSancionDTO> TodasLasPoliticas { get; set; }
+    private FluentValidationValidator fluentValidationValidator;
+    private string error;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        TodasLasPoliticas = (await servPoliticaSancion.GetAll()).ToList();
+    }
+
+    public class EstadoReserva
+    {
+        public EstadosDeUnaReserva Id { get; set; }
+        public string Text { get; set; }
+        public EstadoReserva(EstadosDeUnaReserva id, string text)
+        {
+            this.Id = id;
+            this.Text = text;
+
+        }
+    }
+
+    public static List<EstadoReserva> Estados { get; set; } = new List<EstadoReserva>
+{
+        new EstadoReserva(EstadosDeUnaReserva.Asistida,Messages.Assisted),
+        new EstadoReserva(EstadosDeUnaReserva.NoAsistida,Messages.NotAssisted),
+        new EstadoReserva(EstadosDeUnaReserva.Pendiente,Messages.Pending),
+        new EstadoReserva(EstadosDeUnaReserva.Cancelada,Messages.Cancelled)
+    };
+
+    public async Task ActionBeginHandler(ActionEventArgs<PoliticaSancionDTO> args)
+    {
+        try
+        {
+            if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Save))
+            {
+                if (args.Action == "Add")
+                {
+                    await servPoliticaSancion.Create(args.Data);
+                    Toast.ShowMessage(MessageType.Success, Messages.CreateSuccess, Messages.CreateSuccessMessage);
+                }
+                else
+                {
+                    await servPoliticaSancion.Update(args.Data);
+                    Toast.ShowMessage(MessageType.Success, Messages.UpdatedSuccess, Messages.UpdatedSuccessMessage);
+
+                }
+            }
+            if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete))
+            {
+                await servPoliticaSancion.Delete(args.Data.Id);
+                Toast.ShowMessage(MessageType.Success, Messages.DeleteSuccess, Messages.DeleteSuccessMessage);
+            }
+        }
+        catch (Exception ex)
+        {
+            Toast.ShowMessage(MessageType.Error, Messages.Error, ex.Message);
+            //error = ex.Message;
+            args.Cancel = true;
+            //StateHasChanged();
+        }
+    }
+    public async Task ActionCompleteHandler(ActionEventArgs<PoliticaSancionDTO> args)
+    {
+        if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete)
+            || args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Save))
+        {
+            await OnInitializedAsync();
+        }
+    }
+}

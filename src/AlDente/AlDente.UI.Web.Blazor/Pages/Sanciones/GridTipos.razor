@@ -1,0 +1,119 @@
+﻿@page "/TiposSancion"
+@attribute [Authorize]
+@using Syncfusion.Blazor.Grids
+@using AlDente.Contracts.Sanciones
+@using AlDente.Globalization
+
+@inject ITipoSancionService servTipoSancion
+@inject IToastService Toast
+<MyCard Header="Tipos de Sanción">
+    @if (TodosLosTipos == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    <div class="col-lg-12 control-section">
+        <div class="content-wrapper">
+            <div class="row">
+                <SfGrid DataSource="@TodosLosTipos" Toolbar="@(new List<string>() { "Add", "Edit", "Delete" })" AllowPaging="true">
+                    <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" Mode="EditMode.Dialog" NewRowPosition="NewRowPosition.Bottom" ShowDeleteConfirmDialog="true" ShowConfirmDialog="true">
+                        <Validator>
+                            <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
+                        </Validator>
+                        <Template>
+                            @{
+
+                                var tipoSancion = (context as TipoSancionDTO);
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>tipoSancion.Codigo)" InputFor="@nameof(TipoSancionDTO.Codigo)" />
+                                    <InputText @bind-Value="tipoSancion.Codigo" class="form-control" id="@nameof(TipoSancionDTO.Codigo)" />
+                                    <ValidationMessage For="@(() => tipoSancion.Codigo)" />
+                                </div>
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>tipoSancion.Descripcion)" InputFor="@nameof(TipoSancionDTO.Descripcion)" />
+                                    <InputText @bind-Value="tipoSancion.Descripcion" class="form-control" id="@nameof(TipoSancionDTO.Descripcion)" />
+                                    <ValidationMessage For="@(() => tipoSancion.Descripcion)" />
+                                </div>
+                                <div class="form-group">
+                                    <DisplayName For="@(()=>tipoSancion.DiasSuspension)" InputFor="@nameof(TipoSancionDTO.DiasSuspension)" />
+                                    <InputNumber @bind-Value="tipoSancion.DiasSuspension" class="form-control" id="@nameof(TipoSancionDTO.DiasSuspension)" />
+                                    <ValidationMessage For="@(() => tipoSancion.DiasSuspension)" />
+                                </div>
+
+                                @if (!string.IsNullOrEmpty(error))
+                                {
+                                    <div class="alert alert-danger mt-3 mb-0">@error</div>
+                                }
+                            }
+                        </Template>
+                    </GridEditSettings>
+                    <GridEvents TValue="TipoSancionDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
+                    <GridColumns>
+                        <GridColumn Field=@nameof(TipoSancionDTO.Id) Width="140" IsPrimaryKey="true" Visible="false"></GridColumn>
+                        <GridColumn Field=@nameof(TipoSancionDTO.Codigo) HeaderText="@Messages.Code"></GridColumn>
+                        <GridColumn Field=@nameof(TipoSancionDTO.Descripcion) HeaderText="@Messages.Description"></GridColumn>
+                        <GridColumn Field=@nameof(TipoSancionDTO.DiasSuspension) HeaderText="@Messages.SuspensionDays"></GridColumn>
+                        <GridColumn HeaderText="@Strings.Actions" Width="150">
+                            <GridCommandColumns>
+                                <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-primary" })"></GridCommandColumn>
+                                <GridCommandColumn Type="CommandButtonType.Delete" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-delete", CssClass = "e-danger" })"></GridCommandColumn>
+                            </GridCommandColumns>
+                        </GridColumn>
+                    </GridColumns>
+                </SfGrid>
+            </div>
+        </div>
+    </div>
+</MyCard>
+
+@code {
+        public static List<TipoSancionDTO> TodosLosTipos { get; set; }
+        private FluentValidationValidator fluentValidationValidator;
+        private string error;
+
+protected override async Task OnInitializedAsync()
+{
+
+        TodosLosTipos = (await servTipoSancion.GetAll()).ToList();
+}
+
+public async Task ActionBeginHandler(ActionEventArgs<TipoSancionDTO> args)
+{
+        try
+        {
+            if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Save))
+            {
+                if (args.Action == "Add")
+                {
+                    await servTipoSancion.Create(args.Data);
+                    Toast.ShowMessage(MessageType.Success, Messages.CreateSuccess, Messages.CreateSuccessMessage);
+                }
+                else
+                {
+                    await servTipoSancion.Update(args.Data);
+                    Toast.ShowMessage(MessageType.Success, Messages.UpdatedSuccess, Messages.UpdatedSuccessMessage);
+
+                }
+            }
+            if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete))
+            {
+                await servTipoSancion.Delete(args.Data.Id);
+                Toast.ShowMessage(MessageType.Success, Messages.DeleteSuccess, Messages.DeleteSuccessMessage);
+            }
+        }
+        catch (Exception ex)
+        {
+            Toast.ShowMessage(MessageType.Error, Messages.Error, ex.Message);
+            //error = ex.Message;
+            args.Cancel = true;
+            //StateHasChanged();
+        }
+}
+public async Task ActionCompleteHandler(ActionEventArgs<TipoSancionDTO> args)
+{
+        if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete)
+            || args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Save))
+        {
+            await OnInitializedAsync();
+        }
+}
+}
