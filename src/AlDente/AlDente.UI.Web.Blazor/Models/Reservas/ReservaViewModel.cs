@@ -3,6 +3,7 @@ using AlDente.Contracts.DiasLaborables;
 using AlDente.Contracts.Mesas;
 using AlDente.Contracts.Reservas;
 using AlDente.Contracts.Turnos;
+using AlDente.Contracts.Opiniones;
 using AlDente.Globalization;
 using AlDente.UI.Web.Blazor.Data;
 using System;
@@ -20,6 +21,8 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
         public IDiaLaboralService DiaLaboralService { get; private set; }
         public IMesaService MesaService { get; private set; }
         public IReservaService ReservaService { get; private set; }
+       
+        public IOpinionService OpinionService { get; private set; }
         public SessionData SessionData { get; private set; }
 
         [Display(Name = nameof(Messages.Comensales), ResourceType = typeof(Messages))]

@@ -45,7 +45,7 @@ namespace AlDente.Services.Opiniones
                     Texto = opinionDto.Texto,
                     Calificacion = opinionDto.Calificacion,
                     RestauranteId = this.unitOfWork.RestauranteId,
-                    //ClienteId = this.unitOfWork.ClienteId
+                    //ClienteId          = opinionDto.ClienteId
                 });
             });
         }
