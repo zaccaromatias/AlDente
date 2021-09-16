@@ -51,5 +51,11 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
             var reservas = await _reservaService.GetReservasDeUnCliente(SessionData.User.Id);
             this.Reservas = new List<ReservaBasicDTO>(reservas);
         }
+
     }
 }
+
+
+
+
+
