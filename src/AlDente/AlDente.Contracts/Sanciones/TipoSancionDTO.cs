@@ -12,6 +12,12 @@ namespace AlDente.Contracts.Sanciones
         public string Descripcion { get; set; }
         public int DiasSuspension { get; set; }
 
+        public string DescripcionCompleta => GetDescripcionCompleta();
+
+        private string GetDescripcionCompleta()
+        {
+            return (this.Descripcion + " - " + this.DiasSuspension + " Días de Suspensión");
+        }
     }
     public class TipoSancionDTOValidator : AbstractValidator<TipoSancionDTO>
     {

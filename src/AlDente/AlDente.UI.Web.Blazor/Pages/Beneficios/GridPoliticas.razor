@@ -7,6 +7,7 @@
 @using Syncfusion.Blazor.DropDowns
 
 @inject IPoliticaBeneficioService servPoliticaBeneficio
+@inject ITipoBeneficioService servTipoBeneficio  
 @inject IToastService Toast
 
 
@@ -33,11 +34,13 @@
                                     <ValidationMessage For="@(() => politicaBeneficio.Descripcion)" />
                                 </div>
                                 <div class="form-group">
-                                    <DisplayName For="@(()=>politicaBeneficio.TipoBeneficioId)" InputFor="@nameof(PoliticaBeneficioDTO.TipoBeneficioId)" />
-                                    <InputNumber @bind-Value="politicaBeneficio.TipoBeneficioId" class="form-control" id="@nameof(PoliticaBeneficioDTO.TipoBeneficioId)" />
-                                    <ValidationMessage For="@(() => politicaBeneficio.TipoBeneficioId)" />
+                                    <DisplayName For="@(()=>politicaBeneficio.TipoBeneficio)" InputFor="@nameof(PoliticaBeneficioDTO.TipoBeneficio)" />
+                                    <SfDropDownList TItem="TipoBeneficioDTO" TValue="TipoBeneficioDTO" PopupHeight="230px" Placeholder="[Seleccione Un Tipo de Beneficio]" @bind-Value="@politicaBeneficio.TipoBeneficio" DataSource="@TodosLosBeneficios" 
+                                    ID="@nameof(PoliticaBeneficioDTO.TipoBeneficio)">
+                                    <DropDownListFieldSettings Text="DescripcionCompleta"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                    <ValidationMessage For="@(() => politicaBeneficio.TipoBeneficio)" />
                                 </div>
-
                                 <div class="form-group">
                                     <DisplayName For="@(()=>politicaBeneficio.NumeroMinimo)" InputFor="@nameof(PoliticaBeneficioDTO.NumeroMinimo)" />
                                     <InputNumber @bind-Value="politicaBeneficio.NumeroMinimo" class="form-control" id="@nameof(PoliticaBeneficioDTO.NumeroMinimo)" />
@@ -67,11 +70,11 @@
                     <GridEvents TValue="PoliticaBeneficioDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
                     <GridColumns>
                         <GridColumn Field=@nameof(PoliticaBeneficioDTO.Id) Width="140" IsPrimaryKey="true" Visible="false"></GridColumn>
-                        <GridColumn Field=@nameof(PoliticaBeneficioDTO.Descripcion) HeaderText="@Messages.Code"></GridColumn>
-                        <GridColumn Field=@nameof(PoliticaBeneficioDTO.TipoBeneficioId) HeaderText="TipoBeneficioId"></GridColumn>
+                        <GridColumn Field=@nameof(PoliticaBeneficioDTO.Descripcion) HeaderText="@Messages.Description"></GridColumn>
+                        <GridColumn Field=@nameof(PoliticaBeneficioDTO.TipoBeneficioName) HeaderText="@Messages.TypeOfBenefit"></GridColumn>
                         <GridColumn Field=@nameof(PoliticaBeneficioDTO.NumeroMinimo) HeaderText="@Messages.MinimumNumber"></GridColumn>
                         <GridColumn Field=@nameof(PoliticaBeneficioDTO.Periodo) HeaderText="@Messages.Period"></GridColumn>
-                        <GridColumn Field=@nameof(PoliticaBeneficioDTO.EstadoName) HeaderText="@Messages.State"></GridColumn>
+                        <GridColumn Field=@nameof(PoliticaBeneficioDTO.EstadoName) HeaderText="@Messages.ReservationStatus"></GridColumn>
 
                         <GridColumn HeaderText="@Strings.Actions" Width="150">
                             <GridCommandColumns>
@@ -88,15 +91,16 @@
 
 @code {
     public static List<PoliticaBeneficioDTO> TodasLasPoliticas { get; set; }
+    public static List<TipoBeneficioDTO> TodosLosBeneficios { get; set; }
     private FluentValidationValidator fluentValidationValidator;
     private string error;
-    private SfDropDownList<TipoBeneficioDTO, TipoBeneficioDTO> ComboTiposBeneficio { get; set; }
 
 
     protected override async Task OnInitializedAsync()
     {
 
         TodasLasPoliticas = (await servPoliticaBeneficio.GetAll()).ToList();
+        TodosLosBeneficios = (await servTipoBeneficio.GetAll()).ToList();
     }
 
     public class EstadoReserva

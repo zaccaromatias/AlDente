@@ -10,7 +10,7 @@ namespace AlDente.Contracts.Sanciones
     {
         public int Id { get; set; }
         public string Descripcion { get; set; }
-        public int TipoSancionId { get; set; }
+        public TipoSancionDTO TipoSancion { get; set; }
         public int NumeroMaximo { get; set; }
         public int Periodo { get; set; }
         public EstadosDeUnaReserva EstadoReservaId { get; set; }
@@ -33,6 +33,12 @@ namespace AlDente.Contracts.Sanciones
 
             }
         }
+
+        public string TipoSancionName => GetTipoSancionName();
+        private string GetTipoSancionName()
+        {
+            return (this.TipoSancion.Descripcion + " - " + this.TipoSancion.DiasSuspension + " Días de Suspensión");
+        }
     }
     public class PoliticaSancionDTOValidator : AbstractValidator<PoliticaSancionDTO>
     {
@@ -53,8 +59,16 @@ namespace AlDente.Contracts.Sanciones
                     .NotEmpty()
                     .WithMessage(Strings.XIsRequired(Messages.Period))
                     .WithName(Messages.Period);
+            
+            RuleFor(x => x.EstadoReservaId)
+               .NotEmpty()
+               .WithMessage(Strings.XIsRequired(Messages.ReservationStatus))
+               .WithName(Messages.ReservationStatus);
 
-
+            RuleFor(x => x.TipoSancion)
+               .NotEmpty()
+               .WithMessage(Strings.XIsRequired(Messages.TypeOfSanction))
+              .WithName(Messages.TypeOfSanction);
         }
     }
 }
