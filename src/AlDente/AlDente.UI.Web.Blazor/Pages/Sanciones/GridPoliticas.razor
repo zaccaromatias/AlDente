@@ -7,6 +7,7 @@
 @using Syncfusion.Blazor.DropDowns
 
 @inject IPoliticaSancionService servPoliticaSancion
+@inject ITipoSancionService servTipoSancion
 @inject IToastService Toast
 
 
@@ -33,9 +34,12 @@
                                     <ValidationMessage For="@(() => politicaSancion.Descripcion)" />
                                 </div>
                                 <div class="form-group">
-                                    <DisplayName For="@(()=>politicaSancion.TipoSancionId)" InputFor="@nameof(PoliticaSancionDTO.TipoSancionId)" />
-                                    <InputNumber @bind-Value="politicaSancion.TipoSancionId" class="form-control" id="@nameof(PoliticaSancionDTO.TipoSancionId)" />
-                                    <ValidationMessage For="@(() => politicaSancion.TipoSancionId)" />
+                                    <DisplayName For="@(()=>politicaSancion.TipoSancion)" InputFor="@nameof(PoliticaSancionDTO.TipoSancion)" />
+                                    <SfDropDownList TItem="TipoSancionDTO" TValue="TipoSancionDTO" PopupHeight="230px" Placeholder="[Seleccione Un Tipo de Beneficio]" @bind-Value="@politicaSancion.TipoSancion" DataSource="@TodasLasSanciones"
+                                                    ID="@nameof(PoliticaSancionDTO.TipoSancion)">
+                                        <DropDownListFieldSettings Text="DescripcionCompleta"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                    <ValidationMessage For="@(() => politicaSancion.TipoSancion)" />
                                 </div>
                                 <div class="form-group">
                                     <DisplayName For="@(()=>politicaSancion.NumeroMaximo)" InputFor="@nameof(PoliticaSancionDTO.NumeroMaximo)" />
@@ -66,11 +70,11 @@
                     <GridEvents TValue="PoliticaSancionDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
                     <GridColumns>
                         <GridColumn Field=@nameof(PoliticaSancionDTO.Id) Width="140" IsPrimaryKey="true" Visible="false"></GridColumn>
-                        <GridColumn Field=@nameof(PoliticaSancionDTO.Descripcion) HeaderText="@Messages.Code"></GridColumn>
-                        <GridColumn Field=@nameof(PoliticaSancionDTO.TipoSancionId) HeaderText="@Messages.Description"></GridColumn>
+                        <GridColumn Field=@nameof(PoliticaSancionDTO.Descripcion) HeaderText="@Messages.Description"></GridColumn>
+                        <GridColumn Field=@nameof(PoliticaSancionDTO.TipoSancionName) HeaderText="@Messages.TypeOfSanction"></GridColumn>
                         <GridColumn Field=@nameof(PoliticaSancionDTO.NumeroMaximo) HeaderText="@Messages.MaximumNumber"></GridColumn>
                         <GridColumn Field=@nameof(PoliticaSancionDTO.Periodo) HeaderText="@Messages.Period"></GridColumn>
-                        <GridColumn Field=@nameof(PoliticaSancionDTO.EstadoName) HeaderText="@Messages.State"></GridColumn>
+                        <GridColumn Field=@nameof(PoliticaSancionDTO.EstadoName) HeaderText="@Messages.ReservationStatus"></GridColumn>
 
                         <GridColumn HeaderText="@Strings.Actions" Width="150">
                             <GridCommandColumns>
@@ -87,13 +91,16 @@
 
 @code {
     public static List<PoliticaSancionDTO> TodasLasPoliticas { get; set; }
+    public static List<TipoSancionDTO> TodasLasSanciones { get; set; }
     private FluentValidationValidator fluentValidationValidator;
     private string error;
+
 
     protected override async Task OnInitializedAsync()
     {
 
         TodasLasPoliticas = (await servPoliticaSancion.GetAll()).ToList();
+        TodasLasSanciones = (await servTipoSancion.GetAll()).ToList();
     }
 
     public class EstadoReserva
@@ -107,6 +114,8 @@
 
         }
     }
+
+
 
     public static List<EstadoReserva> Estados { get; set; } = new List<EstadoReserva>
 {

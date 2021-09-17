@@ -396,4 +396,13 @@
   <data name="TypesOfSanctions" xml:space="preserve">
     <value>Tipos de Sanciones</value>
   </data>
+  <data name="ReservationStatus" xml:space="preserve">
+    <value>Estado de Reserva</value>
+  </data>
+  <data name="TypeOfBenefit" xml:space="preserve">
+    <value>Tipo de Beneficio</value>
+  </data>
+  <data name="TypeOfSanction" xml:space="preserve">
+    <value>Tipo de Sanción</value>
+  </data>
 </root>

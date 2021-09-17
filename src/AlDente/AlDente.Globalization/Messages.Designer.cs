@@ -646,6 +646,15 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Estado de Reserva.
+        /// </summary>
+        public static string ReservationStatus {
+            get {
+                return ResourceManager.GetString("ReservationStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Restaurantes.
         /// </summary>
         public static string Restaurants {
@@ -795,6 +804,24 @@ namespace AlDente.Globalization {
         public static string Turnos {
             get {
                 return ResourceManager.GetString("Turnos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tipo de Beneficio.
+        /// </summary>
+        public static string TypeOfBenefit {
+            get {
+                return ResourceManager.GetString("TypeOfBenefit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tipo de Sanción.
+        /// </summary>
+        public static string TypeOfSanction {
+            get {
+                return ResourceManager.GetString("TypeOfSanction", resourceCulture);
             }
         }
         

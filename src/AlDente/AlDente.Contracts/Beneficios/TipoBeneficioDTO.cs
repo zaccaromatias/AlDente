@@ -12,6 +12,13 @@ namespace AlDente.Contracts.Beneficios
         public string Descripcion { get; set; }
         public int Descuento { get; set; }
 
+        public string DescripcionCompleta => GetDescripcionCompleta();
+
+        private string GetDescripcionCompleta()
+        {
+            return (this.Descripcion + " - %" + this.Descuento + " Descuento");
+        }
+
     }
     public class TipoBeneficioDTOValidator : AbstractValidator<TipoBeneficioDTO>
     {

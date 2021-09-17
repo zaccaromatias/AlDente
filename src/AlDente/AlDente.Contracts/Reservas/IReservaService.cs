@@ -10,6 +10,7 @@ namespace AlDente.Contracts.Reservas
 
         Task<IEnumerable<ReservaBasicDTO>> GetReservasDeUnCliente(int clienteId);
 
+        Task<IEnumerable<ReservaBasicDTO>> GetReservaFiltroCodigo(string codigo);
         Task<BasicResultDTO> CancelarReserva(ReservaACancelarDTO reserva);
     }
 }
