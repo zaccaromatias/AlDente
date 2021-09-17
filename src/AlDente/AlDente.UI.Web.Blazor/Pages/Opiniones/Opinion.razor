@@ -1,0 +1,147 @@
+﻿@using Models.Opinion
+@using AlDente.Contracts.Opiniones
+@using Syncfusion.Blazor.Popups
+@inject IJSRuntime JS
+@inject IOpinionService  _opinionService
+<li class="list-group-item">
+    <MyCard UseDefaulClass="false">
+        <HeaderTemplate>
+
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="panel-title h4">
+                            <i class="fa fa-comments" aria-hidden="true"></i>
+                            @Model.Texto
+                            @if (!Model.EsRespuesta)
+                            {
+                                <span class="badge @Model.GetTypeOfBadgeByCalificacion()">@Model.CalificacionCaption</span>
+                                <div class="rating" data-rate-value=@Model.Calificacion></div>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-6 text-right">
+
+                        <span class="badge @Model.GetTypeOfBadgeByState()">@Model.GetEstadoCaption()</span>
+                        @Model.DateCaption
+                    </div>
+                </div>
+            </div>
+
+
+        </HeaderTemplate>
+        <ChildContent>
+            <div class="row">
+                <div class="col-12">
+                    <div>
+                        <div class="mic-info">
+                            Por: <a href="#">@Model.EmailCaption</a> on
+                        </div>
+                    </div>
+                    @*<div class="comment-text">
+                        </div>*@
+                    <div class="action">
+                        @if (Model.ShowEditButton)
+                        {
+                            <ButtonProgressBasic type="button" CssClass="e-primary btn-sm" title="Editar">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </ButtonProgressBasic>
+                        }
+                        @if (Model.ShowRespondButton)
+                        {
+                            <ButtonProgressBasic type="button" CssClass="e-success btn-sm" title="Responder" @onclick="ShowResponder">
+                                <i class="fa fa-commenting" aria-hidden="true"></i>
+                            </ButtonProgressBasic>
+                        }
+
+                        @if (Model.ShowRemoveButton)
+                        {
+                            <ButtonProgressBasic type="button" CssClass="e-danger btn-sm" title="Remover" @onclick="@(()=>MarcarOpinionComo(EstadosDeUnOpinion.Removido))">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </ButtonProgressBasic>
+                        }
+                        @if (Model.ShowUnPublishButton)
+                        {
+                            <ButtonProgressBasic type="button" CssClass="e-warning btn-sm" title="Nuevo" @onclick="@(()=>MarcarOpinionComo(EstadosDeUnOpinion.Nuevo))">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </ButtonProgressBasic>
+                        }
+                        @if (Model.ShowPublishButton)
+                        {
+                            <ButtonProgressBasic type="button" CssClass="e-success btn-sm" title="Publicar" @onclick="@(()=>MarcarOpinionComo(EstadosDeUnOpinion.Publicado))">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                            </ButtonProgressBasic>
+                        }
+                        @if (Model.ShowMarkInapropiateButton)
+                        {
+                            <ButtonProgressBasic type="button" CssClass="e-danger btn-sm" title="Marcar Como Inapropiado" @onclick="@(()=>MarcarOpinionComo(EstadosDeUnOpinion.Inapropiado))">
+                                <i class="fa fa-ban" aria-hidden="true"></i>
+                            </ButtonProgressBasic>
+                        }
+                        @if (Model.TieneRespuestas)
+                        {
+                            <ButtonProgressBasic type="button" CssClass="e-link" title="Ver Respuestas" @onclick="@(()=>Model.VerRespuestas = !Model.VerRespuestas)">
+                                Respuestas
+                            </ButtonProgressBasic>
+                        }
+                    </div>
+                </div>
+                <div class="col-12">
+                    @if (Model.VerRespuestas)
+                    {
+                        <MyCard Header="Respuestas" UseDefaulClass="false">
+                            <ChildContent>
+                                <OpinionesColeccion OpinionPrincipalId="@Model.Root" />
+                            </ChildContent>
+                        </MyCard>
+
+                    }
+                </div>
+            </div>
+
+        </ChildContent>
+    </MyCard>
+
+    <SfDialog AllowDragging="true" @bind-Visible="@dialogVisible" @ref="_nuevaOpinionDialog" IsModal="true" Width="285px" ShowCloseIcon="true">
+        <DialogTemplates>
+            <Content>
+                <NuevaOpinion OpinionPrincipalId="@Model.Root" Dialog="_nuevaOpinionDialog" />
+            </Content>
+        </DialogTemplates>
+        <DialogAnimationSettings Effect="DialogEffect.Zoom"></DialogAnimationSettings>
+        <DialogEvents Closed="Refresh">
+
+        </DialogEvents>
+    </SfDialog>
+
+</li>
+
+@code {
+    bool dialogVisible { get; set; } = false;
+    private SfDialog _nuevaOpinionDialog;
+    [Parameter]
+
+    public OpinionViewModel Model { get; set; }
+
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JS.InvokeAsync<string>("createRating", ".rating", 5, 1, true);
+    }
+
+    public async Task MarcarOpinionComo(EstadosDeUnOpinion estado)
+    {
+        await _opinionService.MarcarOpinionComo(estado, this.Model.Id, Model.Session.User.Id, "Inapropiado");
+    }
+
+    private async Task Refresh()
+    {
+        await JS.InvokeAsync<string>("createRating", ".rating", 5, 1, true);
+    }
+    private async Task ShowResponder()
+    {
+        this.dialogVisible = true;
+        await JS.InvokeAsync<string>("createRating", ".rating", 5, 1, true);
+        this.StateHasChanged();
+    }
+}

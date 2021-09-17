@@ -3,60 +3,52 @@
 @using Syncfusion.Blazor.Grids
 @using AlDente.Contracts.Opiniones
 @using AlDente.Globalization
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Buttons
 
 @inject IOpinionService  _opinionService
 @inject IToastService Toast
 @inject Data.SessionData _sessionData
-<MyCard Header="Opiniones">
-    @if (TodasLasOpiniones == null)
-    {
-        <p><em>Loading...</em></p>
-    }
-    <div class="col-lg-12 control-section">
-        <div class="content-wrapper">
-            <div class="row">
-                <SfGrid DataSource="@TodasLasOpiniones" Toolbar="@(new List<string>() { "Add", "Edit", "Delete" })" AllowPaging="true">
-                    <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" Mode="EditMode.Dialog" NewRowPosition="NewRowPosition.Bottom" ShowDeleteConfirmDialog="true" ShowConfirmDialog="true">
-                        <Validator>
-                            <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
-                        </Validator>
-                        <Template>
-                            @{
+<MyCard>
+    <HeaderTemplate>
+        <div class="card-header">
+            <h4 class="panel-title">
+                <i class="fa fa-comments" aria-hidden="true"></i>
+                Opiniones
+                <SfButton CssClass="e-primary" OnClick="@ShowAgregarOpinion">Agregar Opinion</SfButton>
+                <SfDialog AllowDragging="true" @bind-Visible="@dialogVisible" @ref="_nuevaOpinionDialog" IsModal="true" Width="285px" ShowCloseIcon="true">
+                    <DialogTemplates>
+                        <Content>
+                            <NuevaOpinion Dialog="_nuevaOpinionDialog" />
+                        </Content>
+                    </DialogTemplates>
+                    <DialogAnimationSettings Effect="DialogEffect.Zoom"></DialogAnimationSettings>
+                    <DialogEvents Closed="Refresh">
 
-                                var opiniones = (context as OpinionDTO);
-                                <div class="form-group">
-                                    <DisplayName For="@(()=>opiniones.Calificacion)" InputFor="@nameof(OpinionDTO.Calificacion)" />
-                                    <InputNumber @bind-Value="opiniones.Calificacion" class="form-control" id="@nameof(OpinionDTO.Calificacion)" />
-                                    <ValidationMessage For="@(() => opiniones.Calificacion)" />
-                                </div>
-                                <div class="form-group">
-                                    <DisplayName For="@(()=>opiniones.Texto)" InputFor="@nameof(OpinionDTO.Texto)" />
-                                    <InputText @bind-Value="opiniones.Texto" class="form-control" id="@nameof(OpinionDTO.Texto)" />
-                                    <ValidationMessage For="@(() => opiniones.Texto)" />
-                                </div>
-                                @if (!string.IsNullOrEmpty(error))
-                                {
-                                    <div class="alert alert-danger mt-3 mb-0">@error</div>
-                                }
-                            }
-                        </Template>
-                    </GridEditSettings>
-                    <GridEvents TValue="OpinionDTO" OnActionBegin="ActionBeginHandler" OnActionComplete="ActionCompleteHandler"></GridEvents>
-                    <GridColumns>
-                        <GridColumn Field=@nameof(OpinionDTO.Id) Width="140" IsPrimaryKey="true" Visible="false"></GridColumn>
-                        <GridColumn Field=@nameof(OpinionDTO.Calificacion) Width="140" HeaderText="Calificación"></GridColumn>
-                        <GridColumn Field=@nameof(OpinionDTO.Texto) HeaderText="Opinión"></GridColumn>
-                        <GridColumn HeaderText="@Strings.Actions" Width="150">
-                            <GridCommandColumns>
-                                <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-primary" })"></GridCommandColumn>
-                                <GridCommandColumn Type="CommandButtonType.Delete" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-delete", CssClass = "e-danger" })"></GridCommandColumn>
-                            </GridCommandColumns>
-                        </GridColumn>
-                    </GridColumns>
-                </SfGrid>
-            </div>
+                    </DialogEvents>
+                </SfDialog>
+                @*<span class="badge badge-secondary">10 New!!!</span>*@
+            </h4>
         </div>
-    </div>
+    </HeaderTemplate>
+    <ChildContent>
+        <Callout Type="Callout.CalloutType.Info">
+            <h5>Si tiene una opinion sobre nosotros, haga click arriba y no dude en hacernosla saber:</h5>
+            <ul>
+                <li><p>Aqui vera todas las opiniones de todos nuestros usuarios.</p></li>
+                <li><p>Sea cordial y evite insultos indeceados, cada opinion sera revisada y aprobada por nuestros empleados antes de su publicacion.</p></li>
+                <li>
+                    <p>
+                        Tambien puede responder sobre otras opiniones haciendo click en el boton
+                        <button type="button" class="btn btn-success btn-sm" title="Respond">
+                            <i class="fa fa-commenting" aria-hidden="true"></i>
+                        </button> de cada opinion.
+                    </p>
+                </li>
+            </ul>
+        </Callout>
+        <OpinionesColeccion @ref="_opinioneComponent" />
+    </ChildContent>
 </MyCard>
 <style>
     .e-removecommand .e-unboundcell .e-unboundcelldiv button {
@@ -64,54 +56,74 @@
     }
 </style>
 @code {
-    public static List<OpinionDTO> TodasLasOpiniones { get; set; }
-    private FluentValidationValidator fluentValidationValidator;
-    private string error;
+    bool dialogVisible { get; set; } = false;
+    private SfDialog _nuevaOpinionDialog;
+    private OpinionesColeccion _opinioneComponent;
 
-    protected override async Task OnInitializedAsync()
+
+    private void ShowAgregarOpinion()
     {
-        TodasLasOpiniones = (await _opinionService.GetAll()).ToList();
+        this.dialogVisible = true;
     }
 
-    public async Task ActionBeginHandler(ActionEventArgs<OpinionDTO> args)
-    {
-        try
-        {
-            if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Save))
-            {
-                if (args.Action == "Add")
-                {
-                    args.Data.ClienteId = _sessionData.User.Id;
-                    await _opinionService.Create(args.Data);
-                    Toast.ShowMessage(MessageType.Success, Messages.CreateSuccess, Messages.CreateSuccessMessage);
-                }
-                else
-                {
-                    await _opinionService.Update(args.Data);
-                    Toast.ShowMessage(MessageType.Success, Messages.UpdatedSuccess, Messages.UpdatedSuccessMessage);
 
-                }
-            }
-            if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete))
-            {
-                await _opinionService.Delete(args.Data.Id);
-                Toast.ShowMessage(MessageType.Success, Messages.DeleteSuccess, Messages.DeleteSuccessMessage);
-            }
-        }
-        catch (Exception ex)
-        {
-            Toast.ShowMessage(MessageType.Error, Messages.Error, ex.Message);
-            //error = ex.Message;
-            args.Cancel = true;
-            //StateHasChanged();
-        }
-    }
-    public async Task ActionCompleteHandler(ActionEventArgs<OpinionDTO> args)
+    private async Task Refresh()
     {
-        if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete)
-            || args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Save))
-        {
-            await OnInitializedAsync();
-        }
+        await _opinioneComponent.Refresh();
+        StateHasChanged();
     }
 }
+<style>
+
+
+    .widget .list-group {
+        margin-bottom: 0;
+    }
+
+    .widget .panel-title {
+        display: inline
+    }
+
+    .widget .label-info {
+        float: right;
+    }
+
+    .widget li.list-group-item {
+        border-radius: 0;
+        border: 0;
+        border-top: 1px solid #ddd;
+    }
+
+        .widget li.list-group-item:hover {
+            background-color: rgba(86,61,124,.1);
+        }
+
+    .widget .mic-info {
+        color: #666666;
+        font-size: 11px;
+    }
+
+    .widget .action {
+        margin-top: 5px;
+    }
+
+    .widget .comment-text {
+        font-size: 12px;
+    }
+
+    .widget .btn-block {
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+    }
+
+    .animated {
+        -webkit-transition: height 0.2s;
+        -moz-transition: height 0.2s;
+        transition: height 0.2s;
+    }
+
+    .stars {
+        font-size: 24px;
+        color: #d17581;
+    }
+</style>

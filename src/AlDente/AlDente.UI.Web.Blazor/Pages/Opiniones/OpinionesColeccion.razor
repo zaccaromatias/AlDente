@@ -1,0 +1,87 @@
+﻿@using AlDente.Contracts.Opiniones
+@using Models.Opinion
+@using Data
+@using Syncfusion.Blazor.Buttons
+@inject IOpinionService  _opinionService
+@inject SessionData  _session
+@if (CollectionModel == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    if (!OpinionPrincipalId.HasValue)
+    {
+        <label style="padding: 10px 40px 10px 0">Ver Solo mis Opiniones</label>
+        <SfSwitch @bind-Checked="@SoloMisOpiniones" TChecked="bool" ValueChange="SoloMisOpinionesChanged" />
+    }
+    <div class="row">
+        <div class="col-12 widget">
+            @if (CollectionModel.Opiniones.Any())
+            {
+                <ul class="list-group">
+                    @foreach (var item in CollectionModel.Opiniones)
+                    {
+                        <Opinion Model="item"></Opinion>
+                    }
+                </ul>
+                @if (CollectionModel.ShowButtonLoadMore)
+                {
+                    <ButtonProgressBasic CssClass="e-primary btn-block" loading="loading" @onclick="LoadMasOpiniones">
+                        <i class="fa fa-refresh" aria-hidden="true"></i> Ver Mas
+                    </ButtonProgressBasic>
+                }
+            }
+            else
+            {
+                <h3>No hay opiniones</h3>
+            }
+
+
+        </div>
+    </div>
+}
+
+@code {
+    public OpinionesColeccionViewModel CollectionModel { get; set; }
+    private FluentValidationValidator fluentValidationValidator;
+    private string error;
+    private bool loading;
+    private bool SoloMisOpiniones = false;
+
+    [Parameter]
+    public int? OpinionPrincipalId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        CollectionModel = await OpinionesColeccionViewModel.Create(_opinionService, _session, SoloMisOpiniones, OpinionPrincipalId);
+    }
+
+    private async Task LoadMasOpiniones()
+    {
+        try
+        {
+            loading = true;
+            await CollectionModel.LoadMasOpiniones();
+            this.StateHasChanged();
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private async Task SoloMisOpinionesChanged(ChangeEventArgs<bool> e)
+    {
+        await OnInitializedAsync();
+        StateHasChanged();
+    }
+
+
+    public async Task Refresh()
+    {
+        await OnInitializedAsync();
+        StateHasChanged();
+    }
+
+}

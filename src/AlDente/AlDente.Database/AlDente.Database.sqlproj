@@ -90,6 +90,8 @@
     <Build Include="Tables\TipoUsuario.sql" />
     <None Include="Scripts\Post\CargarTipoUsuario.sql" />
     <None Include="Scripts\Pre\DeleteObjects.sql" />
+    <Build Include="Tables\EstadoOpinion.sql" />
+    <None Include="Scripts\Post\CargarEstadosOpinion.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AlDente.Database.publish.xml" />

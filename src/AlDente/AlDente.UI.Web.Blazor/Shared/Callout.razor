@@ -1,0 +1,30 @@
+﻿<div class="bd-callout @GetCalloutType()">
+    @ChildContent
+</div>
+
+@code {
+
+    [Parameter]
+    public CalloutType Type { get; set; } = CalloutType.Info;
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+
+    public string GetCalloutType() =>
+this.Type switch
+{
+    CalloutType.Info => "bd-callout-info",
+    CalloutType.Danger => "bd-callout-danger",
+    CalloutType.Warning => "bd-callout-warning",
+    _ => "bd-callout-info"
+};
+
+    public enum CalloutType
+    {
+        Info,
+        Warning,
+        Danger
+    }
+
+}

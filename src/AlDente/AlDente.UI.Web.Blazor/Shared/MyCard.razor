@@ -1,6 +1,13 @@
-﻿<div class="col-md-10 offset-md-1 mt-5">
+﻿<div class="@GetClass()">
     <div class="card">
-        <h4 class="card-header">@Header</h4>
+        @if (HeaderTemplate == null)
+        {
+            <h4 class="card-header">@Header</h4>
+        }
+        else
+        {
+            @HeaderTemplate
+        }
         <div class="card-body">
             @ChildContent
         </div>
@@ -13,4 +20,17 @@
 
     [Parameter]
     public string Header { get; set; }
+
+    [Parameter]
+    public RenderFragment HeaderTemplate { get; set; }
+
+    [Parameter]
+    public bool UseDefaulClass { get; set; } = true;
+
+    private string GetClass()
+    {
+        if (UseDefaulClass)
+            return "col-md-10 offset-md-1 mt-5";
+        return "mt-1";
+    }
 }

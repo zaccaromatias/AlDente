@@ -1,18 +1,28 @@
 ﻿using AlDente.Globalization;
 using FluentValidation;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AlDente.Contracts.Opiniones
 {
-   public class OpinionDTO
+    public class OpinionDTO
     {
         public int Id { get; set; }
         public string Texto { get; set; }
-        public int Calificacion { get; set; }
         public int ClienteId { get; set; }
+        public int Calificacion { get; set; }
         public int RestauranteId { get; set; }
+        public int EstadoId { get; set; }
+        public DateTime Fecha { get; set; }
+        public DateTime? FechaAprovacion { get; set; }
+        public int? EmpleadoAprovadorId { get; set; }
+        public int? OpinionPrincipalId { get; set; }
+        public int? RemovidoPor { get; set; }
+        public DateTime? RemovidoFecha { get; set; }
+        public string RemovidoMotivo { get; set; }
+
+        public string ClienteEmail { get; set; }
+
+        public bool TieneRespuestas { get; set; }
     }
 
     public class OpinionDTOValidator : AbstractValidator<OpinionDTO>

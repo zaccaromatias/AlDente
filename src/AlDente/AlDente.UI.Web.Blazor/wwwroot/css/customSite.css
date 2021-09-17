@@ -83,3 +83,8 @@ header {
 .e-expand:before {
     content: '\e777';
 }
+
+.badge-aldente {
+    color: #fff;
+    background-color: #DB5050;
+}

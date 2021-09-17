@@ -19,3 +19,8 @@ BEGIN
 	DROP TABLE IF EXISTS dbo.Empleado;
 	DROP TABLE IF EXISTS dbo.EstadoEmpleado;
 END
+GO
+IF NOT EXISTS (SELECT 1 FROM sys.columns c  INNER JOIN sys.tables t ON t.object_id = c.object_id WHERE c.name= 'EstadoId' AND t.name='Opinion')
+BEGIN
+	DELETE dbo.Opinion;	
+END

@@ -13,6 +13,7 @@ Post-Deployment Script Template
 :r .\Post\CargarTipoUsuario.sql
 :r .\Post\CargarEstadosUsuario.sql
 :r .\Post\CargarEstadosReserva.sql
+:r .\Post\CargarEstadosOpinion.sql
 :r .\Post\InsertarUsuarioTest.sql
 
 

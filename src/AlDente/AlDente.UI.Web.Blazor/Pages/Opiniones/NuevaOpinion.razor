@@ -1,0 +1,58 @@
+﻿@using AlDente.Contracts.Opiniones
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Inputs
+@using Data
+@inject IJSRuntime JS
+@inject IOpinionService  _opinionService
+@inject SessionData _user
+<EditForm Model="@Opinion" OnValidSubmit="@OnSubmit">
+    <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
+    <div class="form-group">
+        @if (Opinion.OpinionPrincipalId == 0 || Opinion.OpinionPrincipalId == null)
+        {<input id="ratings-hidden" name="rating" type="hidden" @bind-value="Opinion.Calificacion" />
+                                <label>Calificacion</label>
+                                                    <div class="stars starrr" id="customRating" data-rating="0"></div>}
+        <textarea class="form-control animated" cols="50" id="new-review" @bind="Opinion.Texto" name="comment" placeholder="Ingrese su opinion aqui..." rows="5"></textarea>
+
+        <a class="btn btn-danger btn-sm" href="#" id="close-review-box" style="display:none; margin-right: 10px;">
+            <span class="glyphicon glyphicon-remove"></span>Cancel
+        </a>
+    </div>
+    <ButtonProgress CssClass="e-success btn-lg" OnClick="@CrearOpinion">Enviar</ButtonProgress>
+
+
+</EditForm>
+
+@code{ public OpinionDTO Opinion { get; set; }
+
+            [Parameter]
+            public SfDialog Dialog { get; set; }
+            [Parameter]
+            public int OpinionPrincipalId { get; set; }
+
+
+            private FluentValidationValidator fluentValidationValidator;
+            public async Task OnSubmit()
+            {
+            }
+            protected override void OnInitialized()
+            {
+                this.Opinion = new OpinionDTO
+                {
+                    ClienteId = _user.User.Id,
+                    OpinionPrincipalId = OpinionPrincipalId
+                };
+
+            }
+            public async Task CrearOpinion()
+            {
+                this.Opinion.Calificacion = await JS.InvokeAsync<int>("getRatingValue", "#customRating");
+                await _opinionService.Create(Opinion);
+                OnInitialized();
+                await Dialog.HideAsync();
+            }
+
+            protected async override Task OnAfterRenderAsync(bool firstRender)
+            {
+                await JS.InvokeAsync<string>("createRating", "#customRating", 5, 1, false);
+            } }
