@@ -24,12 +24,16 @@
         <div class="form-inline">
             <label class="sr-only" for="filter-name">Filtro</label>
             <input type="text" class="form-control mb-2 mr-sm-2"
-                   @bind="codigoFiltro"
-                     placeholder="Código de reserva" />
+                   @bind="ViewModel.Codigo"
+                   placeholder="Código de reserva" />
             <button type="button" class="btn btn-primary mr-sm-2 mb-2"
-                    @onclick="Buscar">Buscar</button>
+                    @onclick="Buscar">
+                Buscar
+            </button>
             <button type="button" class="btn btn-danger mb-2"
-                    @onclick="Borrar">Borrar</button>
+                    @onclick="Borrar">
+                Borrar
+            </button>
         </div>
         <div class="col-lg-12 control-section">
             <div class="content-wrapper">
@@ -114,27 +118,26 @@
     private bool loading;
     bool dialogVisible { get; set; } = false;
     bool showQR { get; set; } = false;
-    string codigoReserva { get; set; } = "";
     private FluentValidationValidator fluentValidationValidator;
-    private MisReservasViewModel ViewModel { get; set; }
+    string codigoReserva { get; set; } = "";
     private ReservaACancelarDTO reservaACancelarDTO => this.ViewModel.ReservaACancelar;
-    private string codigoFiltro { get; set; }
-    private FiltroReservaViewModel FiltroViewModel { get; set; }
+
+    private FiltroReservaViewModel ViewModel { get; set; }
 
     protected async override Task OnInitializedAsync()
     {
-        this.ViewModel = await MisReservasViewModel.Create(_reservaService, _sessionData);
+        this.ViewModel = await FiltroReservaViewModel.Create(_reservaService, _sessionData);
         await base.OnInitializedAsync();
     }
 
     public async Task Buscar()
     {
-        await FiltroViewModel.Buscar(codigoFiltro);
+        await ViewModel.Buscar();
     }
 
     public async Task Borrar()
     {
-        codigoFiltro = string.Empty;
+        ViewModel.Codigo = string.Empty;
     }
 
     public void RowBound(RowDataBoundEventArgs<ReservaBasicDTO> args)

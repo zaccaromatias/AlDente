@@ -64,7 +64,11 @@ namespace AlDente.Services.Reservas
 
         public async Task<IEnumerable<ReservaBasicDTO>> GetReservaFiltroCodigo(string codigo)
         {
-            var result = await _reservaRepository.QueryAsync(x => x.Codigo == codigo);
+            IEnumerable<Reserva> result;
+            if (string.IsNullOrEmpty(codigo))
+                result = await _reservaRepository.GetAllAsync();
+            else
+                result = await _reservaRepository.QueryAsync(x => x.Codigo == codigo);
             var tasks = await Task.WhenAll(result.OrderBy(x => x.FechaReserva).Select(async x => await MapToBasicDTO(x)));
             return tasks.OrderBy(x => x.OrderByState).ThenBy(x => x.Fecha);
         }

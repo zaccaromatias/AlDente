@@ -129,7 +129,7 @@ namespace AlDente.Services.Opiniones
             IEnumerable<Opinion> opiniones;
             if (cliente.TipoUsuarioId == (int)TipoDeUsuarios.Empleado)
             {
-                opiniones = await opinionRepository.QueryAsync(x => x.OpinionPrincipalId == masOpinionesParameterDTO.OpinionPrincipalId);
+                opiniones = await opinionRepository.QueryAsync(x => x.OpinionPrincipalId == masOpinionesParameterDTO.OpinionPrincipalId && x.EstadoId != (int)EstadosDeUnOpinion.Removido);
             }
             else
             {
@@ -151,7 +151,7 @@ namespace AlDente.Services.Opiniones
             IEnumerable<Opinion> opiniones;
             if (cliente.TipoUsuarioId == (int)TipoDeUsuarios.Empleado)
             {
-                opiniones = await opinionRepository.QueryAsync(x => x.Fecha < masOpinionesParameterDTO.FechaDeLaUltimaOpinionCargada && x.OpinionPrincipalId == masOpinionesParameterDTO.OpinionPrincipalId);
+                opiniones = await opinionRepository.QueryAsync(x => x.Fecha < masOpinionesParameterDTO.FechaDeLaUltimaOpinionCargada && x.OpinionPrincipalId == masOpinionesParameterDTO.OpinionPrincipalId && x.EstadoId == (int)EstadosDeUnOpinion.Publicado);
             }
             else
             {
