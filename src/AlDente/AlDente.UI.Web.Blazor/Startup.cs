@@ -4,35 +4,31 @@ using AlDente.Contracts.Core;
 using AlDente.Contracts.DiasLaborables;
 using AlDente.Contracts.Empleados;
 using AlDente.Contracts.Mesas;
+using AlDente.Contracts.Opiniones;
 using AlDente.Contracts.Reservas;
 using AlDente.Contracts.Restaurantes;
 using AlDente.Contracts.Sanciones;
 using AlDente.Contracts.Turnos;
 using AlDente.DataAccess.Beneficios;
 using AlDente.DataAccess.Core;
-using AlDente.Contracts.Opiniones;
-
-using AlDente.DataAccess.Core;
 using AlDente.DataAccess.DiasLaborables;
 using AlDente.DataAccess.Mesas;
+using AlDente.DataAccess.Opiniones;
 using AlDente.DataAccess.Reservas;
 using AlDente.DataAccess.Restaurantes;
 using AlDente.DataAccess.Sanciones;
 using AlDente.DataAccess.Turnos;
 using AlDente.DataAccess.Usuarios;
-using AlDente.DataAccess.Opiniones;
-
 using AlDente.Services.Clientes;
 using AlDente.Services.Core;
 using AlDente.Services.DiasLaborables;
 using AlDente.Services.Empleados;
 using AlDente.Services.Mesas;
+using AlDente.Services.Opiniones;
 using AlDente.Services.Reservas;
 using AlDente.Services.Restaurantes;
 using AlDente.Services.Sanciones;
 using AlDente.Services.Turnos;
-using AlDente.Services.Opiniones;
-
 using AlDente.UI.Web.Blazor.Data;
 using AlDente.UI.Web.Blazor.Helpers;
 using AlDente.UI.Web.Blazor.Models;
@@ -48,6 +44,7 @@ using Microsoft.Extensions.Hosting;
 using Syncfusion.Blazor;
 using Syncfusion.Licensing;
 using System;
+
 
 namespace AlDente.UI.Web.Blazor
 {
@@ -95,7 +92,7 @@ namespace AlDente.UI.Web.Blazor
             services.AddTransient<IValidator<RestauranteDTO>, RestauranteDTOValidator>();
             services.AddTransient<IValidator<TurnoDTO>, TurnoDTOValidator>();
             services.AddTransient<IValidator<DiaLaboralDTO>, DiaLaboralDTOValidator>();
-            services.AddTransient<IValidator<ReservaACancelarDTO>, ReservaACancelarDTOValidator>(); 
+            services.AddTransient<IValidator<ReservaACancelarDTO>, ReservaACancelarDTOValidator>();
             services.AddTransient<IValidator<OpinionDTO>, OpinionDTOValidator>();
             services.AddTransient<IValidator<ReservaACancelarDTO>, ReservaACancelarDTOValidator>();
             services.AddTransient<IValidator<TipoSancionDTO>, TipoSancionDTOValidator>();
@@ -119,6 +116,8 @@ namespace AlDente.UI.Web.Blazor
             services.AddScoped<ITipoBeneficioRepository, TipoBeneficioRepository>();
             services.AddScoped<IPoliticaBeneficioRepository, PoliticaBeneficioRepository>();
             services.AddScoped<IPoliticaSancionRepository, PoliticaSancionRepository>();
+            services.AddScoped<IBeneficioRepository, BeneficioRepository>();
+            services.AddScoped<ISancionRepository, SancionRepository>();
         }
 
         private void AddCustomServices(IServiceCollection services)
@@ -130,6 +129,7 @@ namespace AlDente.UI.Web.Blazor
                 options.CommandTimeout = 0;
                 options.ConnectionString = Configuration.GetConnectionString("DefaultDataBase");
                 options.RestauranteId = Configuration.GetValue<int>("RestauranteId");
+                options.URL = Configuration.GetValue<string>("URL");
 
             });
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -146,7 +146,11 @@ namespace AlDente.UI.Web.Blazor
             services.AddScoped<ITipoBeneficioService, TipoBeneficioService>();
             services.AddScoped<IPoliticaBeneficioService, PoliticaBeneficioService>();
             services.AddScoped<IPoliticaSancionService, PoliticaSancionService>();
+            services.AddScoped<IEmailService, EmailService>();
 
+            services.AddFluentEmail("fromemail@test.test")
+                .AddRazorRenderer()
+                .AddSmtpSender("localhost", 25);
         }
 
         private void AddUIServices(IServiceCollection services)

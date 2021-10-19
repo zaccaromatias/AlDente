@@ -9,7 +9,11 @@ namespace AlDente.Contracts.Reservas
         public DateTime Fecha { get; set; }
         public int Comensales { get; set; }
 
+        public string Description => $"{Fecha.ToString("dd/MM/yyyy")} {Turno}";
+        public string MotivoCancelacion { get; set; }
+
         public bool ShowCancelButton => this.EstadoId == (int)EstadosDeUnaReserva.Pendiente && DateTime.Now < this.Fecha && (Fecha - DateTime.Now).TotalHours > LimiteDeHora;
+        public bool ShowAsistidaNoAsistidaButton => this.EstadoId == (int)EstadosDeUnaReserva.Pendiente;
         public DateTime FechaDeCreacion { get; set; }
 
         public int EstadoId { get; set; }
@@ -25,6 +29,7 @@ namespace AlDente.Contracts.Reservas
         public string Turno { get; set; }
 
         public string NombreUsuario { get; set; }
+        public string EmailUsuario { get; set; }
 
         private int GetOrderByState()
         {

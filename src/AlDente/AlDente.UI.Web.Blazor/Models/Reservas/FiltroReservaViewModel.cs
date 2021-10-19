@@ -47,5 +47,15 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
             return await Task.FromResult(model);
 
         }
+
+        public async Task<BasicResultDTO> ReservaAsistida(ReservaBasicDTO reserva)
+        {
+            return await _reservaService.Asistida(reserva);
+        }
+
+        public async Task<BasicResultDTO> ReservaNoAsistida(ReservaBasicDTO reserva)
+        {
+            return await _reservaService.NoAsistida(reserva);
+        }
     }
 }

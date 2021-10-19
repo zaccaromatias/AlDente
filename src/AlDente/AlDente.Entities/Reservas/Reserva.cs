@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AlDente.Globalization;
+using System;
 using System.Collections.Generic;
 
 namespace AlDente.Entities.Reservas
@@ -23,6 +24,30 @@ namespace AlDente.Entities.Reservas
         public Reserva()
         {
             this.Mesas = new List<ReservaMesa>();
+        }
+        private enum EstadosDeUnaReserva
+        {
+            Asistida = 1,
+            NoAsistida = 2,
+            Pendiente = 3,
+            Cancelada = 4
+        }
+        public string GetEstadoName()
+        {
+            switch ((EstadosDeUnaReserva)this.EstadoReservaId)
+            {
+                case EstadosDeUnaReserva.Asistida:
+                    return Messages.Assisted;
+                case EstadosDeUnaReserva.NoAsistida:
+                    return Messages.NotAssisted;
+                case EstadosDeUnaReserva.Pendiente:
+                    return Messages.Pending;
+                case EstadosDeUnaReserva.Cancelada:
+                    return Messages.Cancelled;
+                default:
+                    return "";
+
+            }
         }
     }
 }

@@ -82,6 +82,10 @@ namespace AlDente.DataAccess.Core
         {
             return await QueryAsync(where, transaction: transaction, cancellationToken: cancellationToken);
         }
+        public async Task<long> CountAsync(Expression<Func<TEntity, bool>> where, CancellationToken cancellationToken)
+        {
+            return await CountAsync(where, transaction: transaction, cancellationToken: cancellationToken);
+        }
         public IEnumerable<TEntity> GetAll()
         {
             return base.QueryAll(transaction: transaction);

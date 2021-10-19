@@ -21,6 +21,8 @@ namespace AlDente.DataAccess.Core
 
         public int RestauranteId => this.settings.RestauranteId;
 
+        public string URL => this.settings.URL;
+
         public UnitOfWork(IOptions<AppSettings> settings)
         {
             this.settings = settings.Value;

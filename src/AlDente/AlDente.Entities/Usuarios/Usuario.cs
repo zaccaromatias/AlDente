@@ -19,6 +19,7 @@ namespace AlDente.Entities.Usuarios
         public int? UsuarioCreadorId { get; set; }
 
         public string Telefono { get; set; }
+        public string Caption => $"{this.Nombre} {this.Apellido}";
 
         private enum Estados
         {

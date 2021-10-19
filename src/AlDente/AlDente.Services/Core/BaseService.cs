@@ -35,6 +35,7 @@ namespace AlDente.Services.Core
             {
                 unitOfWork.Begin();
                 var result = await func();
+                unitOfWork.Commit();
                 return result;
             }
             catch (System.Exception ex)

@@ -19,5 +19,6 @@ namespace AlDente.DataAccess.Core
     public interface IUnitOfWork : IUnitOfWork<SqlConnection>
     {
         public int RestauranteId { get; }
+        public string URL { get; }
     }
 }

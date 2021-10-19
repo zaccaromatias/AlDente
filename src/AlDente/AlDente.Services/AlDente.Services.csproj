@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentEmail.Core" Version="3.0.0" />
+    <PackageReference Include="FluentEmail.Razor" Version="3.0.0" />
+    <PackageReference Include="FluentEmail.Smtp" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Antiforgery" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.20" />
     <PackageReference Include="MlkPwgen" Version="0.3.0" />
   </ItemGroup>
 
@@ -12,6 +17,24 @@
     <ProjectReference Include="..\AlDente.Contracts\AlDente.Contracts.csproj" />
     <ProjectReference Include="..\AlDente.DataAccess\AlDente.DataAccess.csproj" />
     <ProjectReference Include="..\AlDente.Globalization\AlDente.Globalization.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Templates\NuevaSancion.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Templates\NuevoBeneficio.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Templates\ReservaCancelada.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Templates\NuevaReserva.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Templates\RegistroNuevo.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

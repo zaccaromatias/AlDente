@@ -7,5 +7,7 @@
         public int CacheItemExpiration { get; set; }
 
         public int RestauranteId { get; set; }
+
+        public string URL { get; set; }
     }
 }

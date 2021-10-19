@@ -132,10 +132,10 @@
 
     private async Task RealizarReserva()
     {
-        BasicResultDTO<string> result = await this.Reserva.Reservar();
+        BasicResultDTO<ReservaBasicDTO> result = await this.Reserva.Reservar();
         if (result != null && result.IsValid)
         {
-            this.codigoReserva = result.Data;
+            this.codigoReserva = result.Data.Codigo;
             this.dialogVisible = true;
         }
         this.StateHasChanged();

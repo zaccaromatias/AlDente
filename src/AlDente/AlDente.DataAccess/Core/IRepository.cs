@@ -20,6 +20,8 @@ namespace AlDente.DataAccess.Core
         TResult Merge<TResult>(TEntity entity);
         IEnumerable<TEntity> Query(Expression<Func<TEntity, bool>> where);
         Task<IEnumerable<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> where, CancellationToken cancellationToken = default);
+
+        Task<long> CountAsync(Expression<Func<TEntity, bool>> where, CancellationToken cancellationToken = default);
         IEnumerable<TEntity> GetAll();
         Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken = default);
         TEntity GetById(object id);

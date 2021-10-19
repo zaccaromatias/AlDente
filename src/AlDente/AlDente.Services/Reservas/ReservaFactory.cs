@@ -8,6 +8,7 @@ using AlDente.DataAccess.Turnos;
 using AlDente.DataAccess.Usuarios;
 using AlDente.Entities.Reservas;
 using AlDente.Entities.Usuarios;
+using AlDente.Services.Reservas.Extensions;
 using MlkPwgen;
 using System;
 using System.Collections.Generic;
@@ -70,17 +71,17 @@ namespace AlDente.Services.Reservas
             return await (await this.ValidateClient()).ValidateTurno();
         }
 
-        public async Task<BasicResultDTO<string>> SaveAsync()
+        public async Task<BasicResultDTO<ReservaBasicDTO>> SaveAsync()
         {
             if (this._errors.Any())
-                return BasicResultDTO<string>.Failled(string.Join("<br/>", this._errors));
-            return await _unitOfWork.TryWithTransact<BasicResultDTO<string>>(async () =>
+                return BasicResultDTO<ReservaBasicDTO>.Failled(string.Join("<br/>", this._errors));
+            return await _unitOfWork.TryWithTransact<BasicResultDTO<ReservaBasicDTO>>(async () =>
             {
                 var reservaId = await _reservaRepository.AddAsync(_reserva);
                 _reserva.Id = reservaId;
                 _reserva.Mesas.ForEach(mesa => mesa.ReservaId = reservaId);
                 await _reservaMesaRepository.AddAllAsync(_reserva.Mesas);
-                return BasicResultDTO<string>.Success(_reserva.Codigo);
+                return BasicResultDTO<ReservaBasicDTO>.Success(await _reserva.MapToBasicDTO(_turnoRepository, _usuarioRepository));
             });
         }
 
@@ -213,7 +214,7 @@ namespace AlDente.Services.Reservas
 
     public interface ISaveReserva
     {
-        Task<BasicResultDTO<string>> SaveAsync();
+        Task<BasicResultDTO<ReservaBasicDTO>> SaveAsync();
     }
 
     public interface IReservable
