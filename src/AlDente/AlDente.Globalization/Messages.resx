@@ -405,4 +405,10 @@
   <data name="TypeOfSanction" xml:space="preserve">
     <value>Tipo de Sanción</value>
   </data>
+  <data name="Book" xml:space="preserve">
+    <value>Reservar</value>
+  </data>
+  <data name="Client" xml:space="preserve">
+    <value>Cliente</value>
+  </data>
 </root>

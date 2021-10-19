@@ -51,7 +51,7 @@ namespace AlDente.Services.Reservas
                 CantidadComensales = reservaDTO.Comensales,
                 ClienteId = reservaDTO.ClienteId,
                 Codigo = PasswordGenerator.Generate(10),
-                EmpleadoId = null,
+                EmpleadoId = reservaDTO.EmpleadoId,
                 EstadoReservaId = (int)EstadosDeUnaReserva.Pendiente,
                 FechaAsistencia = null,
                 FechaCancelacion = null,
