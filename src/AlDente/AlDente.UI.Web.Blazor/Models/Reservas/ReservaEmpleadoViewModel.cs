@@ -1,9 +1,10 @@
-﻿using AlDente.Contracts.Core;
+﻿using AlDente.Contracts.Clientes;
+using AlDente.Contracts.Core;
 using AlDente.Contracts.DiasLaborables;
 using AlDente.Contracts.Mesas;
+using AlDente.Contracts.Opiniones;
 using AlDente.Contracts.Reservas;
 using AlDente.Contracts.Turnos;
-using AlDente.Contracts.Opiniones;
 using AlDente.Globalization;
 using AlDente.UI.Web.Blazor.Data;
 using System;
@@ -11,7 +12,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using AlDente.Contracts.Clientes;
 
 namespace AlDente.UI.Web.Blazor.Models.Reservas
 {
@@ -114,7 +114,7 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
             this.Clientes = new List<ClienteDTO>(clientes).OrderBy(x => x.Email).ToList();
             if (!this.Clientes.Any())
                 this.MensajeDeErrorClientes = "No hay clientes cargados";
-           
+
             return await Task.FromResult(this.Clientes);
         }
         public bool EsValidoParaBuscarCombinaciones => this.Turno != null && this.Comensales > 0 && this.Comensales <= 8 && this.Fecha.HasValue && this.Fecha != DateTime.MinValue;
@@ -145,14 +145,15 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
             this.Combinacion = new Guid?[] { };
             this.Combinaciones.Clear();
         }
-        public async Task<BasicResultDTO<string>> Reservar()
+        public async Task<BasicResultDTO<ReservaBasicDTO>> Reservar()
         {
             if (!this.EsValidoParaReservar)
             {
                 this.MensajeDeErrorAlReservar = "Por favor seleccione una combinacion.";
                 return null;
             }
-            if (!this.EsClienteValido) {
+            if (!this.EsClienteValido)
+            {
                 this.MensajeDeErrorClientes = "Seleccione un Cliente";
                 return null;
             }
