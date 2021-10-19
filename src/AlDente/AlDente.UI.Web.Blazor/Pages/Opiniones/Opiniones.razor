@@ -15,34 +15,34 @@
             <h4 class="panel-title">
                 <i class="fa fa-comments" aria-hidden="true"></i>
                 Opiniones
-                <SfButton CssClass="e-primary" OnClick="@ShowAgregarOpinion">Agregar Opinion</SfButton>
+                @*<SfButton CssClass="e-primary" OnClick="@ShowAgregarOpinion">Agregar Opinion</SfButton>*@
                 <SfDialog AllowDragging="true" @bind-Visible="@dialogVisible" @ref="_nuevaOpinionDialog" IsModal="true" Width="285px" ShowCloseIcon="true">
-                    <DialogTemplates>
-                        <Content>
-                            <NuevaOpinion Dialog="_nuevaOpinionDialog" />
-                        </Content>
-                    </DialogTemplates>
-                    <DialogAnimationSettings Effect="DialogEffect.Zoom"></DialogAnimationSettings>
-                    <DialogEvents Closed="Refresh">
+            <DialogTemplates>
+                <Content>
+                    <NuevaOpinion Dialog="_nuevaOpinionDialog" />
+                </Content>
+            </DialogTemplates>
+            <DialogAnimationSettings Effect="DialogEffect.Zoom"></DialogAnimationSettings>
+            <DialogEvents Closed="Refresh">
 
-                    </DialogEvents>
-                </SfDialog>
-                @*<span class="badge badge-secondary">10 New!!!</span>*@
+            </DialogEvents>
+        </SfDialog>
+        @*<span class="badge badge-secondary">10 New!!!</span>*@
             </h4>
         </div>
     </HeaderTemplate>
     <ChildContent>
         <Callout Type="Callout.CalloutType.Info">
-            <h5>Si tiene una opinion sobre nosotros, haga click arriba y no dude en hacernosla saber:</h5>
+            <h5>Si tiene una opinión sobre nosotros, no dude en hacernosla saber <SfButton CssClass="e-primary" OnClick="@ShowAgregarOpinion">Agregar Opinion</SfButton> </h5>
             <ul>
-                <li><p>Aqui vera todas las opiniones de todos nuestros usuarios.</p></li>
-                <li><p>Sea cordial y evite insultos indeceados, cada opinion sera revisada y aprobada por nuestros empleados antes de su publicacion.</p></li>
+                @*<li><p>Aquí vera todas las opiniones de todos nuestros usuarios.</p></li>*@
+                <li><p>Sea cordial y evite insultos indeseados, cada opinión será revisada y aprobada antes de su publicación.</p></li>
                 <li>
                     <p>
-                        Tambien puede responder sobre otras opiniones haciendo click en el boton
+                        También puede responder sobre otras opiniones haciendo click en el boton
                         <button type="button" class="btn btn-success btn-sm" title="Respond">
                             <i class="fa fa-commenting" aria-hidden="true"></i>
-                        </button> de cada opinion.
+                        </button> de cada opinión.
                     </p>
                 </li>
             </ul>

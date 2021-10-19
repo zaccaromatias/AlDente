@@ -5,12 +5,14 @@
 @using Syncfusion.Blazor.BarcodeGenerator
 @using Models.Reservas
 @using Contracts.Reservas
+@using Contracts.Clientes
 @using AlDente.Globalization
 @using Data
 
 @attribute [Authorize]
 
 @inject IReservaService _reservaService
+@inject IClienteService _servNombresCliente
 @inject IToastService Toast
 @inject SessionData _sessionData
 
@@ -46,7 +48,7 @@
                             </GridSortColumns>
                         </GridSortSettings>
                         <GridColumns>
-                            <GridColumn Field=@nameof(ReservaBasicDTO.NombreUsuario) HeaderText="@Messages.NombreUsuario"></GridColumn>
+                            <GridColumn Field=@nameof(ReservaBasicDTO.NombreCliente) HeaderText="@Messages.NombreUsuario"></GridColumn>
                             <GridColumn Field=@nameof(ReservaBasicDTO.Fecha) Format="dd/MM/yyyy" HeaderText="@Messages.Date"></GridColumn>
                             <GridColumn Field=@nameof(ReservaBasicDTO.Turno) HeaderText="@Messages.Turno"></GridColumn>
                             <GridColumn Field=@nameof(ReservaBasicDTO.Codigo) HeaderText="@Messages.Code"></GridColumn>
@@ -121,6 +123,7 @@
     private FluentValidationValidator fluentValidationValidator;
     string codigoReserva { get; set; } = "";
     private ReservaACancelarDTO reservaACancelarDTO => this.ViewModel.ReservaACancelar;
+    //public static List<ClienteDTO> TodosLosNombresClientes { get; set; }
 
     private FiltroReservaViewModel ViewModel { get; set; }
 
@@ -128,6 +131,7 @@
     {
         this.ViewModel = await FiltroReservaViewModel.Create(_reservaService, _sessionData);
         await base.OnInitializedAsync();
+        //TodosLosNombresClientes = (await _servNombresCliente.GetAll()).ToList();
     }
 
     public async Task Buscar()

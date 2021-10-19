@@ -13,6 +13,14 @@ namespace AlDente.Contracts.Clientes
         public string Telefono { get; set; }
         public string NombreUsuario { get; set; }
         public EstadosDeUnUsuario Estado { get; set; }
+
+
+        public string NombreCompleto => GetNombreCompleto();
+        private string GetNombreCompleto()
+        {
+            return this.Nombre + " " + this.Apellido;
+        }
+
     }
 }
 

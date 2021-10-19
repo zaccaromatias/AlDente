@@ -1,5 +1,6 @@
 ﻿using AlDente.Contracts.Core;
 using AlDente.Contracts.Reservas;
+using AlDente.Contracts.Clientes;
 using AlDente.DataAccess.Core;
 using AlDente.DataAccess.Mesas;
 using AlDente.DataAccess.Reservas;
@@ -21,14 +22,13 @@ namespace AlDente.Services.Reservas
         IUsuarioRepository _usuarioRepository;
         ITurnoRepository _turnoRepository;
         IMesaRepository _mesaRepository;
-        public ReservaService(IUnitOfWork unitOfWork, IReservaRepository reservaRepository, IUsuarioRepository usuarioRepository, ITurnoRepository turnoRepository, IMesaRepository mesaRepository, IReservaMesaRepository reservaMesaRepository) : base(unitOfWork)
+        public ReservaService(IUnitOfWork unitOfWork, IReservaRepository reservaRepository, IUsuarioRepository usuarioRepository, ITurnoRepository turnoRepository, IMesaRepository mesaRepository, IReservaMesaRepository reservaMesaRepository, IUsuarioRepository clienteRepository) : base(unitOfWork)
         {
             _reservaRepository = reservaRepository;
             _reservaMesaRepository = reservaMesaRepository;
             _usuarioRepository = usuarioRepository;
             _turnoRepository = turnoRepository;
             _mesaRepository = mesaRepository;
-
             _reservaRepository.Attach(unitOfWork);
             _reservaMesaRepository.Attach(unitOfWork);
             _usuarioRepository.Attach(unitOfWork);
@@ -83,9 +83,10 @@ namespace AlDente.Services.Reservas
                 EstadoId = x.EstadoReservaId,
                 Fecha = x.FechaReserva,
                 FechaDeCreacion = x.FechaCreacion,
-                LimiteDeHora = LIMITE_DE_HORAS_DONDE_NO_SE_PUEDE_CANCELAR
+                LimiteDeHora = LIMITE_DE_HORAS_DONDE_NO_SE_PUEDE_CANCELAR,
             };
             dto.Turno = await GetTurno(x.TurnoId);
+            dto.Cliente = await GetNombreCompleto(x.ClienteId);    
             return dto;
         }
 
@@ -93,6 +94,18 @@ namespace AlDente.Services.Reservas
         {
             var result = await _turnoRepository.GetByIdAsync(turnoId);
             return result.Text;
+        }
+
+        private async Task<ClienteDTO> GetNombreCompleto(int clienteId)
+        {
+            var clienteNombreCompleto = await _usuarioRepository.GetByIdAsync(clienteId); ;
+            return new ClienteDTO
+            {
+                Id = clienteNombreCompleto.Id,
+                Nombre = clienteNombreCompleto.Nombre,
+                Apellido = clienteNombreCompleto.Apellido
+
+            };
         }
 
         const int LIMITE_DE_HORAS_DONDE_NO_SE_PUEDE_CANCELAR = 2;
@@ -122,4 +135,5 @@ namespace AlDente.Services.Reservas
            });
         }
     }
+
 }

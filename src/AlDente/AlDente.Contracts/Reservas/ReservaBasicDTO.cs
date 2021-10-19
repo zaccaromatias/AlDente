@@ -1,4 +1,5 @@
-﻿using AlDente.Globalization;
+﻿using AlDente.Contracts.Clientes;
+using AlDente.Globalization;
 using System;
 
 namespace AlDente.Contracts.Reservas
@@ -24,8 +25,10 @@ namespace AlDente.Contracts.Reservas
 
         public string Turno { get; set; }
 
-        public string NombreUsuario { get; set; }
+        //public string NombreUsuario { get; set; }
+        public ClienteDTO Cliente { get; set; }
 
+        public string NombreCliente => GetUsuarioName();
         private int GetOrderByState()
         {
             switch ((EstadosDeUnaReserva)this.EstadoId)
@@ -60,6 +63,11 @@ namespace AlDente.Contracts.Reservas
                     return "";
 
             }
+        }
+
+        private string GetUsuarioName()
+        {
+            return (this.Cliente.Nombre + ' ' + this.Cliente.Apellido);
         }
     }
 }
