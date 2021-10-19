@@ -11,18 +11,20 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using AlDente.Contracts.Clientes;
 
 namespace AlDente.UI.Web.Blazor.Models.Reservas
 {
-    public class ReservaViewModel
+    public class ReservaEmpleadoViewModel
     {
         #region Properties
         public ITurnoService TurnoService { get; private set; }
         public IDiaLaboralService DiaLaboralService { get; private set; }
         public IMesaService MesaService { get; private set; }
         public IReservaService ReservaService { get; private set; }
-       
+
         public IOpinionService OpinionService { get; private set; }
+        public IClienteService ClienteService { get; private set; }
         public SessionData SessionData { get; private set; }
 
         [Display(Name = nameof(Messages.Comensales), ResourceType = typeof(Messages))]
@@ -34,7 +36,9 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
         [Display(Name = nameof(Messages.Turno), ResourceType = typeof(Messages))]
         public TurnoDTO Turno { get; set; }
 
-
+        [Display(Name = nameof(Messages.Client), ResourceType = typeof(Messages))]
+        public ClienteDTO Cliente { get; set; }
+        public List<ClienteDTO> Clientes { get; set; }
         public List<TurnoDTO> Turnos { get; set; }
 
         public List<CombinacionDTO> Combinaciones { get; set; }
@@ -45,10 +49,12 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
 
         public string MensajeDeErrorAlBuscar { get; private set; }
         public string MensajeDeErrorAlReservar { get; private set; }
+
+        public string MensajeDeErrorClientes { get; private set; }
         #endregion
 
         #region Constructors
-        private ReservaViewModel(ITurnoService turnoService, IDiaLaboralService diaLaboralService, IMesaService mesaService, IReservaService reservaService, SessionData sessionData)
+        private ReservaEmpleadoViewModel(ITurnoService turnoService, IDiaLaboralService diaLaboralService, IMesaService mesaService, IReservaService reservaService, IClienteService clienteService, SessionData sessionData)
         {
             TurnoService = turnoService;
             DiaLaboralService = diaLaboralService;
@@ -59,11 +65,12 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
             Combinacion = new Guid?[] { };
             ReservaService = reservaService;
             SessionData = sessionData;
+            ClienteService = clienteService;
         }
 
-        public static async Task<ReservaViewModel> Create(ITurnoService turnoService, IDiaLaboralService diaLaboralService, IMesaService mesaService, IReservaService reservaService, SessionData sessionData)
+        public static async Task<ReservaEmpleadoViewModel> Create(ITurnoService turnoService, IDiaLaboralService diaLaboralService, IMesaService mesaService, IReservaService reservaService, IClienteService clienteService, SessionData sessionData)
         {
-            var reservaModel = new ReservaViewModel(turnoService, diaLaboralService, mesaService, reservaService, sessionData);
+            var reservaModel = new ReservaEmpleadoViewModel(turnoService, diaLaboralService, mesaService, reservaService, clienteService, sessionData);
             await reservaModel.LoadDiasLaborables();
             return reservaModel;
         }
@@ -98,9 +105,22 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
             }
             return await Task.FromResult(this.Turnos);
         }
+        public async Task<IEnumerable<ClienteDTO>> LoadClientes()
+        {
 
+            this.Cliente = null;
+            this.Clientes = new List<ClienteDTO>();
+            var clientes = await ClienteService.GetAll();
+            this.Clientes = new List<ClienteDTO>(clientes).OrderBy(x => x.Email).ToList();
+            if (!this.Clientes.Any())
+                this.MensajeDeErrorClientes = "No hay clientes cargados";
+           
+            return await Task.FromResult(this.Clientes);
+        }
         public bool EsValidoParaBuscarCombinaciones => this.Turno != null && this.Comensales > 0 && this.Comensales <= 8 && this.Fecha.HasValue && this.Fecha != DateTime.MinValue;
         public bool EsValidoParaReservar => EsValidoParaBuscarCombinaciones && this.Combinacion.Count() == 1 && this.Combinacion.First() != Guid.Empty;
+
+        public bool EsClienteValido => this.Cliente != null;
         public async Task CargarCombinaciones()
         {
 
@@ -132,6 +152,11 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
                 this.MensajeDeErrorAlReservar = "Por favor seleccione una combinacion.";
                 return null;
             }
+            if (!this.EsClienteValido) {
+                this.MensajeDeErrorClientes = "Seleccione un Cliente";
+                return null;
+            }
+
             try
             {
                 var result = await this.ReservaService.Create(new ReservaDTO
@@ -140,8 +165,8 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
                     Fecha = this.Fecha.Value,
                     Turno = this.Turno,
                     Combinacion = this.Combinaciones.First(x => x.Key == this.Combinacion.First().Value),
-                    ClienteId = SessionData.User.Id
-                 
+                    ClienteId = this.Cliente.Id,
+                    EmpleadoId = SessionData.User.Id
 
                 });
                 this.MensajeDeErrorAlReservar = result.AllErrors;

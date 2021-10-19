@@ -133,6 +133,15 @@ namespace AlDente.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reservar.
+        /// </summary>
+        public static string Book {
+            get {
+                return ResourceManager.GetString("Book", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reservas.
         /// </summary>
         public static string Bookings {
@@ -165,6 +174,15 @@ namespace AlDente.Globalization {
         public static string Capacity {
             get {
                 return ResourceManager.GetString("Capacity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cliente.
+        /// </summary>
+        public static string Client {
+            get {
+                return ResourceManager.GetString("Client", resourceCulture);
             }
         }
         
