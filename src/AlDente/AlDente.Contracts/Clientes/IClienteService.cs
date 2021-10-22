@@ -12,6 +12,6 @@ namespace AlDente.Contracts.Clientes
         Task Update(ClienteDTO clienteDTO);
 
         Task Delete(int id);
-
+        Task<PuedeReservarDTO> ValidarSiClientePuedeReservar(int id);
     }
 }

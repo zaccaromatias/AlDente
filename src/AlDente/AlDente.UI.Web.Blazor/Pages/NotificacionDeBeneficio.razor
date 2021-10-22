@@ -1,0 +1,80 @@
+﻿@using Models.Beneficios
+@using Contracts.Beneficios
+@using Syncfusion.Blazor.Popups
+
+@inject IBeneficioService _beneficioService
+
+<div class="text-center">
+    <img src="/images/gift.png" width="100" height="100" />
+    <p>Tienes un nuevo Beneficio</p>
+    @if (Model.Beneficio.PuedeSolicitarElCodigo)
+    {
+        <ButtonProgressBasic CssClass="e-success" loading="@loading" @onclick="@ShowConfirmation">Ver Codigo</ButtonProgressBasic>
+    }
+    else
+    {
+        <h5>Codigo: <span style="color: #DC3545">@Model.Beneficio.Codigo</span></h5>
+        <p>Expira el @Model.Beneficio.FechaExpiracion</p>
+        <p>Muestra el codigo en el Restaurante y obtendras un descuento del @Model.Beneficio.Descuento de lo que consumas.</p>
+    }
+</div>
+
+<SfDialog @bind-Visible="@ConfirmDlgVisible" Width="400px" Target="#target" ShowCloseIcon="true" IsModal="true" CloseOnEscape="false">
+    <DialogTemplates>
+        <Header>
+            Confirmacion
+        </Header>
+        <Content>
+            El codigo sera valido durante las proximas 2 horas, de no usarlo lo perdera, esta seguro que desea continuar?
+        </Content>
+    </DialogTemplates>
+    <DialogEvents></DialogEvents>
+    <DialogButtons>
+        <DialogButton Content="Yes" IsPrimary="true" OnClick="@SolicitarCodigo" />
+        <DialogButton Content="No" OnClick="@HideDialog" />
+    </DialogButtons>
+</SfDialog>
+
+
+@code {
+
+    [Parameter] public BeneficioDTO Beneficio { get; set; }
+    private NotificacionDeBeneficioViewModel Model { get; set; }
+    private bool ConfirmDlgVisible { get; set; } = false;
+    private bool loading { get; set; } = false;
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        Model = await NotificacionDeBeneficioViewModel.Create(Beneficio, _beneficioService);
+    }
+
+    private async Task ShowConfirmation()
+    {
+        this.ConfirmDlgVisible = true;
+    }
+
+    private async Task SolicitarCodigo()
+    {
+
+        try
+        {
+            this.ConfirmDlgVisible = false;
+            loading = true;
+            await this.Model.SolicitarCodigo();
+            StateHasChanged();
+        }
+        finally
+        {
+            loading = false;
+        }
+
+    }
+
+    private void HideDialog(Object e)
+    {
+
+        this.ConfirmDlgVisible = false;
+
+    }
+}

@@ -1,9 +1,11 @@
 ﻿using AlDente.Contracts.Clientes;
 using AlDente.Contracts.Core;
 using AlDente.DataAccess.Core;
+using AlDente.DataAccess.Sanciones;
 using AlDente.DataAccess.Usuarios;
 using AlDente.Entities.Usuarios;
 using AlDente.Globalization;
+using AlDente.Services.Clientes.Extensions;
 using AlDente.Services.Core;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +16,16 @@ namespace AlDente.Services.Clientes
     public class ClienteService : BaseService, IClienteService
     {
         private IUsuarioRepository usuarioRepository;
+        private ISancionRepository sancionRepository;
 
-        public ClienteService(IUnitOfWork unitOfWork, IUsuarioRepository usuarioRepository)
+
+
+        public ClienteService(IUnitOfWork unitOfWork, IUsuarioRepository usuarioRepository, ISancionRepository sancionRepository)
             : base(unitOfWork)
         {
             usuarioRepository.Attach(this.unitOfWork);
+            sancionRepository.Attach(this.unitOfWork);
+            this.sancionRepository = sancionRepository;
             this.usuarioRepository = usuarioRepository;
             this.CustomValidations.Add("AK_Cliente_Email", Messages.AK_Cliente_Email);
             this.CustomValidations.Add("AK_Cliente_DNI", Messages.AK_Cliente_DNI);
@@ -86,6 +93,18 @@ namespace AlDente.Services.Clientes
                     TipoUsuarioId = (int)TipoDeUsuarios.Cliente
                 });
             });
+        }
+
+        public async Task<PuedeReservarDTO> ValidarSiClientePuedeReservar(int id)
+        {
+            return await Try<PuedeReservarDTO>(async () =>
+           {
+               var cliente = await usuarioRepository.GetByIdAsync(id);
+
+               if (cliente == null)
+                   return PuedeReservarDTO.Error("El cliente no existe.");
+               return await cliente.PuedeReservar(sancionRepository);
+           });
         }
 
     }

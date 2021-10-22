@@ -14,11 +14,13 @@ namespace AlDente.DataAccess.Beneficios
         {
         }
 
+
         public async Task<IEnumerable<Beneficio>> GetActivosByCliente(int clienteId)
         {
-            return await QueryAsync(x => x.ClienteId == clienteId && !x.Aplicado && x.FechaPedidoDeAplicacion == null);
-        }
 
+            var beneficiosNoAplicados = await QueryAsync(x => x.ClienteId == clienteId && !x.Aplicado);
+            return beneficiosNoAplicados.Where(x => !x.Expiro);
+        }
         public async Task RemoveBeneficiosActivos(int clienteId)
         {
             var actives = await GetActivosByCliente(clienteId);

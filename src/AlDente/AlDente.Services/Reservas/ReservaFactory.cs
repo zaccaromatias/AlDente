@@ -4,10 +4,12 @@ using AlDente.Contracts.Reservas;
 using AlDente.DataAccess.Core;
 using AlDente.DataAccess.Mesas;
 using AlDente.DataAccess.Reservas;
+using AlDente.DataAccess.Sanciones;
 using AlDente.DataAccess.Turnos;
 using AlDente.DataAccess.Usuarios;
 using AlDente.Entities.Reservas;
 using AlDente.Entities.Usuarios;
+using AlDente.Services.Clientes.Extensions;
 using AlDente.Services.Reservas.Extensions;
 using MlkPwgen;
 using System;
@@ -18,7 +20,7 @@ using System.Threading.Tasks;
 namespace AlDente.Services.Reservas
 {
     public class ReservaFactory : INeedUnitOfWork, INeedReservaRepository, INeedReservaMesaRepository, INeedClienteRepository, INeedTurnoRepository, INeedMesaRepository
-        , IVerifyClientState, IVeryfyTurno, IValidateReserva, ISaveReserva, IReservable
+        , IVerifyClientState, IVeryfyTurno, IValidateReserva, ISaveReserva, IReservable, INeedSancionRepository
     {
         #region Fields
         IUnitOfWork _unitOfWork;
@@ -27,6 +29,7 @@ namespace AlDente.Services.Reservas
         IUsuarioRepository _usuarioRepository;
         ITurnoRepository _turnoRepository;
         IMesaRepository _mesaRepository;
+        ISancionRepository _sancionRepository;
         Reserva _reserva;
         List<MesaDTO> _mesas;
         List<string> _errors = new List<string>();
@@ -84,7 +87,11 @@ namespace AlDente.Services.Reservas
                 return BasicResultDTO<ReservaBasicDTO>.Success(await _reserva.MapToBasicDTO(_turnoRepository, _usuarioRepository));
             });
         }
-
+        public IReservable SetSancionRepository(ISancionRepository sancionRepository)
+        {
+            _sancionRepository = sancionRepository;
+            return this;
+        }
         public INeedTurnoRepository SetClienteRepository(IUsuarioRepository usuarioRepository)
         {
             _usuarioRepository = usuarioRepository;
@@ -109,7 +116,7 @@ namespace AlDente.Services.Reservas
 
         }
 
-        public IReservable SetMesaRepository(IMesaRepository mesaRepository)
+        public INeedSancionRepository SetMesaRepository(IMesaRepository mesaRepository)
         {
             _mesaRepository = mesaRepository;
             return this;
@@ -125,9 +132,10 @@ namespace AlDente.Services.Reservas
         {
             //Valida si el estado del cliente sigue siendo valido para crear una reserva
             Usuario cliente = await _usuarioRepository.GetByIdAsync(_reserva.ClienteId);
-            PuedeReservarResult result = cliente.PuedeReservar();
+            var result = await cliente.PuedeReservar(_sancionRepository);
             if (!result.EsValido)
                 this._errors.AddRange(result.Motivos);
+
 
             //Valida que ya no tenga una reserva
             var reservaPendiente = await _reservaRepository.QueryAsync(x => x.ClienteId == _reserva.ClienteId && x.FechaReserva == _reserva.FechaReserva && _reserva.EstadoReservaId == (int)EstadosDeUnaReserva.Pendiente);
@@ -169,6 +177,7 @@ namespace AlDente.Services.Reservas
         INeedReservaRepository SetUnitofWork(IUnitOfWork unitOfWork);
     }
 
+
     public interface INeedReservaRepository
     {
         INeedReservaMesaRepository SetReservaRepository(IReservaRepository reservaRepository);
@@ -192,7 +201,12 @@ namespace AlDente.Services.Reservas
 
     public interface INeedMesaRepository
     {
-        IReservable SetMesaRepository(IMesaRepository mesaRepository);
+        INeedSancionRepository SetMesaRepository(IMesaRepository mesaRepository);
+    }
+
+    public interface INeedSancionRepository
+    {
+        IReservable SetSancionRepository(ISancionRepository sancionRepository);
     }
 
 

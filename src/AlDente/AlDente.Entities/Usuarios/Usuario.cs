@@ -1,8 +1,5 @@
 ﻿using AlDente.Entities.Core;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace AlDente.Entities.Usuarios
 {
@@ -21,7 +18,7 @@ namespace AlDente.Entities.Usuarios
         public string Telefono { get; set; }
         public string Caption => $"{this.Nombre} {this.Apellido}";
 
-        private enum Estados
+        public enum Estados
         {
             Nuevo = 1,
             Activo = 2,
@@ -29,46 +26,6 @@ namespace AlDente.Entities.Usuarios
             Inactivo = 4
         }
 
-        public PuedeReservarResult PuedeReservar()
-        {
-            List<string> motivos = new List<string>();
-            if (EstadoId == (int)Estados.Inactivo)
-                motivos.Add("Te encuentras Inactivo por lo que no puedes reservar.");
-            else if (EstadoId == (int)Estados.Suspendido)
-                motivos.Add("Te encuentras suspendido por lo que no puedes reservar.");
-            if (motivos.Any())
-                return PuedeReservarResult.Error(motivos);
-            return PuedeReservarResult.Success();
-        }
-    }
-
-    public class PuedeReservarResult
-    {
-        public bool EsValido { get; private set; }
-
-        public ReadOnlyCollection<string> Motivos { get; private set; }
-
-        private PuedeReservarResult()
-        {
-            this.EsValido = true;
-            this.Motivos = (new List<string>()).AsReadOnly();
-        }
-        private PuedeReservarResult(List<string> motivos)
-        {
-            EsValido = false;
-            Motivos = motivos.AsReadOnly();
-
-        }
-
-        public static PuedeReservarResult Success()
-        {
-            return new PuedeReservarResult();
-        }
-
-        public static PuedeReservarResult Error(List<string> motivos)
-        {
-            return new PuedeReservarResult(motivos);
-        }
 
     }
 }

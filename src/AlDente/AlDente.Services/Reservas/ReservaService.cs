@@ -10,6 +10,7 @@ using AlDente.DataAccess.Usuarios;
 using AlDente.Entities.Reservas;
 using AlDente.Services.Core;
 using AlDente.Services.Reservas.Extensions;
+using QRCoder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,6 +76,7 @@ namespace AlDente.Services.Reservas
                 .SetClienteRepository(_usuarioRepository)
                 .SetTurnoRepository(_turnoRepository)
                 .SetMesaRepository(_mesaRepository)
+                .SetSancionRepository(_sancionRepository)
                 .SetReserva(reservaDTO)
                 .ValidationsAsync();
 
@@ -87,6 +89,7 @@ namespace AlDente.Services.Reservas
 
         private async Task NotificarNuevaReserva(BasicResultDTO<ReservaBasicDTO> reserva)
         {
+            byte[] qrImage = CreateQR(reserva);
             IEmailDataReady emailData = EmailBasicData.Create()
                 .AddAddress(new FluentEmail.Core.Models.Address(reserva.Data.EmailUsuario))
                 .SetSubject("AlDente Nueva Reserva")
@@ -94,10 +97,21 @@ namespace AlDente.Services.Reservas
                 {
                     URL = this.unitOfWork.URL,
                     CodigoReserva = reserva.Data.Codigo,
-                    ReservaDescription = reserva.Data.Description
+                    ReservaDescription = reserva.Data.Description,
+                    QR = string.Format("data:image/png;base64,{0}", Convert.ToBase64String(qrImage))
                 });
 
             await emailService.NuevaReserva(emailData);
+        }
+
+        private byte[] CreateQR(BasicResultDTO<ReservaBasicDTO> reserva)
+        {
+            using (QRCodeGenerator qrGenerator = new QRCodeGenerator())
+            using (QRCodeData qrCodeData = qrGenerator.CreateQrCode(reserva.Data.Codigo, QRCodeGenerator.ECCLevel.Q))
+            using (PngByteQRCode qrCode = new PngByteQRCode(qrCodeData))
+            {
+                return qrCode.GetGraphic(20);
+            }
         }
 
         private async Task NotificarReservaCancelada(BasicResultDTO<ReservaBasicDTO> reserva)

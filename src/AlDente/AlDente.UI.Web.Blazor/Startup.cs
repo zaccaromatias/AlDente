@@ -19,6 +19,7 @@ using AlDente.DataAccess.Restaurantes;
 using AlDente.DataAccess.Sanciones;
 using AlDente.DataAccess.Turnos;
 using AlDente.DataAccess.Usuarios;
+using AlDente.Services.Beneficios;
 using AlDente.Services.Clientes;
 using AlDente.Services.Core;
 using AlDente.Services.DiasLaborables;
@@ -147,6 +148,7 @@ namespace AlDente.UI.Web.Blazor
             services.AddScoped<IPoliticaBeneficioService, PoliticaBeneficioService>();
             services.AddScoped<IPoliticaSancionService, PoliticaSancionService>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IBeneficioService, BeneficioService>();
 
             services.AddFluentEmail("fromemail@test.test")
                 .AddRazorRenderer()

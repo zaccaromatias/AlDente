@@ -6,6 +6,7 @@
 @using Contracts.Turnos
 @using Contracts.Mesas
 @using Contracts.Reservas
+@using Contracts.Clientes
 @using Contracts.Core
 @using Data
 @using Contracts.DiasLaborables
@@ -16,11 +17,23 @@
 @inject ITurnoService _turnoService
 @inject NavigationManager NavigationManager
 @inject SessionData _sessionData
+@inject IClienteService _clienteService
 @attribute [Authorize]
 <MyCard Header="Reservar Ahora">
-    @if (this.Reserva == null)
+    @if (this.Reserva == null || this.Reserva.PuedeReservar == null)
     {
         <p><em>Loading...</em></p>
+    }
+    else if (!this.Reserva.PuedeReservar.EsValido)
+    {
+        <div class="alert alert-danger mt-3 mb-0">
+            <ul>
+                @foreach (var motivo in this.Reserva.PuedeReservar.Motivos)
+                {
+                    <li>@((MarkupString)motivo)</li>
+                }
+            </ul>
+        </div>
     }
     else
     {
@@ -120,7 +133,7 @@
 
     protected async override Task OnInitializedAsync()
     {
-        this.Reserva = await ReservaViewModel.Create(_turnoService, _diaLaboralService, _mesaService, _reservaService, _sessionData);
+        this.Reserva = await ReservaViewModel.Create(_turnoService, _diaLaboralService, _mesaService, _reservaService, _clienteService, _sessionData);
         await base.OnInitializedAsync();
     }
     private async Task BuscarCombinaciones()

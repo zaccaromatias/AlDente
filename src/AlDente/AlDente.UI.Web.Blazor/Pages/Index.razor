@@ -1,7 +1,19 @@
 ﻿@page "/"
+@using Contracts.Beneficios
 @using Syncfusion.Blazor.Notifications
+@using Data
+@using Models.Index
+@using BlazorTemplater
 
+@inject SessionData _sessionData
+@inject IBeneficioService _beneficioService
 <header>
+    @if (IndexModel != null)
+    {
+        <SfToast @ref="ToastObj" Title="Nuevo Beneficio" Timeout="0" ShowCloseButton="true" Icon="e-meeting" Content="@ToastContent">
+            <ToastPosition X="Right" Y="Bottom"></ToastPosition>
+        </SfToast>
+    }
 
     <!-- This div is  intentionally blank. It creates the transparent black overlay over the video which you can modify in the CSS -->
     <div class="overlay"></div>
@@ -35,3 +47,29 @@
         </div>
     </div>
 </header>
+@code{
+    SfToast ToastObj;
+    private IndexViewModel IndexModel { get; set; }
+    private string ToastContent { get; set; } = "Conference Room 01 / Building 135 10:00 AM-10:30 AM";
+    private bool readyCall = false;
+
+    protected async override Task OnInitializedAsync()
+    {
+        this.IndexModel = await IndexViewModel.Create(_beneficioService, _sessionData);
+        await base.OnInitializedAsync();
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (IndexModel != null && !readyCall)
+        {
+            readyCall = true;
+            await Task.Delay(600);
+            foreach (var toastModel in IndexModel.ToastModels)
+            {
+
+                await this.ToastObj.ShowAsync(toastModel);
+            }
+
+        }
+    }
+}

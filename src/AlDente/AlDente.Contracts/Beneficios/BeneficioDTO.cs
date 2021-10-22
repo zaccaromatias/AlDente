@@ -1,9 +1,11 @@
 ﻿using System;
 
-namespace AlDente.Entities.Beneficios
+namespace AlDente.Contracts.Beneficios
 {
-    public class Beneficio : Core.EntityBase
+    public class BeneficioDTO
     {
+        public int Id { get; set; }
+
         public DateTime Fecha { get; set; }
         public int TipoBeneficioId { get; set; }
         public int ClienteId { get; set; }
@@ -12,9 +14,13 @@ namespace AlDente.Entities.Beneficios
 
         public DateTime? FechaAplicado { get; set; }
         public DateTime? FechaPedidoDeAplicacion { get; set; }
+
         public string Codigo { get; set; }
 
-        const int HORAS_MAXIMA = 2;
-        public bool Expiro => this.FechaPedidoDeAplicacion != null && DateTime.Now > FechaPedidoDeAplicacion.Value.AddHours(HORAS_MAXIMA);
+        public bool PuedeSolicitarElCodigo => !Aplicado && string.IsNullOrEmpty(Codigo) && !FechaPedidoDeAplicacion.HasValue;
+
+        public string FechaExpiracion => this.FechaPedidoDeAplicacion?.AddHours(2).ToString("dd/MM/yyyy HH:mm") ?? string.Empty;
+
+        public string Descuento { get; set; }
     }
 }
