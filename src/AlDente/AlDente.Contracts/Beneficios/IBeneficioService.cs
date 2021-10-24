@@ -9,5 +9,6 @@ namespace AlDente.Contracts.Beneficios
         Task<IEnumerable<BeneficioDTO>> GetActiveByCliente(int clienteId);
         Task<BasicResultDTO<BeneficioDTO>> SolicitarCodigo(int beneficioId);
         Task<BasicResultDTO> AplicarBeneficio(int beneficioId);
+
     }
 }
