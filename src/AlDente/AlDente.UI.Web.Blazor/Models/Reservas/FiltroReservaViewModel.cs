@@ -1,6 +1,7 @@
 ﻿using AlDente.Contracts.Core;
 using AlDente.Contracts.Reservas;
 using AlDente.UI.Web.Blazor.Data;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,6 +12,7 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
         private IReservaService _reservaService;
 
         public string Codigo { get; set; }
+        public DateTime? Fecha { get; set; }
         public ReservaACancelarDTO ReservaACancelar { get; private set; }
         public void SetReservaACancelar(ReservaBasicDTO reserva)
         {
@@ -29,7 +31,7 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
         public async Task Buscar()
         {
             this.Reservas.Clear();
-            var reservas = await _reservaService.GetReservaFiltroCodigo(Codigo);
+            var reservas = await _reservaService.GetReservaFiltroCodigo(Codigo, Fecha);
             this.Reservas = new List<ReservaBasicDTO>(reservas);
         }
 

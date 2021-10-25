@@ -123,13 +123,17 @@ namespace AlDente.Services.Reservas
             return tasks.OrderBy(x => x.OrderByState).ThenBy(x => x.Fecha);
         }
 
-        public async Task<IEnumerable<ReservaBasicDTO>> GetReservaFiltroCodigo(string codigo)
+        public async Task<IEnumerable<ReservaBasicDTO>> GetReservaFiltroCodigo(string codigo, DateTime? fecha)
         {
             IEnumerable<Reserva> result;
-            if (string.IsNullOrEmpty(codigo))
+            if (string.IsNullOrEmpty(codigo) && !fecha.HasValue)
                 result = await _reservaRepository.GetAllAsync();
-            else
+            else if (!string.IsNullOrEmpty(codigo) && fecha.HasValue)  
+                result = await _reservaRepository.QueryAsync(x => x.Codigo == codigo && x.FechaReserva == fecha);     
+            else if (!string.IsNullOrEmpty(codigo))
                 result = await _reservaRepository.QueryAsync(x => x.Codigo == codigo);
+            else
+                result = await _reservaRepository.QueryAsync(x => x.FechaReserva == fecha);
             var tasks = await Task.WhenAll(result.OrderBy(x => x.FechaReserva).Select(async x => await x.MapToBasicDTO(_turnoRepository, _usuarioRepository)));
             return tasks.OrderBy(x => x.OrderByState).ThenBy(x => x.Fecha);
         }

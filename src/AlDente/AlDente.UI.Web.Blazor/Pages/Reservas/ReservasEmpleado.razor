@@ -8,6 +8,8 @@
 @using Contracts.Core
 @using AlDente.Globalization
 @using Data
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Calendars
 
 @attribute [Authorize]
 
@@ -22,90 +24,93 @@
     }
     else
     {
-        <div class="form-inline">
-            <label class="sr-only" for="filter-name">Filtro</label>
-            <input type="text" class="form-control mb-2 mr-sm-2"
-                   @bind="ViewModel.Codigo"
-                   placeholder="Código de reserva" />
-            <button type="button" class="btn btn-primary mr-sm-2 mb-2"
-                    @onclick="Buscar">
-                Buscar
-            </button>
-            <button type="button" class="btn btn-danger mb-2"
-                    @onclick="Borrar">
-                Borrar
-            </button>
-        </div>
-        <div class="col-lg-12 control-section">
-            <div class="content-wrapper">
-                <div class="row">
-                    <SfGrid DataSource="@ViewModel.Reservas" AllowPaging="true" AllowGrouping="true" AllowSorting="true">
-                        <GridGroupSettings Columns="@GroupedColumns" ShowDropArea="false" ShowUngroupButton="false"></GridGroupSettings>
-                        <GridSortSettings>
-                            <GridSortColumns>
-                                <GridSortColumn Field="@nameof(ReservaBasicDTO.EstadoName)" Direction="SortDirection.Descending"></GridSortColumn>
-                            </GridSortColumns>
-                        </GridSortSettings>
-                        <GridColumns>
-                            <GridColumn Field=@nameof(ReservaBasicDTO.NombreUsuario) HeaderText="@Messages.NombreUsuario"></GridColumn>
-                            <GridColumn Field=@nameof(ReservaBasicDTO.Fecha) Format="dd/MM/yyyy" HeaderText="@Messages.Date"></GridColumn>
-                            <GridColumn Field=@nameof(ReservaBasicDTO.Turno) HeaderText="@Messages.Turno"></GridColumn>
-                            <GridColumn Field=@nameof(ReservaBasicDTO.Codigo) HeaderText="@Messages.Code"></GridColumn>
-                            <GridColumn Field=@nameof(ReservaBasicDTO.Comensales) HeaderText="@Messages.Comensales"></GridColumn>
-                            <GridColumn Field=@nameof(ReservaBasicDTO.EstadoName) HeaderText="@Messages.State">
+<div class="form-inline"> 
+        <label class="sr-only" for="filter-name">Filtro</label>
+        <input type="text" class="form-control mb-2 mr-sm-2"
+               @bind="ViewModel.Codigo"
+               placeholder="Código de reserva" />
+        <SfDatePicker TValue="DateTime?"  Width="200px" Placeholder="Choose a Date" @bind-Value="ViewModel.Fecha" AllowEdit="false">
+            <DatePickerEvents TValue="DateTime?" />
+        </SfDatePicker>
+        <button type="button" class="btn btn-primary mr-sm-2 mb-2"
+                @onclick="Buscar">
+            Buscar
+        </button>
+        <button type="button" class="btn btn-danger mb-2"
+                @onclick="Borrar">
+            Borrar
+        </button>
+    </div>
+    <div class="col-lg-12 control-section">
+        <div class="content-wrapper">
+            <div class="row">
+                <SfGrid DataSource="@ViewModel.Reservas" AllowPaging="true" AllowGrouping="true" AllowSorting="true">
+                    <GridGroupSettings Columns="@GroupedColumns" ShowDropArea="false" ShowUngroupButton="false"></GridGroupSettings>
+                    <GridSortSettings>
+                        <GridSortColumns>
+                            <GridSortColumn Field="@nameof(ReservaBasicDTO.EstadoName)" Direction="SortDirection.Descending"></GridSortColumn>
+                        </GridSortColumns>
+                    </GridSortSettings>
+                    <GridColumns>
+                        <GridColumn Field=@nameof(ReservaBasicDTO.NombreUsuario) HeaderText="@Messages.NombreUsuario"></GridColumn>
+                        <GridColumn Field=@nameof(ReservaBasicDTO.Fecha) Format="dd/MM/yyyy" HeaderText="@Messages.Date"></GridColumn>
+                        <GridColumn Field=@nameof(ReservaBasicDTO.Turno) HeaderText="@Messages.Turno"></GridColumn>
+                        <GridColumn Field=@nameof(ReservaBasicDTO.Codigo) HeaderText="@Messages.Code"></GridColumn>
+                        <GridColumn Field=@nameof(ReservaBasicDTO.Comensales) HeaderText="@Messages.Comensales"></GridColumn>
+                        <GridColumn Field=@nameof(ReservaBasicDTO.EstadoName) HeaderText="@Messages.State">
 
-                            </GridColumn>
-                            <GridColumn HeaderText="@Strings.Actions">
-                                <GridCommandColumns>
-                                    <GridCommandColumn Title="Asistida" ButtonOption="@(new CommandButtonOptions() { IconCss = "fa fa-check-circle", CssClass = "e-info" })"></GridCommandColumn>
-                                    <GridCommandColumn Title="Inasistida" ButtonOption="@(new CommandButtonOptions() { IconCss = "fa fa-times-circle", CssClass = "e-danger" })"></GridCommandColumn>
-                                </GridCommandColumns>
-                            </GridColumn>
-                        </GridColumns>
-                        <GridEvents CommandClicked="OnCommandClicked" RowDataBound="RowBound" TValue="ReservaBasicDTO">
+                        </GridColumn>
+                        <GridColumn HeaderText="@Strings.Actions">
+                            <GridCommandColumns>
+                                <GridCommandColumn Title="Asistida" ButtonOption="@(new CommandButtonOptions() { IconCss = "fa fa-check-circle", CssClass = "e-info" })"></GridCommandColumn>
+                                <GridCommandColumn Title="Inasistida" ButtonOption="@(new CommandButtonOptions() { IconCss = "fa fa-times-circle", CssClass = "e-danger" })"></GridCommandColumn>
+                            </GridCommandColumns>
+                        </GridColumn>
+                    </GridColumns>
+                    <GridEvents CommandClicked="OnCommandClicked" RowDataBound="RowBound" TValue="ReservaBasicDTO">
 
-                        </GridEvents>
-                    </SfGrid>
-                </div>
+                    </GridEvents>
+                </SfGrid>
             </div>
         </div>
-        <SfDialog AllowDragging="true" @bind-Visible="@dialogVisible" IsModal="true" Width="285px" ShowCloseIcon="true">
-            <DialogTemplates>
-                <Header>Desea Cancelar la reserva?</Header>
-                <Content>
-                    @if (reservaACancelarDTO != null)
-                    {
-                        <EditForm Model="@reservaACancelarDTO" OnValidSubmit="@CancelarReserva">
-                            <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
-                            <div class="form-row">
-                                <div class="form-group col-md">
-                                    <DisplayName For="@(() => reservaACancelarDTO.Motivo)" InputFor="@nameof(reservaACancelarDTO.Motivo)" />
-                                    <SfTextBox TValue="string" @bind-Value="reservaACancelarDTO.Motivo" ID="@nameof(reservaACancelarDTO.Motivo)"></SfTextBox>
-                                    <ValidationMessage For="@(() => reservaACancelarDTO.Motivo)" />
-                                </div>
+    </div>
+    <SfDialog AllowDragging="true" @bind-Visible="@dialogVisible" IsModal="true" Width="285px" ShowCloseIcon="true">
+        <DialogTemplates>
+            <Header>Desea Cancelar la reserva?</Header>
+            <Content>
+                @if (reservaACancelarDTO != null)
+                {
+                    <EditForm Model="@reservaACancelarDTO" OnValidSubmit="@CancelarReserva">
+                        <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
+                        <div class="form-row">
+                            <div class="form-group col-md">
+                                <DisplayName For="@(() => reservaACancelarDTO.Motivo)" InputFor="@nameof(reservaACancelarDTO.Motivo)" />
+                                <SfTextBox TValue="string" @bind-Value="reservaACancelarDTO.Motivo" ID="@nameof(reservaACancelarDTO.Motivo)"></SfTextBox>
+                                <ValidationMessage For="@(() => reservaACancelarDTO.Motivo)" />
                             </div>
-                            <div class="e-footer-content">
-                                <ButtonProgressBasic loading="loading" CssClass="e-primary" type="submit">Confirmar</ButtonProgressBasic>
-                            </div>
-                        </EditForm>
-                    }
+                        </div>
+                        <div class="e-footer-content">
+                            <ButtonProgressBasic loading="loading" CssClass="e-primary" type="submit">Confirmar</ButtonProgressBasic>
+                        </div>
+                    </EditForm>
+                }
 
-                </Content>
-            </DialogTemplates>
-            <DialogAnimationSettings Effect="DialogEffect.Zoom"></DialogAnimationSettings>
-        </SfDialog>
-        <SfDialog AllowDragging="true" @bind-Visible="@showQR" IsModal="true" Width="500px" ShowCloseIcon="true">
-            <DialogTemplates>
-                <Content>
-                    <div class="text-center">
-                        <SfQRCodeGenerator Width="500px" Height="500px" Value="@codigoReserva">
-                            <QRCodeGeneratorDisplayText Visibility="true"></QRCodeGeneratorDisplayText>
-                        </SfQRCodeGenerator>
-                    </div>
-                </Content>
-            </DialogTemplates>
-            <DialogAnimationSettings Effect="DialogEffect.Zoom"></DialogAnimationSettings>
-        </SfDialog>
+            </Content>
+        </DialogTemplates>
+        <DialogAnimationSettings Effect="DialogEffect.Zoom"></DialogAnimationSettings>
+    </SfDialog>
+    <SfDialog AllowDragging="true" @bind-Visible="@showQR" IsModal="true" Width="500px" ShowCloseIcon="true">
+        <DialogTemplates>
+            <Content>
+                <div class="text-center">
+                    <SfQRCodeGenerator Width="500px" Height="500px" Value="@codigoReserva">
+                        <QRCodeGeneratorDisplayText Visibility="true"></QRCodeGeneratorDisplayText>
+                    </SfQRCodeGenerator>
+                </div>
+            </Content>
+        </DialogTemplates>
+        <DialogAnimationSettings Effect="DialogEffect.Zoom"></DialogAnimationSettings>
+    </SfDialog>
     }
 </MyCard>
 <style>
@@ -122,7 +127,7 @@
     private FluentValidationValidator fluentValidationValidator;
     string codigoReserva { get; set; } = "";
     private ReservaACancelarDTO reservaACancelarDTO => this.ViewModel.ReservaACancelar;
-
+    
     private FiltroReservaViewModel ViewModel { get; set; }
 
     protected async override Task OnInitializedAsync()
@@ -139,6 +144,7 @@
     public async Task Borrar()
     {
         ViewModel.Codigo = string.Empty;
+        ViewModel.Fecha = null;
     }
 
     public void RowBound(RowDataBoundEventArgs<ReservaBasicDTO> args)
