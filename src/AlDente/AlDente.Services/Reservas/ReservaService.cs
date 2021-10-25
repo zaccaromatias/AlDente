@@ -114,21 +114,7 @@ namespace AlDente.Services.Reservas
             }
         }
 
-        private async Task NotificarReservaCancelada(BasicResultDTO<ReservaBasicDTO> reserva)
-        {
-            IEmailDataReady emailData = EmailBasicData.Create()
-                .AddAddress(new FluentEmail.Core.Models.Address(reserva.Data.EmailUsuario))
-                .SetSubject("AlDente Reserva Cancelada")
-                .SetData(new
-                {
-                    URL = this.unitOfWork.URL,
-                    CodigoReserva = reserva.Data.Codigo,
-                    ReservaDescription = reserva.Data.Description,
-                    Motivo = reserva.Data.MotivoCancelacion
-                });
 
-            await emailService.ReservaCancelada(emailData);
-        }
 
         public async Task<IEnumerable<ReservaBasicDTO>> GetReservasDeUnCliente(int clienteId)
         {
@@ -157,26 +143,9 @@ namespace AlDente.Services.Reservas
            {
                var now = DateTime.Now;
                var reserva = await _reservaRepository.GetByIdAsync(reservaACancelar.ReservaId);
-               if (reserva == null)
-                   return BasicResultDTO.Failled("La Reserva no existe.");
-               if ((EstadosDeUnaReserva)reserva.EstadoReservaId == EstadosDeUnaReserva.Asistida)
-                   return BasicResultDTO.Failled("La Reserva esta Asistida.");
-               if ((EstadosDeUnaReserva)reserva.EstadoReservaId == EstadosDeUnaReserva.NoAsistida)
-                   return BasicResultDTO.Failled("La Reserva esta No Asistida.");
-               if ((EstadosDeUnaReserva)reserva.EstadoReservaId == EstadosDeUnaReserva.Cancelada)
-                   return BasicResultDTO.Failled("La Reserva ya fue cancelada.");
-               if (now >= reserva.FechaReserva)
-                   return BasicResultDTO.Failled("La Reserva va a marcarse como asistida o no asistida ya que ya transcurrio la fecha de la misma.");
-               if ((reserva.FechaReserva - now).TotalHours <= LIMITE_DE_HORAS_DONDE_NO_SE_PUEDE_CANCELAR)
-                   return BasicResultDTO.Failled($"Dentro de las {LIMITE_DE_HORAS_DONDE_NO_SE_PUEDE_CANCELAR} horas previas a la reserva no es posible cancelarla.");
-               reserva.EstadoReservaId = (int)EstadosDeUnaReserva.Cancelada;
-               reserva.MotivoCancelacion = reservaACancelar.Motivo;
-               reserva.FechaCancelacion = now;
-               await _reservaRepository.UpdateAsync(reserva);
-
-               await NotificarReservaCancelada(BasicResultDTO<ReservaBasicDTO>.Success(await reserva.MapToBasicDTO(_turnoRepository, _usuarioRepository)));
-
-               return BasicResultDTO.Success("La Reserva se cancelo con exito.");
+               return await CancelarReservaLogic
+               .Create(unitOfWork, _reservaRepository, emailService, _usuarioRepository, _turnoRepository, reserva)
+               .Cancelar(reservaACancelar.Motivo);
            });
         }
 
@@ -199,7 +168,7 @@ namespace AlDente.Services.Reservas
                 reserva.FechaAsistencia = DateTime.Now;
                 await _reservaRepository.UpdateAsync(reserva);
                 await AplicarPoliticasLogic
-                .Create(unitOfWork, _politicaBeneficioRepository, _politicaSancionRepository, _reservaRepository, _beneficioRepository, _tipoBeneficioRepository, emailService, _usuarioRepository, _tiposancionRepository, _sancionRepository, reserva)
+                .Create(unitOfWork, _politicaBeneficioRepository, _politicaSancionRepository, _reservaRepository, _beneficioRepository, _tipoBeneficioRepository, emailService, _usuarioRepository, _tiposancionRepository, _sancionRepository, _turnoRepository, reserva)
                 .AsignarBeneficios();
                 return BasicResultDTO.Success("La Reserva se marco Asistida.");
             });
@@ -224,7 +193,7 @@ namespace AlDente.Services.Reservas
                 reserva.FechaAsistencia = DateTime.Now;
                 await _reservaRepository.UpdateAsync(reserva);
                 await AplicarPoliticasLogic
-                .Create(unitOfWork, _politicaBeneficioRepository, _politicaSancionRepository, _reservaRepository, _beneficioRepository, _tipoBeneficioRepository, emailService, _usuarioRepository, _tiposancionRepository, _sancionRepository, reserva)
+                .Create(unitOfWork, _politicaBeneficioRepository, _politicaSancionRepository, _reservaRepository, _beneficioRepository, _tipoBeneficioRepository, emailService, _usuarioRepository, _tiposancionRepository, _sancionRepository, _turnoRepository, reserva)
                 .AsignarSanciones();
                 return BasicResultDTO.Success("La Reserva se marco como No Asistida.");
             });

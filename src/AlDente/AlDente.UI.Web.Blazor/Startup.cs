@@ -150,7 +150,7 @@ namespace AlDente.UI.Web.Blazor
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IBeneficioService, BeneficioService>();
 
-            services.AddFluentEmail("fromemail@test.test")
+            services.AddFluentEmail("no-reply@AlDente.com")
                 .AddRazorRenderer()
                 .AddSmtpSender("localhost", 25);
         }

@@ -1,5 +1,4 @@
 ﻿using AlDente.Contracts.Beneficios;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AlDente.UI.Web.Blazor.Models.Beneficios
@@ -24,16 +23,6 @@ namespace AlDente.UI.Web.Blazor.Models.Beneficios
             var result = await BeneficioService.SolicitarCodigo(Beneficio.Id);
             if (result.IsValid)
                 Beneficio = result.Data;
-        }
-
-        public List<BeneficioDTO> Beneficios { get; private set; }
-
-
-        public async Task Buscar()
-        {
-            this.Beneficios.Clear();
-            var beneficios = await BeneficioService.SolicitarCodigo(Beneficio.Id);
-            this.Beneficios = new List<BeneficioDTO>((IEnumerable<BeneficioDTO>)beneficios);
         }
     }
 }

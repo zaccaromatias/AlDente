@@ -29,13 +29,13 @@ namespace AlDente.Services.Beneficios
             return await this.Try<IEnumerable<BeneficioDTO>>(async () =>
             {
                 var beneficios = await _beneficioRepository.GetActivosByCliente(clienteId);
-                List<dynamic> hola = new List<dynamic>();
+                List<dynamic> resultados = new List<dynamic>();
                 foreach (var item in beneficios)
                 {
                     var tipo = await _tipoBeneficioRepository.GetByIdAsync(item.TipoBeneficioId);
-                    hola.Add(new { Beneficio = item, Tipo = tipo });
+                    resultados.Add(new { Beneficio = item, Tipo = tipo });
                 }
-                return hola.Select(x => MapToDTO((Beneficio)x.Beneficio, (TipoBeneficio)x.Tipo));
+                return resultados.Select(x => MapToDTO((Beneficio)x.Beneficio, (TipoBeneficio)x.Tipo));
             });
 
         }
@@ -79,6 +79,21 @@ namespace AlDente.Services.Beneficios
                 beneficio.Codigo = $"AlDente-{beneficio.Id}";
                 await _beneficioRepository.UpdateAsync(beneficio);
                 return BasicResultDTO<BeneficioDTO>.Success(MapToDTO(beneficio, await _tipoBeneficioRepository.GetByIdAsync(beneficio.TipoBeneficioId)));
+            });
+        }
+
+        public async Task<IEnumerable<BeneficioDTO>> Buscar(string codigo)
+        {
+            return await this.Try(async () =>
+            {
+                var beneficios = await _beneficioRepository.QueryAsync(x => x.Codigo == codigo);
+                List<dynamic> resultados = new List<dynamic>();
+                foreach (var item in beneficios)
+                {
+                    var tipo = await _tipoBeneficioRepository.GetByIdAsync(item.TipoBeneficioId);
+                    resultados.Add(new { Beneficio = item, Tipo = tipo });
+                }
+                return resultados.Select(x => MapToDTO((Beneficio)x.Beneficio, (TipoBeneficio)x.Tipo));
             });
         }
 

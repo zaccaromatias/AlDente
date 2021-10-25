@@ -25,7 +25,7 @@ namespace AlDente.Entities.Reservas
         {
             this.Mesas = new List<ReservaMesa>();
         }
-        private enum EstadosDeUnaReserva
+        public enum EstadosDeUnaReserva
         {
             Asistida = 1,
             NoAsistida = 2,

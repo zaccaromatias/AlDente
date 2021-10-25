@@ -18,9 +18,13 @@ namespace AlDente.Contracts.Beneficios
         public string Codigo { get; set; }
 
         public bool PuedeSolicitarElCodigo => !Aplicado && string.IsNullOrEmpty(Codigo) && !FechaPedidoDeAplicacion.HasValue;
+        public bool PuedeAplicar => !Aplicado && !Expiro;
 
-        public string FechaExpiracion => this.FechaPedidoDeAplicacion?.AddHours(2).ToString("dd/MM/yyyy HH:mm") ?? string.Empty;
+        public string FechaExpiracion => this.FechaPedidoDeAplicacion?.AddHours(HORAS_MAXIMA).ToString("dd/MM/yyyy HH:mm") ?? string.Empty;
 
         public string Descuento { get; set; }
+
+        const int HORAS_MAXIMA = 2;
+        public bool Expiro => this.FechaPedidoDeAplicacion != null && DateTime.Now > FechaPedidoDeAplicacion.Value.AddHours(HORAS_MAXIMA);
     }
 }

@@ -2,6 +2,7 @@
 using AlDente.DataAccess.Core;
 using AlDente.DataAccess.Reservas;
 using AlDente.DataAccess.Sanciones;
+using AlDente.DataAccess.Turnos;
 using AlDente.DataAccess.Usuarios;
 using AlDente.Entities.Beneficios;
 using AlDente.Entities.Reservas;
@@ -26,10 +27,12 @@ namespace AlDente.Services.Reservas
         ISancionRepository _sancionRepository;
 
         IUsuarioRepository _usuarioRepository;
+        ITurnoRepository _turnoRepository;
         Reserva _reserva;
-        private AplicarPoliticasLogic(IUnitOfWork unitOfWork, IPoliticaBeneficioRepository politicaBeneficioRepository, IPoliticaSancionRepository politicaSancionRepository, IReservaRepository reservaRepository, IBeneficioRepository beneficioRepository, ITipoBeneficioRepository tipoBeneficioRepository, IEmailService emailService, IUsuarioRepository usuarioRepository, ITipoSancionRepository tipoSancionRepository, ISancionRepository sancionRepository, Reserva reserva)
+        private AplicarPoliticasLogic(IUnitOfWork unitOfWork, IPoliticaBeneficioRepository politicaBeneficioRepository, IPoliticaSancionRepository politicaSancionRepository, IReservaRepository reservaRepository, IBeneficioRepository beneficioRepository, ITipoBeneficioRepository tipoBeneficioRepository, IEmailService emailService, IUsuarioRepository usuarioRepository, ITipoSancionRepository tipoSancionRepository, ISancionRepository sancionRepository, ITurnoRepository turnoRepository, Reserva reserva)
         {
             _unitOfWork = unitOfWork;
+            _turnoRepository = turnoRepository;
             _politicaBeneficioRepository = politicaBeneficioRepository;
             _beneficioRepository = beneficioRepository;
             _politicaSancionRepository = politicaSancionRepository;
@@ -42,9 +45,9 @@ namespace AlDente.Services.Reservas
             _sancionRepository = sancionRepository;
         }
 
-        public static AplicarPoliticasLogic Create(IUnitOfWork unitOfWork, IPoliticaBeneficioRepository politicaBeneficioRepository, IPoliticaSancionRepository politicaSancionRepository, IReservaRepository reservaRepository, IBeneficioRepository beneficioRepository, ITipoBeneficioRepository tipoBeneficioRepository, IEmailService emailService, IUsuarioRepository usuarioRepository, ITipoSancionRepository tipoSancionRepository, ISancionRepository sancionRepository, Reserva reserva)
+        public static AplicarPoliticasLogic Create(IUnitOfWork unitOfWork, IPoliticaBeneficioRepository politicaBeneficioRepository, IPoliticaSancionRepository politicaSancionRepository, IReservaRepository reservaRepository, IBeneficioRepository beneficioRepository, ITipoBeneficioRepository tipoBeneficioRepository, IEmailService emailService, IUsuarioRepository usuarioRepository, ITipoSancionRepository tipoSancionRepository, ISancionRepository sancionRepository, ITurnoRepository turnoRepository, Reserva reserva)
         {
-            return new AplicarPoliticasLogic(unitOfWork, politicaBeneficioRepository, politicaSancionRepository, reservaRepository, beneficioRepository, tipoBeneficioRepository, emailService, usuarioRepository, tipoSancionRepository, sancionRepository, reserva);
+            return new AplicarPoliticasLogic(unitOfWork, politicaBeneficioRepository, politicaSancionRepository, reservaRepository, beneficioRepository, tipoBeneficioRepository, emailService, usuarioRepository, tipoSancionRepository, sancionRepository, turnoRepository, reserva);
         }
 
         public async Task<AplicarPoliticasLogic> AsignarBeneficios()
@@ -165,15 +168,36 @@ namespace AlDente.Services.Reservas
         {
             await _sancionRepository.RemoveSancionesActivas(_reserva.ClienteId);
 
-            var id = await _sancionRepository.AddAsync(new Sancion
+            var sancion = new Sancion
             {
                 ClienteId = _reserva.ClienteId,
                 FechaSansion = DateTime.Now,
                 Id = 0,
                 RestauranteId = _reserva.RestauranteId,
                 TipoSancionId = politica.TipoSancionId
-            });
+            };
+            var id = await _sancionRepository.AddAsync(sancion);
+
+
+
+
             await NotificarNuevaSancion(id, politica);
+            await CancelarReservasDentroDelPeriodoSancionado(sancion, politica);
+
+        }
+
+        private async Task CancelarReservasDentroDelPeriodoSancionado(Sancion sancion, PoliticaSancion politica)
+        {
+            var tipoSancion = await _tipoSancionRepository.GetByIdAsync(politica.TipoSancionId);
+            DateTime fechaHasta = sancion.FechaSansion.AddDays(tipoSancion.DiasSuspension);
+            var estadoCancelado = (int)Reserva.EstadosDeUnaReserva.Cancelada;
+            var reservasACancelar = await _reservaRepository.QueryAsync(x => x.FechaReserva >= sancion.FechaSansion && x.FechaReserva <= fechaHasta && x.EstadoReservaId != estadoCancelado);
+            foreach (var reserva in reservasACancelar)
+            {
+                await CancelarReservaLogic
+                    .Create(_unitOfWork, _reservaRepository, _emailService, _usuarioRepository, _turnoRepository, reserva)
+                    .Cancelar("Se le aplico una sancion por no asistir");
+            }
         }
 
         private async Task NotificarNuevaSancion(int sancionId, PoliticaSancion politica)
