@@ -4,6 +4,7 @@ using AlDente.DataAccess.Core;
 using AlDente.DataAccess.Opiniones;
 using AlDente.DataAccess.Usuarios;
 using AlDente.Entities.Opiniones;
+using AlDente.Entities.Usuarios;
 using AlDente.Services.Core;
 using System;
 using System.Collections.Generic;
@@ -17,19 +18,21 @@ namespace AlDente.Services.Opiniones
         private const int CANTIDAD_A_MOSTRAR = 5;
         private IOpinionRepository opinionRepository;
         private IUsuarioRepository usuarioRepository;
+        private IEmailService emailService;
 
-        public OpinionService(IUnitOfWork unitOfWork, IOpinionRepository opinionRepository, IUsuarioRepository usuarioRepository)
+        public OpinionService(IUnitOfWork unitOfWork, IOpinionRepository opinionRepository, IUsuarioRepository usuarioRepository, IEmailService emailService)
             : base(unitOfWork)
         {
             opinionRepository.Attach(this.unitOfWork);
             usuarioRepository.Attach(this.unitOfWork);
             this.opinionRepository = opinionRepository;
             this.usuarioRepository = usuarioRepository;
+            this.emailService = emailService;
         }
         public async Task<OpinionesCollectionsDTO> GetAll()
         {
             var opiniones = await opinionRepository.QueryAsync(x => x.EstadoId != (int)EstadosDeUnOpinion.Removido && x.OpinionPrincipalId == null);
-            List<OpinionDTO> dtos = await MapToOpinionDTO(opiniones, false, false);
+            List<OpinionDTO> dtos = await MapToOpinionDTO(opiniones);
             return new OpinionesCollectionsDTO
             {
                 CantidadACargar = CANTIDAD_A_MOSTRAR,
@@ -43,7 +46,7 @@ namespace AlDente.Services.Opiniones
         {
             var cliente = await usuarioRepository.GetByIdAsync(clienteId);
             var opiniones = await opinionRepository.QueryAsync(x => x.ClienteId == clienteId && x.EstadoId != (int)EstadosDeUnOpinion.Removido && x.OpinionPrincipalId == null);
-            List<OpinionDTO> dtos = await MapToOpinionDTO(opiniones, cliente.TipoUsuarioId == (int)TipoDeUsuarios.Cliente, false);
+            List<OpinionDTO> dtos = await MapToOpinionDTO(opiniones);
             return new OpinionesCollectionsDTO
             {
                 CantidadACargar = CANTIDAD_A_MOSTRAR,
@@ -54,7 +57,7 @@ namespace AlDente.Services.Opiniones
         public async Task<OpinionesCollectionsDTO> GetOpinionesPublicadas()
         {
             var opiniones = await opinionRepository.QueryAsync(x => x.EstadoId == (int)EstadosDeUnOpinion.Publicado && x.OpinionPrincipalId == null);
-            List<OpinionDTO> dtos = await MapToOpinionDTO(opiniones, true, false);
+            List<OpinionDTO> dtos = await MapToOpinionDTO(opiniones);
             return new OpinionesCollectionsDTO
             {
                 CantidadACargar = CANTIDAD_A_MOSTRAR,
@@ -63,37 +66,33 @@ namespace AlDente.Services.Opiniones
             };
         }
 
-        private async Task<List<OpinionDTO>> MapToOpinionDTO(IEnumerable<Opinion> opiniones, bool soloRespuestasPublicadas, bool orderAsc)
+        private async Task<List<OpinionDTO>> MapToOpinionDTO(IEnumerable<Opinion> opiniones)
         {
-            var dtos = opiniones.Select(x => new OpinionDTO
-            {
-                Id = x.Id,
-                Texto = x.Texto,
-                Calificacion = x.Calificacion,
-                RestauranteId = x.RestauranteId,
-                ClienteId = x.ClienteId,
-                EmpleadoAprovadorId = x.EmpleadoAprovadorId,
-                EstadoId = x.EstadoId,
-                Fecha = x.Fecha,
-                FechaAprovacion = x.FechaAprovacion,
-                OpinionPrincipalId = x.OpinionPrincipalId,
-                RemovidoFecha = x.RemovidoFecha,
-                RemovidoMotivo = x.RemovidoMotivo,
-                RemovidoPor = x.RemovidoPor
-            }).ToList();
+            var dtos = opiniones
+                .Select(x => new OpinionDTO
+                {
+                    Id = x.Id,
+                    Texto = x.Texto,
+                    Calificacion = x.Calificacion,
+                    RestauranteId = x.RestauranteId,
+                    ClienteId = x.ClienteId,
+                    EmpleadoAprovadorId = x.EmpleadoAprovadorId,
+                    EstadoId = x.EstadoId,
+                    Fecha = x.Fecha,
+                    FechaAprovacion = x.FechaAprovacion,
+                    OpinionPrincipalId = x.OpinionPrincipalId,
+                    RemovidoFecha = x.RemovidoFecha,
+                    RemovidoMotivo = x.RemovidoMotivo,
+                    RemovidoPor = x.RemovidoPor
+                })
+                .OrderByDescending(x => x.Fecha)
+                .ToList();
 
-            if (orderAsc)
-                dtos = dtos.OrderBy(x => x.Fecha).ToList();
-
-
-            else
-                dtos = dtos.OrderByDescending(x => x.Fecha).ToList();
-
-            await SetCalculatedValues(dtos, soloRespuestasPublicadas);
+            await SetCalculatedValues(dtos);
             return dtos;
         }
 
-        private async Task SetCalculatedValues(IEnumerable<OpinionDTO> dtos, bool soloRespuestasPublicadas)
+        private async Task SetCalculatedValues(IEnumerable<OpinionDTO> dtos)
         {
             foreach (var opinion in dtos)
             {
@@ -114,7 +113,7 @@ namespace AlDente.Services.Opiniones
                 opiniones = await opinionRepository.QueryAsync(x => x.Fecha < masOpinionesParameterDTO.FechaDeLaUltimaOpinionCargada && x.OpinionPrincipalId == null);
             else
                 opiniones = await opinionRepository.QueryAsync(x => x.EstadoId == (int)EstadosDeUnOpinion.Publicado && x.Fecha < masOpinionesParameterDTO.FechaDeLaUltimaOpinionCargada && x.OpinionPrincipalId == null);
-            List<OpinionDTO> dtos = await MapToOpinionDTO(opiniones, cliente.TipoUsuarioId == (int)TipoDeUsuarios.Cliente, false);
+            List<OpinionDTO> dtos = await MapToOpinionDTO(opiniones);
             return new OpinionesCollectionsDTO
             {
                 CantidadACargar = CANTIDAD_A_MOSTRAR,
@@ -136,7 +135,7 @@ namespace AlDente.Services.Opiniones
                 opiniones = await opinionRepository.QueryAsync(x => x.EstadoId == (int)EstadosDeUnOpinion.Publicado
                 && x.OpinionPrincipalId == masOpinionesParameterDTO.OpinionPrincipalId);
             }
-            List<OpinionDTO> dtos = await MapToOpinionDTO(opiniones, cliente.TipoUsuarioId == (int)TipoDeUsuarios.Empleado, true);
+            List<OpinionDTO> dtos = await MapToOpinionDTO(opiniones);
             return new OpinionesCollectionsDTO
             {
                 CantidadACargar = CANTIDAD_A_MOSTRAR,
@@ -158,7 +157,7 @@ namespace AlDente.Services.Opiniones
                 opiniones = await opinionRepository.QueryAsync(x => x.Fecha < masOpinionesParameterDTO.FechaDeLaUltimaOpinionCargada && x.EstadoId == (int)EstadosDeUnOpinion.Publicado
                 && x.OpinionPrincipalId == masOpinionesParameterDTO.OpinionPrincipalId);
             }
-            List<OpinionDTO> dtos = await MapToOpinionDTO(opiniones, cliente.TipoUsuarioId == (int)TipoDeUsuarios.Cliente, true);
+            List<OpinionDTO> dtos = await MapToOpinionDTO(opiniones);
             return new OpinionesCollectionsDTO
             {
                 CantidadACargar = CANTIDAD_A_MOSTRAR,
@@ -200,6 +199,8 @@ namespace AlDente.Services.Opiniones
                     {
                         opinion.EmpleadoAprovadorId = userId;
                         opinion.FechaAprovacion = DateTime.Now;
+
+                        await NotificarOpinionPublicada(opinion);
                     }
                     else if (estado == EstadosDeUnOpinion.Nuevo)
                     {
@@ -218,6 +219,19 @@ namespace AlDente.Services.Opiniones
                     await opinionRepository.UpdateAsync(opinion);
                 }
             });
+        }
+        private async Task NotificarOpinionPublicada(Opinion opinion)
+        {
+            Usuario cliente = await usuarioRepository.GetByIdAsync(opinion.ClienteId);
+            IEmailDataReady emailData = EmailBasicData.Create()
+                .AddAddress(new FluentEmail.Core.Models.Address(cliente.Email))
+                .SetSubject("AlDente Opinion Publicada")
+                .SetData(new
+                {
+                    URL = this.unitOfWork.URL
+                });
+
+            await emailService.OpinionPublicada(emailData);
         }
 
         public async Task Delete(int id)

@@ -61,6 +61,15 @@ namespace AlDente.Services.Core
                 .SendAsync();
         }
 
+        public async Task OpinionPublicada(IEmailDataReady emailData)
+        {
+            await email
+                .To(emailData.Addresses)
+                .Subject(emailData.Subject)
+                .UsingTemplateFromFile(GetTemplatePath("OpinionPublicada.cshtml"), emailData.Data)
+                .SendAsync();
+        }
+
         public static string GetTemplatePath(string file)
         {
             return Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "Templates", file);

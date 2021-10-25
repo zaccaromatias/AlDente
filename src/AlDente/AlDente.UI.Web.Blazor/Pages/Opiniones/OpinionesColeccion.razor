@@ -22,7 +22,7 @@ else
                 <ul class="list-group">
                     @foreach (var item in CollectionModel.Opiniones)
                     {
-                        <Opinion Model="item"></Opinion>
+                        <Opinion Model="item" Notify="(async ()=>await Refresh())"></Opinion>
                     }
                 </ul>
                 @if (CollectionModel.ShowButtonLoadMore)

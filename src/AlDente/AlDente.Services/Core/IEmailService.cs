@@ -9,5 +9,7 @@ namespace AlDente.Services.Core
         Task ReservaCancelada(IEmailDataReady emailData);
         Task NuevoBeneficio(IEmailDataReady emailData);
         Task NuevaSancion(IEmailDataReady emailData);
+
+        Task OpinionPublicada(IEmailDataReady emailData);
     }
 }

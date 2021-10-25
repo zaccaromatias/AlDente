@@ -3,6 +3,7 @@
 @using Syncfusion.Blazor.Popups
 @inject IJSRuntime JS
 @inject IOpinionService  _opinionService
+@inject IToastService _toastService
 <li class="list-group-item">
     <MyCard UseDefaulClass="false">
         <HeaderTemplate>
@@ -122,6 +123,8 @@
     [Parameter]
 
     public OpinionViewModel Model { get; set; }
+    [Parameter]
+    public Action Notify { get; set; }
 
 
     protected async override Task OnAfterRenderAsync(bool firstRender)
@@ -132,16 +135,23 @@
     public async Task MarcarOpinionComo(EstadosDeUnOpinion estado)
     {
         await _opinionService.MarcarOpinionComo(estado, this.Model.Id, Model.Session.User.Id, "Inapropiado");
+        _toastService.ShowMessage(MessageType.Success, "La opinion se marco correctamente");
+        Notify?.Invoke();
     }
 
     private async Task Refresh()
     {
         await JS.InvokeAsync<string>("createRating", ".rating", 5, 1, true);
+        Notify?.Invoke();
+        //this.Model.VerRespuestas = !this.Model.VerRespuestas;
+        //this.Model.VerRespuestas = !this.Model.VerRespuestas;
     }
     private async Task ShowResponder()
     {
         this.dialogVisible = true;
         await JS.InvokeAsync<string>("createRating", ".rating", 5, 1, true);
         this.StateHasChanged();
+
+
     }
 }

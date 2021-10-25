@@ -4,6 +4,7 @@
 @using Data
 @inject IJSRuntime JS
 @inject IOpinionService  _opinionService
+@inject IToastService _toastService
 @inject SessionData _user
 <EditForm Model="@Opinion" OnValidSubmit="@OnSubmit">
     <FluentValidationValidator @ref="fluentValidationValidator" DisableAssemblyScanning="@true" />
@@ -25,34 +26,35 @@
 
 @code{ public OpinionDTO Opinion { get; set; }
 
-            [Parameter]
-            public SfDialog Dialog { get; set; }
-            [Parameter]
-            public int OpinionPrincipalId { get; set; }
+    [Parameter]
+    public SfDialog Dialog { get; set; }
+    [Parameter]
+    public int OpinionPrincipalId { get; set; }
 
 
-            private FluentValidationValidator fluentValidationValidator;
-            public async Task OnSubmit()
-            {
-            }
-            protected override void OnInitialized()
-            {
-                this.Opinion = new OpinionDTO
-                {
-                    ClienteId = _user.User.Id,
-                    OpinionPrincipalId = OpinionPrincipalId
-                };
+    private FluentValidationValidator fluentValidationValidator;
+    public async Task OnSubmit()
+    {
+    }
+    protected override void OnInitialized()
+    {
+        this.Opinion = new OpinionDTO
+        {
+            ClienteId = _user.User.Id,
+            OpinionPrincipalId = OpinionPrincipalId
+        };
 
-            }
-            public async Task CrearOpinion()
-            {
-                this.Opinion.Calificacion = await JS.InvokeAsync<int>("getRatingValue", "#customRating");
-                await _opinionService.Create(Opinion);
-                OnInitialized();
-                await Dialog.HideAsync();
-            }
+    }
+    public async Task CrearOpinion()
+    {
+        this.Opinion.Calificacion = await JS.InvokeAsync<int>("getRatingValue", "#customRating");
+        await _opinionService.Create(Opinion);
+        OnInitialized();
+        await Dialog.HideAsync();
+        _toastService.ShowMessage(MessageType.Success, this.OpinionPrincipalId > 0 ? "Respuesta Enviada Correctamente" : "Opinion Enviada Correctamente");
+    }
 
-            protected async override Task OnAfterRenderAsync(bool firstRender)
-            {
-                await JS.InvokeAsync<string>("createRating", "#customRating", 5, 1, false);
-            } }
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JS.InvokeAsync<string>("createRating", "#customRating", 5, 1, false);
+    } }
