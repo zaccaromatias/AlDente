@@ -28,6 +28,15 @@ namespace AlDente.UI.Web.Blazor.Models.Reservas
         }
         private SessionData _sessionData;
         public List<ReservaBasicDTO> Reservas { get; private set; }
+
+        public async Task Clean()
+        {
+            this.Codigo = string.Empty;
+            this.Fecha = null;
+            this.ReservaACancelar = null;
+            this.Reservas = new List<ReservaBasicDTO>();
+            await Task.FromResult("");
+        }
         public async Task Buscar()
         {
             this.Reservas.Clear();
