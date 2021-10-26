@@ -42,6 +42,7 @@
             <div class="content-wrapper">
                 <div class="row">
                     <SfGrid DataSource="@ViewModel.Reservas" AllowPaging="true" AllowGrouping="true" AllowSorting="true">
+                        <GridPageSettings PageSize="200"></GridPageSettings>
                         <GridGroupSettings Columns="@GroupedColumns" ShowDropArea="false" ShowUngroupButton="false"></GridGroupSettings>
                         <GridSortSettings>
                             <GridSortColumns>
@@ -54,19 +55,20 @@
                             <GridColumn Field=@nameof(ReservaBasicDTO.Turno) HeaderText="@Messages.Turno"></GridColumn>
                             <GridColumn Field=@nameof(ReservaBasicDTO.Codigo) HeaderText="@Messages.Code"></GridColumn>
                             <GridColumn Field=@nameof(ReservaBasicDTO.Comensales) HeaderText="@Messages.Comensales"></GridColumn>
-                            <GridColumn Field=@nameof(ReservaBasicDTO.EstadoName) HeaderText="@Messages.State">
-
-                            </GridColumn>
+                            <GridColumn Field=@nameof(ReservaBasicDTO.EstadoName) HeaderText="@Messages.State"></GridColumn>
                             <GridColumn HeaderText="@Strings.Actions">
-                                <GridCommandColumns>
-                                    <GridCommandColumn Title="Asistida" ButtonOption="@(new CommandButtonOptions() { IconCss = "fa fa-check-circle", CssClass = "e-info" })"></GridCommandColumn>
-                                    <GridCommandColumn Title="Inasistida" ButtonOption="@(new CommandButtonOptions() { IconCss = "fa fa-times-circle", CssClass = "e-danger" })"></GridCommandColumn>
-                                </GridCommandColumns>
+                                <Template>
+                                    @{
+                                        var reserva = (context as ReservaBasicDTO);
+                                        if (reserva.ShowAsistidaNoAsistidaButton)
+                                        {
+                                            <ButtonProgress CssClass="e-info" Title="Asistida" OnClick="@(async ()=>await MarcarAsistida(reserva))"><span class="fa fa-check-circle e-btn-icon"></span></ButtonProgress>
+                                            <ButtonProgress CssClass="e-danger" Title="No Asistida" OnClick="@(async ()=>await MarcarInasistida(reserva))"><span class="fa fa-times-circle"></span></ButtonProgress>
+                                        }
+                                    }
+                                </Template>
                             </GridColumn>
                         </GridColumns>
-                        <GridEvents CommandClicked="OnCommandClicked" RowDataBound="RowBound" TValue="ReservaBasicDTO">
-
-                        </GridEvents>
                     </SfGrid>
                 </div>
             </div>
@@ -145,37 +147,38 @@
         StateHasChanged();
     }
 
-    public void RowBound(RowDataBoundEventArgs<ReservaBasicDTO> args)
-    {
-        if (!args.Data.ShowAsistidaNoAsistidaButton)
-        {
-            args.Row.AddClass(new string[] { "e-removecommand" });
-        }
-    }
 
-    public async Task OnCommandClicked(CommandClickEventArgs<ReservaBasicDTO> args)
-    {
-        BasicResultDTO result = null;
-        if (args.CommandColumn.Title == "Asistida")
-        {
-            this.codigoReserva = args.RowData.Codigo;
-            result = await this.ViewModel.ReservaAsistida(args.RowData);
 
-        }
-        else if (args.CommandColumn.Title == "Inasistida")
-        {
-            result = await this.ViewModel.ReservaNoAsistida(args.RowData);
-        }
+
+
+    private async Task MarcarAsistida(ReservaBasicDTO reserva)
+    {
+        var result = await this.ViewModel.ReservaAsistida(reserva);
         if (result.IsValid)
         {
             Toast.ShowMessage(MessageType.Success, result.MessageSuccsefully);
             await OnInitializedAsync();
+            await Buscar();
         }
         else
         {
             Toast.ShowMessage(MessageType.Error, result.AllErrors);
         }
     }
+    private async Task MarcarInasistida(ReservaBasicDTO reserva)
+    {
+        var result = await this.ViewModel.ReservaNoAsistida(reserva);
+        if (result.IsValid)
+        {
+            Toast.ShowMessage(MessageType.Success, result.MessageSuccsefully);
+            await Buscar();
+        }
+        else
+        {
+            Toast.ShowMessage(MessageType.Error, result.AllErrors);
+        }
+    }
+
     private async Task CancelarReserva()
     {
         loading = true;

@@ -168,7 +168,7 @@ namespace AlDente.UI.Web.Blazor
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
-            SyncfusionLicenseProvider.RegisterLicense("NDY3MjE0QDMxMzkyZTMyMmUzMEc3TUJwaTc0dHNIZjFnTzdHVlQ3WTFLWUVtckZJVGp5Sk9WK0xJRWp2NDA9");
+            SyncfusionLicenseProvider.RegisterLicense("NTI1MzA5QDMxMzkyZTMzMmUzMFFlSkw5RVo1V2JHcUpNMGF6S0RqNC9NZU0yYkdPcGMwSTM0dG5IOGxXOTA9");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

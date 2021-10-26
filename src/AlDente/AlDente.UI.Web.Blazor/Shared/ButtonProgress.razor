@@ -1,5 +1,5 @@
 ﻿@using Syncfusion.Blazor.Buttons
-<SfButton CssClass="@CssClass" ID="Buscar" OnClick="@Click" Disabled="@loading" @attributes="AdditionalAttributes">
+<SfButton CssClass="@CssClass" title="@Title" ID="Buscar" OnClick="@Click" Disabled="@loading" @attributes="AdditionalAttributes">
     @if (loading)
     {
         <span class="spinner-border spinner-border-sm mr-1"></span>
@@ -17,6 +17,9 @@
 
     [Parameter]
     public Func<Task> OnClick { get; set; }
+
+    [Parameter]
+    public string Title { get; set; }
 
     [Parameter(CaptureUnmatchedValues = true)]
     public IDictionary<string, object> AdditionalAttributes { get; set; }
